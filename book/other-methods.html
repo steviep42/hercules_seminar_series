@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-02-17" />
+<meta name="date" content="2020-02-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -107,8 +107,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.1</b> In-Sample vs Out-Of-Sample Data</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.2</b> Performance Metrics</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#machine-learning"><i class="fa fa-check"></i><b>1.1</b> Machine Learning</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#predictive-modeling"><i class="fa fa-check"></i><b>1.2</b> Predictive Modeling</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.3</b> In-Sample vs Out-Of-Sample Data</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.4</b> Performance Metrics</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="getting-hands-on.html"><a href="getting-hands-on.html"><i class="fa fa-check"></i><b>2</b> Getting Hands On</a><ul>
 <li class="chapter" data-level="2.1" data-path="getting-hands-on.html"><a href="getting-hands-on.html#important-terminology"><i class="fa fa-check"></i><b>2.1</b> Important Terminology</a></li>
@@ -282,14 +284,19 @@ rroc<span class="op">@</span>y.values[[<span class="dv">1</span>]]</code></pre><
 <li>store the AUC in a vector</li>
 </ul>
 <p>At the end of the function, the vector containing the computed AUCs will be returned.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cross_fold</span>()</code></pre></div>
-<pre><code>## [1] 0.8628023 0.8050426 0.8115884</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
+<span class="kw">cross_fold</span>()</code></pre></div>
+<pre><code>## [1] 0.8381928 0.8136312 0.8284142</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Use more folds</span>
-
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
 <span class="kw">cross_fold</span>(<span class="dv">8</span>)</code></pre></div>
-<pre><code>## [1] 0.7619048 0.8842505 0.8476583 0.8727273 0.8866224 0.7475586 0.8633959
-## [8] 0.7528463</code></pre>
+<pre><code>## [1] 0.8676471 0.8290598 0.8335738 0.7822762 0.8505859 0.8852290 0.7816377
+## [8] 0.8199725</code></pre>
 <p>We could take the average of the AUCs to get a sense of how well this method would apply to unseen data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
+<span class="kw">mean</span>(<span class="kw">cross_fold</span>(<span class="dv">8</span>))</code></pre></div>
+<pre><code>## [1] 0.8312478</code></pre>
+<p>Let’s plot the individual values:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stripplot</span>(<span class="kw">cross_fold</span>(<span class="dv">8</span>),
           <span class="dt">main=</span><span class="st">&quot;AUC values for K-Fold Validation&quot;</span>,
           <span class="dt">type=</span><span class="kw">c</span>(<span class="st">&quot;g&quot;</span>,<span class="st">&quot;p&quot;</span>),<span class="dt">pch=</span><span class="dv">19</span>,<span class="dt">cex=</span><span class="fl">1.5</span>)</code></pre></div>

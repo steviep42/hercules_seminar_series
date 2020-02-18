@@ -16,15 +16,52 @@ biblio-style: apalike
 
 # Introduction {#intro}
 
-```{r init,echo=FALSE,message=FALSE}
-library(tidyverse)
-library(mlbench)
-library(ROCR)
-library(DataExplorer)
-library(caret)
-```
+Predictive Modeling is a type of Machine Learning which itself is a sub branch of Artifical Intelligence. The [following graphic](https://blogs.nvidia.com/blog/2016/07/29/whats-difference-artificial-intelligence-machine-learning-deep-learning-ai/
+) provides us with some history of these domains. This is helpful if you are trying to orient yourself in the world of analytics and machine learning. Note that AI has been around for squite some time. The Wikipedia definition of AI is:
 
-This lecture is concerned primarily with Predictive Modeling. In this domain there are generally two types of predictive models:
+> The study of "intelligent agents": any device that perceives its environment and takes 
+> actions that maximize its chance of successfully achieving its goals
+
+![](./PICS/histofai.png)
+
+## Machine Learning
+
+Machine Learning relies upon "patterns and inference"" to "perform a specific task without using explicit instructions". It is a form of Applied AI that attempts to automatically learn from experience without being explicitly programmed. Think of Preditive Modeling as a subset of this which falls into two categories:
+
+**Supervised**
+
+Algorithms that build a model on a set of data containing both the inputs and the desired outputs (“labels” or known numeric values). When you want to map input to known output labels. Build a model that, when applied to “new” data, will hopefully predict the correct label. 
+
+![](./PICS/super_class_regress.png)
+
+Some common techniques for Supervised learning include: Generalized Linear Models (GLM),
+Logistic Regression, Random Forests, Decision Trees, Neural Networks, Multivariate Adaptive Regression Splines (MARS), and K Nearest Neighbors. 
+
+
+**Unsupervised**
+
+Algorithms that take a set of data that contains only inputs, and find structure in the data (e.g. clustering of data points) 
+
+![](./PICS/unsupervised_class.png){width=500}
+
+Some common techniques for unsupervised learning include: hierarchical clustering, k-means
+clustering, mixture models, DBSCAN, Association Rules, Neural Networks
+
+## Predictive Modeling
+
+This lecture is concerned primarily with Predictive Modeling. Some use cases of Predictive Modeling include:
+
+  * Predict current CD4 cell count of an HIV-positive patient using genome sequences
+
+  * Predict Success of Grant Applications
+
+  * Use attributes of chemical compounds to predict likelihood of hepatic injury
+
+  * How many copies of a new book will sell ?
+
+  * Will a customer change Internet Service Providers ? 
+
+In this domain there are generally two types of predictive models.
 
 1) Classification for Predicting Qualitative Outcomes:
 
@@ -40,9 +77,19 @@ The goal of predictive model is to generate models that can generalize to new da
 
 ## Performance Metrics
 
-For either case (regression vs classification) we need some type of metric or measure to let us know how well a given model will work on new or unseen data - also known as "out of sample" data. for Classification problems we look at things like "sensitivity", "specificity", "accuracy", and "Area Under Curve". For Quantitative outcomes, we look at things like Root Mean Square Error (RMSE) or Mean Absolute Error (MAE). The selection of metric will frequently depend on your domain of interest. 
+For either case (regression vs classification) we need some type of metric or measure to let us know how well a given model will work on new or unseen data - also known as "out of sample" data. for Classification problems we look at things like "sensitivity", "specificity", "accuracy", and "Area Under Curve". For Quantitative outcomes, we look at things like Root Mean Square Error (RMSE) or Mean Absolute Error (MAE). The selection of metric will frequently depend on your domain of interest. We'll use a couple of different methods. 
 
 # Getting Hands On
+
+
+```{r init,message=FALSE}
+library(tidyverse)
+library(mlbench)
+library(ROCR)
+library(DataExplorer)
+library(caret)
+```
+
 
 Let's consider the Pima Indians Data that is part of the **mlbench** package. You can install this package via the **Tools -> Install Package** menu item within RStudio or type the following at the R console prompt:
 
@@ -393,15 +440,23 @@ Running this is now quite simple. By default, this function will loop three time
 At the end of the function, the vector containing the computed AUCs will be returned. 
 
 ```{r runcrossfold}
+set.seed(123)
 cross_fold()
 
 # Use more folds
-
+set.seed(123)
 cross_fold(8)
 
 ```
 
 We could take the average of the AUCs to get a sense of how well this method would apply to unseen data. 
+
+```{r avgauc}
+set.seed(123)
+mean(cross_fold(8))
+```
+
+Let's plot the individual values:
 
 ```{r strip1}
 stripplot(cross_fold(8),
@@ -429,7 +484,7 @@ The caret package was designed specifically for predictive modeling and, in part
 
 ## Data Splitting Using Caret
 
-Let's split the data into a training / test pair. The caret package provides some useful functions for this one of which is the **CreateDataPartion** function. 
+Let's split the data into a training / test pair. The caret package provides some useful functions for this one of which is the **CreateDataPartition** function. 
 
 ```{r createpp}
 idx <- createDataPartition(pm$diabetes,
@@ -503,7 +558,7 @@ Remember that one of the features of using caret is that it can help us estimate
 myglm_caret
 ```
 
-Let's create a prediction object using the Test data to see how close we came to this estimate. It's bad and it's a little worse than caret's estimate which is to be expected. Also, this is just an estimate using a single threshold when using the predict function. There are more sophisticated ways to estimate the accuracy. 
+Let's create a prediction object using the Test data to see how close we came to this estimate. It's a little worse than caret's estimate which is to be expected. Also, this is just an estimate using a single threshold when using the predict function. There are more sophisticated ways to estimate the accuracy. 
 
 ```{r predglm1}
 mypreds_glm <- predict(myglm_caret, Test)
@@ -511,8 +566,8 @@ mypreds_glm <- predict(myglm_caret, Test)
 # Create a Table of known outcomes vs the predicted outcomes
 outcome <- table(preds=mypreds_glm,actual=Test$diabetes)
 
+(acc_outcome <- sum(diag(outcome))/sum(outcome))
 ```
-
 
 
 ## Comparing Performance Across Other Methods 
@@ -556,37 +611,6 @@ myglm_caret_roc
 ```
 
 This is a true convenience and we don't have to use a separate R package to compute the AUC. It becomes a by product of the modeling process.  
-
-```{r twosumglm}
-control <- trainControl(classProbs = TRUE,
-                        summaryFunction = twoClassSummary)
-
-myglm <- train(diabetes ~ .,
-               data = Train,
-               method = "glm",
-               metric = "ROC",
-               trControl = control)
-
-myglm
-```
-
-
-
-
-```{r twosumglmcv}
-control <- trainControl(classProbs = TRUE,
-                        summaryFunction = twoClassSummary,
-                        method = "cv",
-                        number = 8)
-
-myglm_caret_roc <- train(diabetes ~ .,
-                         data = Train,
-                         method = "glm",
-                         metric = "ROC",
-                         trControl = control)
-
-myglm_caret_roc
-```
 
 Specifically, the control object can remain the same across different methods assuming that we wish to continue with classification. Here, we'll use Random Forests which are a generalization beyond a single Decision Tree. 
 
@@ -632,18 +656,17 @@ grid.arrange(p1,p2,ncol=2)
 
 ### Feature Elimination
 
-The caret package also supports "recursive feature elimination" which automates the selection of optimal features. This can be controversial since such a process could work at the expense of important statistical considerations. However, it remains a tool in the Machine Learning toolbox. Let's work though an example of this using caret functions. First, we'll remove highly correlated predictor variables from consideration.
+The caret package also supports "recursive feature elimination" which automates the selection of optimal features. This can be controversial since such a process could work at the expense of important statistical considerations. However, it remains a tool in the Machine Learning toolbox. 
+
+Let's work though an example of this using caret functions. First, we'll remove highly correlated predictor variables from consideration. We don't really have a lot of highly correlated variables. It turns out that "age" is correlated with "pregnant" at a level of 0.54. 
 
 ```{r elimfeat}
-correlationMatrix <- cor(pm[,1:8])
+plot_correlation(pm[,1:8], type="continuous")
 
-# summarize the correlation matrix
-print(correlationMatrix)
-
-# find attributes that are highly corrected 
-# (ideally >0.75)
-highlyCorrelated <- findCorrelation(correlationMatrix,
-                                    cutoff=0.5)
+# find attributes that exceed some spcified threshold
+highlyCorrelated <- findCorrelation(cor(pm[,1:8]),
+                                    cutoff=0.5,
+                                    names = TRUE)
 
 # print indexes of highly correlated attributes
 print(highlyCorrelated)

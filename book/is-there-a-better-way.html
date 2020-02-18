@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-02-17" />
+<meta name="date" content="2020-02-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -107,8 +107,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.1</b> In-Sample vs Out-Of-Sample Data</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.2</b> Performance Metrics</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#machine-learning"><i class="fa fa-check"></i><b>1.1</b> Machine Learning</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#predictive-modeling"><i class="fa fa-check"></i><b>1.2</b> Predictive Modeling</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.3</b> In-Sample vs Out-Of-Sample Data</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.4</b> Performance Metrics</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="getting-hands-on.html"><a href="getting-hands-on.html"><i class="fa fa-check"></i><b>2</b> Getting Hands On</a><ul>
 <li class="chapter" data-level="2.1" data-path="getting-hands-on.html"><a href="getting-hands-on.html#important-terminology"><i class="fa fa-check"></i><b>2.1</b> Important Terminology</a></li>
@@ -176,7 +178,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>The caret package was designed specifically for predictive modeling and, in particular, to provide an intuitive approach to creating, managing, and comparing different models emerging from various methods. Let’s work through our previous examples using functions from <strong>caret</strong>.</p>
 <div id="data-splitting-using-caret" class="section level2">
 <h2><span class="header-section-number">6.1</span> Data Splitting Using Caret</h2>
-<p>Let’s split the data into a training / test pair. The caret package provides some useful functions for this one of which is the <strong>CreateDataPartion</strong> function.</p>
+<p>Let’s split the data into a training / test pair. The caret package provides some useful functions for this one of which is the <strong>CreateDataPartition</strong> function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">idx &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(pm<span class="op">$</span>diabetes,
                            <span class="dt">p=</span>.<span class="dv">80</span>,
                            <span class="dt">list=</span><span class="ot">FALSE</span>)
@@ -204,7 +206,7 @@ myglm_caret</code></pre></div>
 ## Resampling results:
 ## 
 ##   Accuracy   Kappa    
-##   0.7690868  0.4716828</code></pre>
+##   0.7711624  0.4728834</code></pre>
 </div>
 <div id="specifying-control-options" class="section level2">
 <h2><span class="header-section-number">6.2</span> Specifying Control Options</h2>
@@ -230,21 +232,21 @@ myglm_caret</code></pre></div>
 ## Resampling results:
 ## 
 ##   Accuracy   Kappa    
-##   0.7674797  0.4643553</code></pre>
+##   0.7772358  0.4789439</code></pre>
 </div>
 <div id="inspecting-the-model" class="section level2">
 <h2><span class="header-section-number">6.3</span> Inspecting The Model</h2>
 <p>The object returned by caret has a great deal of information packed into it much of which is there to support reproducibility. Some key aspects of the object include, in this case, the Accuracy computation for each fold.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myglm_caret<span class="op">$</span>resample</code></pre></div>
 <pre><code>##    Accuracy     Kappa Resample
-## 1 0.7886179 0.5249554    Fold1
-## 2 0.7317073 0.3582609    Fold2
-## 3 0.7479675 0.4366967    Fold3
-## 4 0.7967480 0.5249498    Fold4
-## 5 0.7723577 0.4769137    Fold5</code></pre>
+## 1 0.7642276 0.4612596    Fold1
+## 2 0.7967480 0.5194562    Fold2
+## 3 0.7886179 0.5142770    Fold3
+## 4 0.7235772 0.3270035    Fold4
+## 5 0.8130081 0.5727232    Fold5</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myglm_caret<span class="op">$</span>results</code></pre></div>
 <pre><code>##   parameter  Accuracy     Kappa AccuracySD    KappaSD
-## 1      none 0.7674797 0.4643553 0.02732965 0.06986202</code></pre>
+## 1      none 0.7772358 0.4789439 0.03477927 0.09365205</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Note that the final reported Accuracy metric is simply the average of </span>
 <span class="co"># the reported Accuracy values for each fold</span>
 
@@ -259,27 +261,27 @@ myglm_caret<span class="op">$</span>results[<span class="dv">2</span>] <span cla
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -2.6911  -0.7180  -0.3816   0.6973   2.8206  
+## -2.8341  -0.7359  -0.4129   0.7035   3.0465  
 ## 
 ## Coefficients:
-##               Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept) -8.8332681  0.8384820 -10.535  &lt; 2e-16 ***
-## pregnant     0.1341329  0.0361450   3.711 0.000206 ***
-## glucose      0.0375576  0.0042350   8.868  &lt; 2e-16 ***
-## pressure    -0.0169135  0.0059964  -2.821 0.004793 ** 
-## triceps      0.0001766  0.0078457   0.023 0.982042    
-## insulin     -0.0011989  0.0009865  -1.215 0.224263    
-## mass         0.0956998  0.0175534   5.452 4.98e-08 ***
-## pedigree     1.0844179  0.3381365   3.207 0.001341 ** 
-## age          0.0168712  0.0105600   1.598 0.110120    
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -8.683585   0.822689 -10.555  &lt; 2e-16 ***
+## pregnant     0.124630   0.036130   3.449 0.000562 ***
+## glucose      0.037852   0.004344   8.714  &lt; 2e-16 ***
+## pressure    -0.014394   0.005861  -2.456 0.014046 *  
+## triceps      0.002132   0.007774   0.274 0.783853    
+## insulin     -0.001500   0.001041  -1.440 0.149737    
+## mass         0.092785   0.016824   5.515 3.49e-08 ***
+## pedigree     1.357094   0.348000   3.900 9.63e-05 ***
+## age          0.006461   0.010406   0.621 0.534661    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
 ##     Null deviance: 796.05  on 614  degrees of freedom
-## Residual deviance: 563.38  on 606  degrees of freedom
-## AIC: 581.38
+## Residual deviance: 572.82  on 606  degrees of freedom
+## AIC: 590.82
 ## 
 ## Number of Fisher Scoring iterations: 5</code></pre>
 </div>
@@ -299,12 +301,15 @@ myglm_caret<span class="op">$</span>results[<span class="dv">2</span>] <span cla
 ## Resampling results:
 ## 
 ##   Accuracy   Kappa    
-##   0.7674797  0.4643553</code></pre>
-<p>Let’s create a prediction object using the Test data to see how close we came to this estimate. It’s bad and it’s a little worse than caret’s estimate which is to be expected. Also, this is just an estimate using a single threshold when using the predict function. There are more sophisticated ways to estimate the accuracy.</p>
+##   0.7772358  0.4789439</code></pre>
+<p>Let’s create a prediction object using the Test data to see how close we came to this estimate. It’s a little worse than caret’s estimate which is to be expected. Also, this is just an estimate using a single threshold when using the predict function. There are more sophisticated ways to estimate the accuracy.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mypreds_glm &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm_caret, Test)
 
 <span class="co"># Create a Table of known outcomes vs the predicted outcomes</span>
-outcome &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="dt">preds=</span>mypreds_glm,<span class="dt">actual=</span>Test<span class="op">$</span>diabetes)</code></pre></div>
+outcome &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="dt">preds=</span>mypreds_glm,<span class="dt">actual=</span>Test<span class="op">$</span>diabetes)
+
+(acc_outcome &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">diag</span>(outcome))<span class="op">/</span><span class="kw">sum</span>(outcome))</code></pre></div>
+<pre><code>## [1] 0.7581699</code></pre>
 </div>
 <div id="comparing-performance-across-other-methods" class="section level2">
 <h2><span class="header-section-number">6.5</span> Comparing Performance Across Other Methods</h2>
@@ -330,12 +335,12 @@ myrpart_caret</code></pre></div>
 ## Resampling results across tuning parameters:
 ## 
 ##   cp          Accuracy   Kappa    
-##   0.01162791  0.7398374  0.4308597
-##   0.03100775  0.7528455  0.4159712
-##   0.29302326  0.6975610  0.1993799
+##   0.01860465  0.7430894  0.4023315
+##   0.11162791  0.7333333  0.4178842
+##   0.22790698  0.6666667  0.1355614
 ## 
 ## Accuracy was used to select the optimal model using the largest value.
-## The final value used for the model was cp = 0.03100775.</code></pre>
+## The final value used for the model was cp = 0.01860465.</code></pre>
 <p>This method employs a Decision Tree approach which also involves use of “hyper parameters”. However, at this point we don’t really need to know much about those (although we should) when selecting the method. The larger point is that all we need to know is the name of the alternative method and we can reuse the previous <strong>control</strong> object.</p>
 </div>
 <div id="different-performance-measures" class="section level2">
@@ -362,60 +367,12 @@ myglm_caret_roc</code></pre></div>
 ## 
 ## No pre-processing
 ## Resampling: Cross-Validated (8 fold) 
-## Summary of sample sizes: 538, 538, 539, 538, 538, 538, ... 
+## Summary of sample sizes: 538, 538, 538, 538, 538, 538, ... 
 ## Resampling results:
 ## 
-##   ROC        Sens  Spec     
-##   0.8435613  0.87  0.6000712</code></pre>
+##   ROC        Sens   Spec     
+##   0.8345335  0.895  0.5712251</code></pre>
 <p>This is a true convenience and we don’t have to use a separate R package to compute the AUC. It becomes a by product of the modeling process.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">classProbs =</span> <span class="ot">TRUE</span>,
-                        <span class="dt">summaryFunction =</span> twoClassSummary)
-
-myglm &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,
-               <span class="dt">data =</span> Train,
-               <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,
-               <span class="dt">metric =</span> <span class="st">&quot;ROC&quot;</span>,
-               <span class="dt">trControl =</span> control)
-
-myglm</code></pre></div>
-<pre><code>## Generalized Linear Model 
-## 
-## 615 samples
-##   8 predictor
-##   2 classes: &#39;neg&#39;, &#39;pos&#39; 
-## 
-## No pre-processing
-## Resampling: Bootstrapped (25 reps) 
-## Summary of sample sizes: 615, 615, 615, 615, 615, 615, ... 
-## Resampling results:
-## 
-##   ROC        Sens       Spec    
-##   0.8406046  0.8802542  0.583543</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">classProbs =</span> <span class="ot">TRUE</span>,
-                        <span class="dt">summaryFunction =</span> twoClassSummary,
-                        <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>,
-                        <span class="dt">number =</span> <span class="dv">8</span>)
-
-myglm_caret_roc &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,
-                         <span class="dt">data =</span> Train,
-                         <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,
-                         <span class="dt">metric =</span> <span class="st">&quot;ROC&quot;</span>,
-                         <span class="dt">trControl =</span> control)
-
-myglm_caret_roc</code></pre></div>
-<pre><code>## Generalized Linear Model 
-## 
-## 615 samples
-##   8 predictor
-##   2 classes: &#39;neg&#39;, &#39;pos&#39; 
-## 
-## No pre-processing
-## Resampling: Cross-Validated (8 fold) 
-## Summary of sample sizes: 538, 539, 538, 538, 538, 538, ... 
-## Resampling results:
-## 
-##   ROC       Sens  Spec     
-##   0.846339  0.88  0.5997151</code></pre>
 <p>Specifically, the control object can remain the same across different methods assuming that we wish to continue with classification. Here, we’ll use Random Forests which are a generalization beyond a single Decision Tree.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The following is the same control object from before</span>
 control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">classProbs =</span> <span class="ot">TRUE</span>,
@@ -439,13 +396,13 @@ myrf_caret</code></pre></div>
 ## 
 ## No pre-processing
 ## Resampling: Cross-Validated (8 fold) 
-## Summary of sample sizes: 538, 538, 538, 538, 538, 538, ... 
+## Summary of sample sizes: 539, 538, 538, 538, 538, 538, ... 
 ## Resampling results across tuning parameters:
 ## 
 ##   mtry  ROC        Sens    Spec     
-##   2     0.8334348  0.8475  0.6047009
-##   5     0.8289156  0.8325  0.6095085
-##   8     0.8211895  0.8150  0.6324786
+##   2     0.8282888  0.8650  0.5947293
+##   5     0.8156784  0.8475  0.5945513
+##   8     0.8157514  0.8625  0.5947293
 ## 
 ## ROC was used to select the optimal model using the largest value.
 ## The final value used for the model was mtry = 2.</code></pre>

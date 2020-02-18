@@ -124,7 +124,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2020-02-17}
+    \date{2020-02-18}
 
 \usepackage{booktabs}
 
@@ -137,8 +137,88 @@
 }
 \chapter{Introduction}\label{intro}
 
-This lecture is concerned primarily with Predictive Modeling. In this
-domain there are generally two types of predictive models:
+Predictive Modeling is a type of Machine Learning which itself is a sub
+branch of Artifical Intelligence. The
+\href{https://blogs.nvidia.com/blog/2016/07/29/whats-difference-artificial-intelligence-machine-learning-deep-learning-ai/}{following
+graphic} provides us with some history of these domains. This is helpful
+if you are trying to orient yourself in the world of analytics and
+machine learning. Note that AI has been around for squite some time. The
+Wikipedia definition of AI is:
+
+\begin{quote}
+The study of ``intelligent agents'': any device that perceives its
+environment and takes actions that maximize its chance of successfully
+achieving its goals
+\end{quote}
+
+\begin{figure}
+\centering
+\includegraphics{./PICS/histofai.png}
+\caption{}
+\end{figure}
+
+\section{Machine Learning}\label{machine-learning}
+
+Machine Learning relies upon ``patterns and inference''" to ``perform a
+specific task without using explicit instructions''. It is a form of
+Applied AI that attempts to automatically learn from experience without
+being explicitly programmed. Think of Preditive Modeling as a subset of
+this which falls into two categories:
+
+\textbf{Supervised}
+
+Algorithms that build a model on a set of data containing both the
+inputs and the desired outputs (``labels'' or known numeric values).
+When you want to map input to known output labels. Build a model that,
+when applied to ``new'' data, will hopefully predict the correct label.
+
+\begin{figure}
+\centering
+\includegraphics{./PICS/super_class_regress.png}
+\caption{}
+\end{figure}
+
+Some common techniques for Supervised learning include: Generalized
+Linear Models (GLM), Logistic Regression, Random Forests, Decision
+Trees, Neural Networks, Multivariate Adaptive Regression Splines (MARS),
+and K Nearest Neighbors.
+
+\textbf{Unsupervised}
+
+Algorithms that take a set of data that contains only inputs, and find
+structure in the data (e.g.~clustering of data points)
+
+\begin{figure}
+\centering
+\includegraphics[width=5.20833in]{./PICS/unsupervised_class.png}
+\caption{}
+\end{figure}
+
+Some common techniques for unsupervised learning include: hierarchical
+clustering, k-means clustering, mixture models, DBSCAN, Association
+Rules, Neural Networks
+
+\section{Predictive Modeling}\label{predictive-modeling}
+
+This lecture is concerned primarily with Predictive Modeling. Some use
+cases of Predictive Modeling include:
+
+\begin{itemize}
+\item
+  Predict current CD4 cell count of an HIV-positive patient using genome
+  sequences
+\item
+  Predict Success of Grant Applications
+\item
+  Use attributes of chemical compounds to predict likelihood of hepatic
+  injury
+\item
+  How many copies of a new book will sell ?
+\item
+  Will a customer change Internet Service Providers ?
+\end{itemize}
+
+In this domain there are generally two types of predictive models.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
@@ -183,9 +263,20 @@ Classification problems we look at things like ``sensitivity'',
 ``specificity'', ``accuracy'', and ``Area Under Curve''. For
 Quantitative outcomes, we look at things like Root Mean Square Error
 (RMSE) or Mean Absolute Error (MAE). The selection of metric will
-frequently depend on your domain of interest.
+frequently depend on your domain of interest. We'll use a couple of
+different methods.
 
 \chapter{Getting Hands On}\label{getting-hands-on}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{library}\NormalTok{(mlbench)}
+\KeywordTok{library}\NormalTok{(ROCR)}
+\KeywordTok{library}\NormalTok{(DataExplorer)}
+\KeywordTok{library}\NormalTok{(caret)}
+\end{Highlighting}
+\end{Shaded}
 
 Let's consider the Pima Indians Data that is part of the
 \textbf{mlbench} package. You can install this package via the
@@ -829,29 +920,43 @@ be returned.
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
 \KeywordTok{cross_fold}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.8628023 0.8050426 0.8115884
+## [1] 0.8381928 0.8136312 0.8284142
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# Use more folds}
-
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
 \KeywordTok{cross_fold}\NormalTok{(}\DecValTok{8}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.7619048 0.8842505 0.8476583 0.8727273 0.8866224 0.7475586 0.8633959
-## [8] 0.7528463
+## [1] 0.8676471 0.8290598 0.8335738 0.7822762 0.8505859 0.8852290 0.7816377
+## [8] 0.8199725
 \end{verbatim}
 
 We could take the average of the AUCs to get a sense of how well this
 method would apply to unseen data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
+\KeywordTok{mean}\NormalTok{(}\KeywordTok{cross_fold}\NormalTok{(}\DecValTok{8}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8312478
+\end{verbatim}
+
+Let's plot the individual values:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -894,7 +999,7 @@ through our previous examples using functions from \textbf{caret}.
 
 Let's split the data into a training / test pair. The caret package
 provides some useful functions for this one of which is the
-\textbf{CreateDataPartion} function.
+\textbf{CreateDataPartition} function.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -943,7 +1048,7 @@ preferred performance measure.
 ## Resampling results:
 ## 
 ##   Accuracy   Kappa    
-##   0.7690868  0.4716828
+##   0.7711624  0.4728834
 \end{verbatim}
 
 \section{Specifying Control Options}\label{specifying-control-options}
@@ -983,7 +1088,7 @@ building models, you will frequently use this approach.
 ## Resampling results:
 ## 
 ##   Accuracy   Kappa    
-##   0.7674797  0.4643553
+##   0.7772358  0.4789439
 \end{verbatim}
 
 \section{Inspecting The Model}\label{inspecting-the-model}
@@ -1001,11 +1106,11 @@ fold.
 
 \begin{verbatim}
 ##    Accuracy     Kappa Resample
-## 1 0.7886179 0.5249554    Fold1
-## 2 0.7317073 0.3582609    Fold2
-## 3 0.7479675 0.4366967    Fold3
-## 4 0.7967480 0.5249498    Fold4
-## 5 0.7723577 0.4769137    Fold5
+## 1 0.7642276 0.4612596    Fold1
+## 2 0.7967480 0.5194562    Fold2
+## 3 0.7886179 0.5142770    Fold3
+## 4 0.7235772 0.3270035    Fold4
+## 5 0.8130081 0.5727232    Fold5
 \end{verbatim}
 
 \begin{Shaded}
@@ -1016,7 +1121,7 @@ fold.
 
 \begin{verbatim}
 ##   parameter  Accuracy     Kappa AccuracySD    KappaSD
-## 1      none 0.7674797 0.4643553 0.02732965 0.06986202
+## 1      none 0.7772358 0.4789439 0.03477927 0.09365205
 \end{verbatim}
 
 \begin{Shaded}
@@ -1052,27 +1157,27 @@ model with information in a way that is transparent.
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -2.6911  -0.7180  -0.3816   0.6973   2.8206  
+## -2.8341  -0.7359  -0.4129   0.7035   3.0465  
 ## 
 ## Coefficients:
-##               Estimate Std. Error z value Pr(>|z|)    
-## (Intercept) -8.8332681  0.8384820 -10.535  < 2e-16 ***
-## pregnant     0.1341329  0.0361450   3.711 0.000206 ***
-## glucose      0.0375576  0.0042350   8.868  < 2e-16 ***
-## pressure    -0.0169135  0.0059964  -2.821 0.004793 ** 
-## triceps      0.0001766  0.0078457   0.023 0.982042    
-## insulin     -0.0011989  0.0009865  -1.215 0.224263    
-## mass         0.0956998  0.0175534   5.452 4.98e-08 ***
-## pedigree     1.0844179  0.3381365   3.207 0.001341 ** 
-## age          0.0168712  0.0105600   1.598 0.110120    
+##              Estimate Std. Error z value Pr(>|z|)    
+## (Intercept) -8.683585   0.822689 -10.555  < 2e-16 ***
+## pregnant     0.124630   0.036130   3.449 0.000562 ***
+## glucose      0.037852   0.004344   8.714  < 2e-16 ***
+## pressure    -0.014394   0.005861  -2.456 0.014046 *  
+## triceps      0.002132   0.007774   0.274 0.783853    
+## insulin     -0.001500   0.001041  -1.440 0.149737    
+## mass         0.092785   0.016824   5.515 3.49e-08 ***
+## pedigree     1.357094   0.348000   3.900 9.63e-05 ***
+## age          0.006461   0.010406   0.621 0.534661    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
 ##     Null deviance: 796.05  on 614  degrees of freedom
-## Residual deviance: 563.38  on 606  degrees of freedom
-## AIC: 581.38
+## Residual deviance: 572.82  on 606  degrees of freedom
+## AIC: 590.82
 ## 
 ## Number of Fisher Scoring iterations: 5
 \end{verbatim}
@@ -1103,14 +1208,14 @@ of band accuracy as .77
 ## Resampling results:
 ## 
 ##   Accuracy   Kappa    
-##   0.7674797  0.4643553
+##   0.7772358  0.4789439
 \end{verbatim}
 
 Let's create a prediction object using the Test data to see how close we
-came to this estimate. It's bad and it's a little worse than caret's
-estimate which is to be expected. Also, this is just an estimate using a
-single threshold when using the predict function. There are more
-sophisticated ways to estimate the accuracy.
+came to this estimate. It's a little worse than caret's estimate which
+is to be expected. Also, this is just an estimate using a single
+threshold when using the predict function. There are more sophisticated
+ways to estimate the accuracy.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1118,8 +1223,14 @@ sophisticated ways to estimate the accuracy.
 
 \CommentTok{# Create a Table of known outcomes vs the predicted outcomes}
 \NormalTok{outcome <-}\StringTok{ }\KeywordTok{table}\NormalTok{(}\DataTypeTok{preds=}\NormalTok{mypreds_glm,}\DataTypeTok{actual=}\NormalTok{Test}\OperatorTok{$}\NormalTok{diabetes)}
+
+\NormalTok{(acc_outcome <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{diag}\NormalTok{(outcome))}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(outcome))}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7581699
+\end{verbatim}
 
 \section{Comparing Performance Across Other
 Methods}\label{comparing-performance-across-other-methods}
@@ -1159,12 +1270,12 @@ found \href{https://topepo.github.io/caret/available-models.html}{here}
 ## Resampling results across tuning parameters:
 ## 
 ##   cp          Accuracy   Kappa    
-##   0.01162791  0.7398374  0.4308597
-##   0.03100775  0.7528455  0.4159712
-##   0.29302326  0.6975610  0.1993799
+##   0.01860465  0.7430894  0.4023315
+##   0.11162791  0.7333333  0.4178842
+##   0.22790698  0.6666667  0.1355614
 ## 
 ## Accuracy was used to select the optimal model using the largest value.
-## The final value used for the model was cp = 0.03100775.
+## The final value used for the model was cp = 0.01860465.
 \end{verbatim}
 
 This method employs a Decision Tree approach which also involves use of
@@ -1215,79 +1326,15 @@ so this information needs to be specified in the control object.
 ## 
 ## No pre-processing
 ## Resampling: Cross-Validated (8 fold) 
-## Summary of sample sizes: 538, 538, 539, 538, 538, 538, ... 
+## Summary of sample sizes: 538, 538, 538, 538, 538, 538, ... 
 ## Resampling results:
 ## 
-##   ROC        Sens  Spec     
-##   0.8435613  0.87  0.6000712
+##   ROC        Sens   Spec     
+##   0.8345335  0.895  0.5712251
 \end{verbatim}
 
 This is a true convenience and we don't have to use a separate R package
 to compute the AUC. It becomes a by product of the modeling process.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{control <-}\StringTok{ }\KeywordTok{trainControl}\NormalTok{(}\DataTypeTok{classProbs =} \OtherTok{TRUE}\NormalTok{,}
-                        \DataTypeTok{summaryFunction =}\NormalTok{ twoClassSummary)}
-
-\NormalTok{myglm <-}\StringTok{ }\KeywordTok{train}\NormalTok{(diabetes }\OperatorTok{~}\StringTok{ }\NormalTok{.,}
-               \DataTypeTok{data =}\NormalTok{ Train,}
-               \DataTypeTok{method =} \StringTok{"glm"}\NormalTok{,}
-               \DataTypeTok{metric =} \StringTok{"ROC"}\NormalTok{,}
-               \DataTypeTok{trControl =}\NormalTok{ control)}
-
-\NormalTok{myglm}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Generalized Linear Model 
-## 
-## 615 samples
-##   8 predictor
-##   2 classes: 'neg', 'pos' 
-## 
-## No pre-processing
-## Resampling: Bootstrapped (25 reps) 
-## Summary of sample sizes: 615, 615, 615, 615, 615, 615, ... 
-## Resampling results:
-## 
-##   ROC        Sens       Spec    
-##   0.8406046  0.8802542  0.583543
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{control <-}\StringTok{ }\KeywordTok{trainControl}\NormalTok{(}\DataTypeTok{classProbs =} \OtherTok{TRUE}\NormalTok{,}
-                        \DataTypeTok{summaryFunction =}\NormalTok{ twoClassSummary,}
-                        \DataTypeTok{method =} \StringTok{"cv"}\NormalTok{,}
-                        \DataTypeTok{number =} \DecValTok{8}\NormalTok{)}
-
-\NormalTok{myglm_caret_roc <-}\StringTok{ }\KeywordTok{train}\NormalTok{(diabetes }\OperatorTok{~}\StringTok{ }\NormalTok{.,}
-                         \DataTypeTok{data =}\NormalTok{ Train,}
-                         \DataTypeTok{method =} \StringTok{"glm"}\NormalTok{,}
-                         \DataTypeTok{metric =} \StringTok{"ROC"}\NormalTok{,}
-                         \DataTypeTok{trControl =}\NormalTok{ control)}
-
-\NormalTok{myglm_caret_roc}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Generalized Linear Model 
-## 
-## 615 samples
-##   8 predictor
-##   2 classes: 'neg', 'pos' 
-## 
-## No pre-processing
-## Resampling: Cross-Validated (8 fold) 
-## Summary of sample sizes: 538, 539, 538, 538, 538, 538, ... 
-## Resampling results:
-## 
-##   ROC       Sens  Spec     
-##   0.846339  0.88  0.5997151
-\end{verbatim}
 
 Specifically, the control object can remain the same across different
 methods assuming that we wish to continue with classification. Here,
@@ -1322,13 +1369,13 @@ Decision Tree.
 ## 
 ## No pre-processing
 ## Resampling: Cross-Validated (8 fold) 
-## Summary of sample sizes: 538, 538, 538, 538, 538, 538, ... 
+## Summary of sample sizes: 539, 538, 538, 538, 538, 538, ... 
 ## Resampling results across tuning parameters:
 ## 
 ##   mtry  ROC        Sens    Spec     
-##   2     0.8334348  0.8475  0.6047009
-##   5     0.8289156  0.8325  0.6095085
-##   8     0.8211895  0.8150  0.6324786
+##   2     0.8282888  0.8650  0.5947293
+##   5     0.8156784  0.8475  0.5945513
+##   8     0.8157514  0.8625  0.5947293
 ## 
 ## ROC was used to select the optimal model using the largest value.
 ## The final value used for the model was mtry = 2.
@@ -1365,14 +1412,14 @@ can be daunting - although quite useful.
 ## glm variable importance
 ## 
 ##          Overall
-## glucose   100.00
-## mass       61.38
-## pregnant   41.70
-## pedigree   36.00
-## pressure   31.63
-## age        17.81
-## insulin    13.48
-## triceps     0.00
+## glucose  100.000
+## mass      62.095
+## pedigree  42.957
+## pregnant  37.622
+## pressure  25.851
+## insulin   13.818
+## age        4.107
+## triceps    0.000
 \end{verbatim}
 
 If you wanted to see how the different models rates the significance of
@@ -1395,46 +1442,27 @@ The caret package also supports ``recursive feature elimination'' which
 automates the selection of optimal features. This can be controversial
 since such a process could work at the expense of important statistical
 considerations. However, it remains a tool in the Machine Learning
-toolbox. Let's work though an example of this using caret functions.
-First, we'll remove highly correlated predictor variables from
-consideration.
+toolbox.
+
+Let's work though an example of this using caret functions. First, we'll
+remove highly correlated predictor variables from consideration. We
+don't really have a lot of highly correlated variables. It turns out
+that ``age'' is correlated with ``pregnant'' at a level of 0.54.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{correlationMatrix <-}\StringTok{ }\KeywordTok{cor}\NormalTok{(pm[,}\DecValTok{1}\OperatorTok{:}\DecValTok{8}\NormalTok{])}
-
-\CommentTok{# summarize the correlation matrix}
-\KeywordTok{print}\NormalTok{(correlationMatrix)}
+\KeywordTok{plot_correlation}\NormalTok{(pm[,}\DecValTok{1}\OperatorTok{:}\DecValTok{8}\NormalTok{], }\DataTypeTok{type=}\StringTok{"continuous"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-##             pregnant    glucose   pressure     triceps     insulin
-## pregnant  1.00000000 0.12945867 0.14128198 -0.08167177 -0.07353461
-## glucose   0.12945867 1.00000000 0.15258959  0.05732789  0.33135711
-## pressure  0.14128198 0.15258959 1.00000000  0.20737054  0.08893338
-## triceps  -0.08167177 0.05732789 0.20737054  1.00000000  0.43678257
-## insulin  -0.07353461 0.33135711 0.08893338  0.43678257  1.00000000
-## mass      0.01768309 0.22107107 0.28180529  0.39257320  0.19785906
-## pedigree -0.03352267 0.13733730 0.04126495  0.18392757  0.18507093
-## age       0.54434123 0.26351432 0.23952795 -0.11397026 -0.04216295
-##                mass    pedigree         age
-## pregnant 0.01768309 -0.03352267  0.54434123
-## glucose  0.22107107  0.13733730  0.26351432
-## pressure 0.28180529  0.04126495  0.23952795
-## triceps  0.39257320  0.18392757 -0.11397026
-## insulin  0.19785906  0.18507093 -0.04216295
-## mass     1.00000000  0.14064695  0.03624187
-## pedigree 0.14064695  1.00000000  0.03356131
-## age      0.03624187  0.03356131  1.00000000
-\end{verbatim}
+\includegraphics{SEMINAR_SERIES_files/figure-latex/elimfeat-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# find attributes that are highly corrected }
-\CommentTok{# (ideally >0.75)}
-\NormalTok{highlyCorrelated <-}\StringTok{ }\KeywordTok{findCorrelation}\NormalTok{(correlationMatrix,}
-                                    \DataTypeTok{cutoff=}\FloatTok{0.5}\NormalTok{)}
+\CommentTok{# find attributes that exceed some spcified threshold}
+\NormalTok{highlyCorrelated <-}\StringTok{ }\KeywordTok{findCorrelation}\NormalTok{(}\KeywordTok{cor}\NormalTok{(pm[,}\DecValTok{1}\OperatorTok{:}\DecValTok{8}\NormalTok{]),}
+                                    \DataTypeTok{cutoff=}\FloatTok{0.5}\NormalTok{,}
+                                    \DataTypeTok{names =} \OtherTok{TRUE}\NormalTok{)}
 
 \CommentTok{# print indexes of highly correlated attributes}
 \KeywordTok{print}\NormalTok{(highlyCorrelated)}
@@ -1442,7 +1470,7 @@ consideration.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 8
+## [1] "age"
 \end{verbatim}
 
 \subsection{The rfe Function}\label{the-rfe-function}
@@ -1481,17 +1509,17 @@ we can see that just 4 attributes gives almost comparable results
 ## Resampling performance over subset size:
 ## 
 ##  Variables    ROC  Sens   Spec   ROCSD  SensSD  SpecSD Selected
-##          1 0.7103 0.854 0.4328 0.03105 0.02477 0.08175         
-##          2 0.7598 0.820 0.5410 0.02825 0.04357 0.02239         
-##          3 0.8022 0.840 0.5634 0.02402 0.05102 0.05764         
-##          4 0.8085 0.832 0.6082 0.02167 0.04131 0.06934         
-##          5 0.8159 0.842 0.5858 0.02794 0.03290 0.08118         
-##          6 0.8202 0.846 0.5858 0.02464 0.02723 0.06017         
-##          7 0.8259 0.858 0.5896 0.02386 0.03993 0.08914         
-##          8 0.8284 0.858 0.5821 0.02484 0.02800 0.08872        *
+##          1 0.7294 0.852 0.4142 0.02253 0.03946 0.02239         
+##          2 0.7526 0.792 0.5709 0.01260 0.03637 0.04620         
+##          3 0.8060 0.828 0.5597 0.02291 0.03233 0.07755         
+##          4 0.8083 0.836 0.5858 0.03138 0.06075 0.06826         
+##          5 0.8214 0.852 0.5709 0.02983 0.05327 0.09069         
+##          6 0.8203 0.858 0.5522 0.03067 0.02000 0.09975         
+##          7 0.8260 0.842 0.5560 0.02251 0.03020 0.10857         
+##          8 0.8296 0.856 0.5784 0.02589 0.03637 0.09701        *
 ## 
 ## The top 5 variables (out of 8):
-##    glucose, mass, age, pregnant, pedigree
+##    glucose, mass, age, pregnant, insulin
 \end{verbatim}
 
 \begin{Shaded}
@@ -1502,7 +1530,7 @@ we can see that just 4 attributes gives almost comparable results
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "glucose"  "mass"     "age"      "pregnant" "pedigree" "insulin" 
+## [1] "glucose"  "mass"     "age"      "pregnant" "insulin"  "pedigree"
 ## [7] "triceps"  "pressure"
 \end{verbatim}
 

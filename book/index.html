@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-02-17" />
+<meta name="date" content="2020-02-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -107,8 +107,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.1</b> In-Sample vs Out-Of-Sample Data</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.2</b> Performance Metrics</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#machine-learning"><i class="fa fa-check"></i><b>1.1</b> Machine Learning</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#predictive-modeling"><i class="fa fa-check"></i><b>1.2</b> Predictive Modeling</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.3</b> In-Sample vs Out-Of-Sample Data</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.4</b> Performance Metrics</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="getting-hands-on.html"><a href="getting-hands-on.html"><i class="fa fa-check"></i><b>2</b> Getting Hands On</a><ul>
 <li class="chapter" data-level="2.1" data-path="getting-hands-on.html"><a href="getting-hands-on.html#important-terminology"><i class="fa fa-check"></i><b>2.1</b> Important Terminology</a></li>
@@ -164,11 +166,47 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Predictive Modeling For Imposters</h1>
 <p class="author"><em>Steve Pittard</em></p>
-<p class="date"><em>2020-02-17</em></p>
+<p class="date"><em>2020-02-18</em></p>
 </div>
 <div id="intro" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p>This lecture is concerned primarily with Predictive Modeling. In this domain there are generally two types of predictive models:</p>
+<p>Predictive Modeling is a type of Machine Learning which itself is a sub branch of Artifical Intelligence. The <a href="https://blogs.nvidia.com/blog/2016/07/29/whats-difference-artificial-intelligence-machine-learning-deep-learning-ai/">following graphic</a> provides us with some history of these domains. This is helpful if you are trying to orient yourself in the world of analytics and machine learning. Note that AI has been around for squite some time. The Wikipedia definition of AI is:</p>
+<blockquote>
+<p>The study of “intelligent agents”: any device that perceives its environment and takes actions that maximize its chance of successfully achieving its goals</p>
+</blockquote>
+<div class="figure">
+<img src="PICS/histofai.png" />
+
+</div>
+<div id="machine-learning" class="section level2">
+<h2><span class="header-section-number">1.1</span> Machine Learning</h2>
+<p>Machine Learning relies upon “patterns and inference”&quot; to “perform a specific task without using explicit instructions”. It is a form of Applied AI that attempts to automatically learn from experience without being explicitly programmed. Think of Preditive Modeling as a subset of this which falls into two categories:</p>
+<p><strong>Supervised</strong></p>
+<p>Algorithms that build a model on a set of data containing both the inputs and the desired outputs (“labels” or known numeric values). When you want to map input to known output labels. Build a model that, when applied to “new” data, will hopefully predict the correct label.</p>
+<div class="figure">
+<img src="PICS/super_class_regress.png" />
+
+</div>
+<p>Some common techniques for Supervised learning include: Generalized Linear Models (GLM), Logistic Regression, Random Forests, Decision Trees, Neural Networks, Multivariate Adaptive Regression Splines (MARS), and K Nearest Neighbors.</p>
+<p><strong>Unsupervised</strong></p>
+<p>Algorithms that take a set of data that contains only inputs, and find structure in the data (e.g. clustering of data points)</p>
+<div class="figure">
+<img src="PICS/unsupervised_class.png" width="500" />
+
+</div>
+<p>Some common techniques for unsupervised learning include: hierarchical clustering, k-means clustering, mixture models, DBSCAN, Association Rules, Neural Networks</p>
+</div>
+<div id="predictive-modeling" class="section level2">
+<h2><span class="header-section-number">1.2</span> Predictive Modeling</h2>
+<p>This lecture is concerned primarily with Predictive Modeling. Some use cases of Predictive Modeling include:</p>
+<ul>
+<li><p>Predict current CD4 cell count of an HIV-positive patient using genome sequences</p></li>
+<li><p>Predict Success of Grant Applications</p></li>
+<li><p>Use attributes of chemical compounds to predict likelihood of hepatic injury</p></li>
+<li><p>How many copies of a new book will sell ?</p></li>
+<li><p>Will a customer change Internet Service Providers ?</p></li>
+</ul>
+<p>In this domain there are generally two types of predictive models.</p>
 <ol style="list-style-type: decimal">
 <li>Classification for Predicting Qualitative Outcomes:</li>
 </ol>
@@ -177,13 +215,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Regression for Quantitative Out Comes</li>
 </ol>
 <p>This is when we wish to predict a numeric / continuous outcome such as a final sales price for a house or car. It might also be a prediction of tomorrow’s stock or Bit Coin price.</p>
+</div>
 <div id="in-sample-vs-out-of-sample-data" class="section level2">
-<h2><span class="header-section-number">1.1</span> In-Sample vs Out-Of-Sample Data</h2>
+<h2><span class="header-section-number">1.3</span> In-Sample vs Out-Of-Sample Data</h2>
 <p>The goal of predictive model is to generate models that can generalize to new data. It would be good if any model we generate could provide a good estimate of out of sample error. It’s easy to generate a model on an entire data set (in sample data) and then turn around and use that data for prediction. But how will it perform on new data ? Haven’t we just over trained our model ?</p>
 </div>
 <div id="performance-metrics" class="section level2">
-<h2><span class="header-section-number">1.2</span> Performance Metrics</h2>
-<p>For either case (regression vs classification) we need some type of metric or measure to let us know how well a given model will work on new or unseen data - also known as “out of sample” data. for Classification problems we look at things like “sensitivity”, “specificity”, “accuracy”, and “Area Under Curve”. For Quantitative outcomes, we look at things like Root Mean Square Error (RMSE) or Mean Absolute Error (MAE). The selection of metric will frequently depend on your domain of interest.</p>
+<h2><span class="header-section-number">1.4</span> Performance Metrics</h2>
+<p>For either case (regression vs classification) we need some type of metric or measure to let us know how well a given model will work on new or unseen data - also known as “out of sample” data. for Classification problems we look at things like “sensitivity”, “specificity”, “accuracy”, and “Area Under Curve”. For Quantitative outcomes, we look at things like Root Mean Square Error (RMSE) or Mean Absolute Error (MAE). The selection of metric will frequently depend on your domain of interest. We’ll use a couple of different methods.</p>
 </div>
 </div>
             </section>
