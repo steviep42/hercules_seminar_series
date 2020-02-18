@@ -79,6 +79,14 @@ The goal of predictive model is to generate models that can generalize to new da
 
 For either case (regression vs classification) we need some type of metric or measure to let us know how well a given model will work on new or unseen data - also known as "out of sample" data. for Classification problems we look at things like "sensitivity", "specificity", "accuracy", and "Area Under Curve". For Quantitative outcomes, we look at things like Root Mean Square Error (RMSE) or Mean Absolute Error (MAE). The selection of metric will frequently depend on your domain of interest. We'll use a couple of different methods. 
 
+## Black Box
+
+The good news is that you can treat building predictive models as a "Black Box".
+The bad news is that you can treat building predictive models as a "Black Box".
+
+![](./PICS/black_box.png)
+
+
 # Getting Hands On
 
 
