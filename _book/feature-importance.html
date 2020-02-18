@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Feature Importance | Predictive Modeling For Imposters</title>
+  <meta name="description" content="This is in support of the HERCULES Lecture Series." />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Feature Importance | Predictive Modeling For Imposters" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is in support of the HERCULES Lecture Series." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Feature Importance | Predictive Modeling For Imposters" />
+  
+  <meta name="twitter:description" content="This is in support of the HERCULES Lecture Series." />
+  
+
+<meta name="author" content="Steve Pittard" />
+
+
+<meta name="date" content="2020-02-17" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="is-there-a-better-way.html"/>
+<link rel="next" href="comparing-models.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Preditive Modeling For Imposters</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.1</b> Performance Metrics</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.2</b> In-Sample vs Out-Of-Sample Data</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-practical-example.html"><a href="a-practical-example.html"><i class="fa fa-check"></i><b>2</b> A Practical Example</a><ul>
+<li class="chapter" data-level="2.1" data-path="a-practical-example.html"><a href="a-practical-example.html#important-terminology"><i class="fa fa-check"></i><b>2.1</b> Important Terminology</a></li>
+<li class="chapter" data-level="2.2" data-path="a-practical-example.html"><a href="a-practical-example.html#exploratory-plots"><i class="fa fa-check"></i><b>2.2</b> Exploratory Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="a-common-modeling-workflow.html"><a href="a-common-modeling-workflow.html"><i class="fa fa-check"></i><b>3</b> A Common Modeling Workflow</a></li>
+<li class="chapter" data-level="4" data-path="splitting-the-data.html"><a href="splitting-the-data.html"><i class="fa fa-check"></i><b>4</b> Splitting The Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="splitting-the-data.html"><a href="splitting-the-data.html#first-model"><i class="fa fa-check"></i><b>4.1</b> First Model</a></li>
+<li class="chapter" data-level="4.2" data-path="splitting-the-data.html"><a href="splitting-the-data.html#first-prediction"><i class="fa fa-check"></i><b>4.2</b> First Prediction</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="splitting-the-data.html"><a href="splitting-the-data.html#selecting-the-correct-alpha"><i class="fa fa-check"></i><b>4.2.1</b> Selecting The Correct Alpha</a></li>
+<li class="chapter" data-level="4.2.2" data-path="splitting-the-data.html"><a href="splitting-the-data.html#confusion-matrices"><i class="fa fa-check"></i><b>4.2.2</b> Confusion Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="splitting-the-data.html"><a href="splitting-the-data.html#performance-measures"><i class="fa fa-check"></i><b>4.3</b> Performance Measures</a></li>
+<li class="chapter" data-level="4.4" data-path="splitting-the-data.html"><a href="splitting-the-data.html#the-roc-curve"><i class="fa fa-check"></i><b>4.4</b> The ROC curve</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="other-methods.html"><a href="other-methods.html"><i class="fa fa-check"></i><b>5</b> Other Methods ?</a><ul>
+<li class="chapter" data-level="5.1" data-path="other-methods.html"><a href="other-methods.html#improving-the-models"><i class="fa fa-check"></i><b>5.1</b> Improving The Model(s)</a></li>
+<li class="chapter" data-level="5.2" data-path="other-methods.html"><a href="other-methods.html#cross-fold-validation"><i class="fa fa-check"></i><b>5.2</b> Cross Fold Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html"><i class="fa fa-check"></i><b>6</b> Is There a Better Way ?</a><ul>
+<li class="chapter" data-level="6.1" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#data-splitting-using-caret"><i class="fa fa-check"></i><b>6.1</b> Data Splitting Using Caret</a></li>
+<li class="chapter" data-level="6.2" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#specifying-control-options"><i class="fa fa-check"></i><b>6.2</b> Specifying Control Options</a></li>
+<li class="chapter" data-level="6.3" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#inspecting-the-model"><i class="fa fa-check"></i><b>6.3</b> Inspecting The Model</a></li>
+<li class="chapter" data-level="6.4" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#how-well-did-it-perform"><i class="fa fa-check"></i><b>6.4</b> How Well Did It Perform ?</a></li>
+<li class="chapter" data-level="6.5" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#comparing-performance-across-other-methods"><i class="fa fa-check"></i><b>6.5</b> Comparing Performance Across Other Methods</a></li>
+<li class="chapter" data-level="6.6" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#different-performance-measures"><i class="fa fa-check"></i><b>6.6</b> Different Performance Measures</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="feature-importance.html"><a href="feature-importance.html"><i class="fa fa-check"></i><b>7</b> Feature Importance</a><ul>
+<li class="chapter" data-level="7.0.1" data-path="feature-importance.html"><a href="feature-importance.html#feature-elimination"><i class="fa fa-check"></i><b>7.0.1</b> Feature Elimination</a></li>
+<li class="chapter" data-level="7.0.2" data-path="feature-importance.html"><a href="feature-importance.html#the-rfe-function"><i class="fa fa-check"></i><b>7.0.2</b> The rfe Function</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="comparing-models.html"><a href="comparing-models.html"><i class="fa fa-check"></i><b>8</b> Comparing Models</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Predictive Modeling For Imposters</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="feature-importance" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Feature Importance</h1>
+<p>Another advantage of using the caret <strong>train</strong> function is that it provides a method to determine variable importance. This is useful when considering what features to include or not when building a model. If we summarize a given model, our myglm_caret model, we’ll see that some of our predictors are not significant.</p>
+<p>We could use the <strong>varImp</strong> to use statistics generated by the specific modeling process itself. For more complex modeling techniques this winds up being very useful since digging into the model diagnostics can be daunting - although quite useful.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">varImp</span>(myglm_caret)</code></pre></div>
+<pre><code>## glm variable importance
+## 
+##          Overall
+## glucose   100.00
+## mass       61.38
+## pregnant   41.70
+## pedigree   36.00
+## pressure   31.63
+## age        17.81
+## insulin    13.48
+## triceps     0.00</code></pre>
+<p>If you wanted to see how the different models rates the significance of predictor variables then you can easily plot them.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gridExtra)</code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;gridExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     combine</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">plot</span>(<span class="kw">varImp</span>(myglm_caret),<span class="dt">main=</span><span class="st">&quot;varImp for glm&quot;</span>)
+p2 &lt;-<span class="st"> </span><span class="kw">plot</span>(<span class="kw">varImp</span>(myrf_caret),<span class="dt">main=</span><span class="st">&quot;varImp for Rf&quot;</span>)
+<span class="kw">grid.arrange</span>(p1,p2,<span class="dt">ncol=</span><span class="dv">2</span>)</code></pre></div>
+<p><img src="SEMINAR_SERIES_files/figure-html/plotfeat-1.png" width="672" /></p>
+<div id="feature-elimination" class="section level3">
+<h3><span class="header-section-number">7.0.1</span> Feature Elimination</h3>
+<p>The caret package also supports “recursive feature elimination” which automates the selection of optimal features. This can be controversial since such a process could work at the expense of important statistical considerations. However, it remains a tool in the Machine Learning toolbox. Let’s work though an example of this using caret functions. First, we’ll remove highly correlated predictor variables from consideration.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">correlationMatrix &lt;-<span class="st"> </span><span class="kw">cor</span>(pm[,<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>])
+
+<span class="co"># summarize the correlation matrix</span>
+<span class="kw">print</span>(correlationMatrix)</code></pre></div>
+<pre><code>##             pregnant    glucose   pressure     triceps     insulin
+## pregnant  1.00000000 0.12945867 0.14128198 -0.08167177 -0.07353461
+## glucose   0.12945867 1.00000000 0.15258959  0.05732789  0.33135711
+## pressure  0.14128198 0.15258959 1.00000000  0.20737054  0.08893338
+## triceps  -0.08167177 0.05732789 0.20737054  1.00000000  0.43678257
+## insulin  -0.07353461 0.33135711 0.08893338  0.43678257  1.00000000
+## mass      0.01768309 0.22107107 0.28180529  0.39257320  0.19785906
+## pedigree -0.03352267 0.13733730 0.04126495  0.18392757  0.18507093
+## age       0.54434123 0.26351432 0.23952795 -0.11397026 -0.04216295
+##                mass    pedigree         age
+## pregnant 0.01768309 -0.03352267  0.54434123
+## glucose  0.22107107  0.13733730  0.26351432
+## pressure 0.28180529  0.04126495  0.23952795
+## triceps  0.39257320  0.18392757 -0.11397026
+## insulin  0.19785906  0.18507093 -0.04216295
+## mass     1.00000000  0.14064695  0.03624187
+## pedigree 0.14064695  1.00000000  0.03356131
+## age      0.03624187  0.03356131  1.00000000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find attributes that are highly corrected </span>
+<span class="co"># (ideally &gt;0.75)</span>
+highlyCorrelated &lt;-<span class="st"> </span><span class="kw">findCorrelation</span>(correlationMatrix,
+                                    <span class="dt">cutoff=</span><span class="fl">0.5</span>)
+
+<span class="co"># print indexes of highly correlated attributes</span>
+<span class="kw">print</span>(highlyCorrelated)</code></pre></div>
+<pre><code>## [1] 8</code></pre>
+</div>
+<div id="the-rfe-function" class="section level3">
+<h3><span class="header-section-number">7.0.2</span> The rfe Function</h3>
+<p>Let’s apply the RFE method on the Pima Indians Diabetes data set. The algorithm is configured to explore all possible subsets of the attributes. All 8 attributes are selected in this example, although in the plot showing the accuracy of the different attribute subset sizes, we can see that just 4 attributes gives almost comparable results</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rfFuncs<span class="op">$</span>summary &lt;-<span class="st"> </span>twoClassSummary
+control &lt;-<span class="st"> </span><span class="kw">rfeControl</span>(<span class="dt">functions=</span>rfFuncs, 
+                      <span class="dt">method=</span><span class="st">&quot;cv&quot;</span>, 
+                      <span class="dt">number=</span><span class="dv">4</span>)
+
+<span class="co"># run the RFE algorithm</span>
+results &lt;-<span class="st"> </span><span class="kw">rfe</span>(pm[,<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>], 
+               pm[,<span class="dv">9</span>], 
+               <span class="dt">sizes=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>), 
+               <span class="dt">rfeControl=</span>control,
+               <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>)
+
+<span class="co"># summarize the results</span>
+<span class="kw">print</span>(results)</code></pre></div>
+<pre><code>## 
+## Recursive feature selection
+## 
+## Outer resampling method: Cross-Validated (4 fold) 
+## 
+## Resampling performance over subset size:
+## 
+##  Variables    ROC  Sens   Spec   ROCSD  SensSD  SpecSD Selected
+##          1 0.7103 0.854 0.4328 0.03105 0.02477 0.08175         
+##          2 0.7598 0.820 0.5410 0.02825 0.04357 0.02239         
+##          3 0.8022 0.840 0.5634 0.02402 0.05102 0.05764         
+##          4 0.8085 0.832 0.6082 0.02167 0.04131 0.06934         
+##          5 0.8159 0.842 0.5858 0.02794 0.03290 0.08118         
+##          6 0.8202 0.846 0.5858 0.02464 0.02723 0.06017         
+##          7 0.8259 0.858 0.5896 0.02386 0.03993 0.08914         
+##          8 0.8284 0.858 0.5821 0.02484 0.02800 0.08872        *
+## 
+## The top 5 variables (out of 8):
+##    glucose, mass, age, pregnant, pedigree</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># list the chosen features</span>
+<span class="kw">predictors</span>(results)</code></pre></div>
+<pre><code>## [1] &quot;glucose&quot;  &quot;mass&quot;     &quot;age&quot;      &quot;pregnant&quot; &quot;pedigree&quot; &quot;insulin&quot; 
+## [7] &quot;triceps&quot;  &quot;pressure&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot the results</span>
+<span class="kw">plot</span>(results, <span class="dt">type=</span><span class="kw">c</span>(<span class="st">&quot;g&quot;</span>, <span class="st">&quot;o&quot;</span>))</code></pre></div>
+<p><img src="SEMINAR_SERIES_files/figure-html/rfe1-1.png" width="672" /></p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="is-there-a-better-way.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="comparing-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["SEMINAR_SERIES.pdf", "SEMINAR_SERIES.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

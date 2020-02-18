@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Other Methods ? | Predictive Modeling For Imposters</title>
+  <meta name="description" content="This is in support of the HERCULES Lecture Series." />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Other Methods ? | Predictive Modeling For Imposters" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is in support of the HERCULES Lecture Series." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Other Methods ? | Predictive Modeling For Imposters" />
+  
+  <meta name="twitter:description" content="This is in support of the HERCULES Lecture Series." />
+  
+
+<meta name="author" content="Steve Pittard" />
+
+
+<meta name="date" content="2020-02-17" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="splitting-the-data.html"/>
+<link rel="next" href="is-there-a-better-way.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Preditive Modeling For Imposters</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.1</b> Performance Metrics</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.2</b> In-Sample vs Out-Of-Sample Data</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-practical-example.html"><a href="a-practical-example.html"><i class="fa fa-check"></i><b>2</b> A Practical Example</a><ul>
+<li class="chapter" data-level="2.1" data-path="a-practical-example.html"><a href="a-practical-example.html#important-terminology"><i class="fa fa-check"></i><b>2.1</b> Important Terminology</a></li>
+<li class="chapter" data-level="2.2" data-path="a-practical-example.html"><a href="a-practical-example.html#exploratory-plots"><i class="fa fa-check"></i><b>2.2</b> Exploratory Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="a-common-modeling-workflow.html"><a href="a-common-modeling-workflow.html"><i class="fa fa-check"></i><b>3</b> A Common Modeling Workflow</a></li>
+<li class="chapter" data-level="4" data-path="splitting-the-data.html"><a href="splitting-the-data.html"><i class="fa fa-check"></i><b>4</b> Splitting The Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="splitting-the-data.html"><a href="splitting-the-data.html#first-model"><i class="fa fa-check"></i><b>4.1</b> First Model</a></li>
+<li class="chapter" data-level="4.2" data-path="splitting-the-data.html"><a href="splitting-the-data.html#first-prediction"><i class="fa fa-check"></i><b>4.2</b> First Prediction</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="splitting-the-data.html"><a href="splitting-the-data.html#selecting-the-correct-alpha"><i class="fa fa-check"></i><b>4.2.1</b> Selecting The Correct Alpha</a></li>
+<li class="chapter" data-level="4.2.2" data-path="splitting-the-data.html"><a href="splitting-the-data.html#confusion-matrices"><i class="fa fa-check"></i><b>4.2.2</b> Confusion Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="splitting-the-data.html"><a href="splitting-the-data.html#performance-measures"><i class="fa fa-check"></i><b>4.3</b> Performance Measures</a></li>
+<li class="chapter" data-level="4.4" data-path="splitting-the-data.html"><a href="splitting-the-data.html#the-roc-curve"><i class="fa fa-check"></i><b>4.4</b> The ROC curve</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="other-methods.html"><a href="other-methods.html"><i class="fa fa-check"></i><b>5</b> Other Methods ?</a><ul>
+<li class="chapter" data-level="5.1" data-path="other-methods.html"><a href="other-methods.html#improving-the-models"><i class="fa fa-check"></i><b>5.1</b> Improving The Model(s)</a></li>
+<li class="chapter" data-level="5.2" data-path="other-methods.html"><a href="other-methods.html#cross-fold-validation"><i class="fa fa-check"></i><b>5.2</b> Cross Fold Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html"><i class="fa fa-check"></i><b>6</b> Is There a Better Way ?</a><ul>
+<li class="chapter" data-level="6.1" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#data-splitting-using-caret"><i class="fa fa-check"></i><b>6.1</b> Data Splitting Using Caret</a></li>
+<li class="chapter" data-level="6.2" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#specifying-control-options"><i class="fa fa-check"></i><b>6.2</b> Specifying Control Options</a></li>
+<li class="chapter" data-level="6.3" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#inspecting-the-model"><i class="fa fa-check"></i><b>6.3</b> Inspecting The Model</a></li>
+<li class="chapter" data-level="6.4" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#how-well-did-it-perform"><i class="fa fa-check"></i><b>6.4</b> How Well Did It Perform ?</a></li>
+<li class="chapter" data-level="6.5" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#comparing-performance-across-other-methods"><i class="fa fa-check"></i><b>6.5</b> Comparing Performance Across Other Methods</a></li>
+<li class="chapter" data-level="6.6" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#different-performance-measures"><i class="fa fa-check"></i><b>6.6</b> Different Performance Measures</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="feature-importance.html"><a href="feature-importance.html"><i class="fa fa-check"></i><b>7</b> Feature Importance</a><ul>
+<li class="chapter" data-level="7.0.1" data-path="feature-importance.html"><a href="feature-importance.html#feature-elimination"><i class="fa fa-check"></i><b>7.0.1</b> Feature Elimination</a></li>
+<li class="chapter" data-level="7.0.2" data-path="feature-importance.html"><a href="feature-importance.html#the-rfe-function"><i class="fa fa-check"></i><b>7.0.2</b> The rfe Function</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="comparing-models.html"><a href="comparing-models.html"><i class="fa fa-check"></i><b>8</b> Comparing Models</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Predictive Modeling For Imposters</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="other-methods" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Other Methods ?</h1>
+<p>Well, we could use another method to see if it yields better performance as determined by the AUC ? Let’s use the <strong>ranger</strong> function which is a fast implementation of random forests. One thing you will notice is that we need to include the “probability” argument in the call to ranger to get the necessary probabilities for computing the AUC. This is one of the aggravations with using different functions. They all have their own peculiar way of doing things.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ranger)
+ranger_mod &lt;-<span class="st"> </span><span class="kw">ranger</span>(diabetes <span class="op">~</span><span class="st"> </span>.,
+                   <span class="dt">data =</span> train,
+                   <span class="dt">probability =</span> <span class="ot">TRUE</span>,<span class="dt">mtry=</span><span class="dv">4</span>)
+
+<span class="co"># Returns probabilities</span>
+ranger_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(ranger_mod,<span class="dt">data=</span>test)
+
+myroc &lt;-<span class="st"> </span><span class="kw">roc</span>(test<span class="op">$</span>diabetes,
+             ranger_pred<span class="op">$</span>predictions[,<span class="dv">2</span>])
+
+myroc<span class="op">$</span>auc</code></pre></div>
+<pre><code>## Area under the curve: 0.8502</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span>ROCR<span class="op">::</span><span class="kw">prediction</span>(ranger_pred<span class="op">$</span>predictions[,<span class="dv">2</span>],
+                         test<span class="op">$</span>diabetes)
+perf &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,
+                    <span class="st">&quot;tpr&quot;</span>,
+                    <span class="st">&quot;fpr&quot;</span>)
+<span class="kw">plot</span>(perf,<span class="dt">colorize=</span>T,
+        <span class="dt">print.cutoffs.at=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.1</span>),
+     <span class="dt">lwd=</span><span class="dv">3</span>,<span class="dt">las=</span><span class="dv">1</span>,<span class="dt">main=</span><span class="st">&quot;Cool ROC Curve&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)
+
+<span class="kw">grid</span>()</code></pre></div>
+<p><img src="SEMINAR_SERIES_files/figure-html/range1-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rroc &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,<span class="dt">measure=</span><span class="st">&quot;auc&quot;</span>)
+rroc<span class="op">@</span>y.values[[<span class="dv">1</span>]]</code></pre></div>
+<pre><code>## [1] 0.8502442</code></pre>
+<p>It turns out that this didn’t appear to improve things - at least with one invocation of the method.</p>
+<div id="improving-the-models" class="section level2">
+<h2><span class="header-section-number">5.1</span> Improving The Model(s)</h2>
+<p>We haven’t accomplished very much here because we need to look at multiple versions of the data in case we sampled a number of outliers in the creation of our training data. Or, maybe we have excluded a large number of outliers in the training set so they wound up in the test data set which means that the predictive power of our model isn’t as robust as it should be.</p>
+<p>Our next steps should involve creating multiple versions of the training and test pairs (say 3 times), compute the optimal AUC, and then look at how those values vary for each of those individual versions. If the AUCs vary widely then maybe our model is over training. If it’s not varying widely, it could be that that the model has high bias.</p>
+</div>
+<div id="cross-fold-validation" class="section level2">
+<h2><span class="header-section-number">5.2</span> Cross Fold Validation</h2>
+<p>This is a method that gives us multiple estimates of out-of-sample error, rather than a single estimate. In particular, we’ll use an approach called “K-Fold Cross Validation” where we will partition our data into 3 individual “folds”&quot; which are basically equal in size. Then we’ll create a loop that does the following:</p>
+<ul>
+<li>Combines 2 of the folds into a training data set</li>
+<li>Builds a model on the combined 2-folds data</li>
+<li>Applies the model to holdout fold</li>
+<li>Computes the AUC value and stores it</li>
+</ul>
+<p>Each fold is simply a portion of the data. We’ll generate a list called “folds” that contains 3 elements each of which are 256 index elements corresponding to rows in pm. The way we did the sample insures that each row shows up only in one fold.</p>
+<div class="figure">
+<img src="PICS/crossk.png" />
+
+</div>
+<p>To drive this home, and in case the graphic didn’t help, consider the following simple data frame:</p>
+<pre><code>##   id   m1   m2   m3
+## 1 a1 0.89 0.36 0.10
+## 2 b2 0.75 0.27 0.22
+## 3 c3 0.98 0.85 0.95
+## 4 d4 0.04 0.36 0.75
+## 5 e5 0.90 0.30 0.82
+## 6 f6 0.87 0.76 0.42
+## 7 g7 0.78 0.84 0.59
+## 8 h8 0.38 0.46 0.80
+## 9 i9 0.04 0.73 0.89</code></pre>
+<p>If we created three folds out of this data frame it would look like the following:</p>
+<div class="figure">
+<img src="PICS/crossfold.png" />
+
+</div>
+<p>Here is our function to implement the K-Fold validation. It’s pretty straightforward to define in terms of coding though it winds up being somewhat specific to the particular method we are using.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cross_fold &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">numofolds =</span> <span class="dv">3</span>) {
+  
+  <span class="co"># Function to Do Cross fold validation</span>
+  
+  <span class="co"># Split the data into K folds (numofolds)</span>
+  
+  folds &lt;-<span class="st"> </span><span class="kw">split</span>(<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pm)),<span class="dv">1</span><span class="op">:</span>numofolds) 
+  
+  <span class="co"># We setup some blank lists to stash results</span>
+  folddf    &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Contains folds</span>
+  modl      &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Hold each of the K models</span>
+  predl     &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Hold rach of the K predictions</span>
+  auc       &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Hold the auc for a given model</span>
+  
+  <span class="co"># Create a formula that can be used across multiple</span>
+  <span class="co"># iterations through the loop. </span>
+  
+  myform &lt;-<span class="st"> &quot;diabetes ~ .&quot;</span>
+  
+  <span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(folds)) {
+    
+    <span class="co"># This list holds the actual model we create for each of the </span>
+    <span class="co"># 10 folds</span>
+    
+    modl[[ii]] &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> myform, 
+                      <span class="dt">data =</span> pm[<span class="op">-</span>folds[[ii]],],
+                      <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>
+    )
+    
+    <span class="co"># This list will contain / hold the models build on the fold</span>
+    
+    predl[[ii]]  &lt;-<span class="st"> </span><span class="kw">predict</span>(modl[[ii]],
+                            <span class="dt">newdata=</span>pm[folds[[ii]],],
+                            <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)
+    
+    <span class="co"># This list will hold the results of the AUC per iteration</span>
+    
+    pred &lt;-<span class="st"> </span>ROCR<span class="op">::</span><span class="kw">prediction</span>(predl[[ii]],
+                             pm[folds[[ii]],]<span class="op">$</span>diabetes)
+    
+    roc  &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,<span class="dt">measure=</span><span class="st">&quot;auc&quot;</span>)
+    auc[[ii]] &lt;-<span class="st"> </span>roc<span class="op">@</span>y.values[[<span class="dv">1</span>]]
+  }
+  <span class="kw">return</span>(<span class="kw">unlist</span>(auc))
+}</code></pre></div>
+<p>Running this is now quite simple. By default, this function will loop three times corresponding to the number of folds. During each iteration it will:</p>
+<ul>
+<li>use glm to build a model on the training folds</li>
+<li>create a prediction object using the training fold</li>
+<li>compute the underlying AUC associated with the prediction</li>
+<li>store the AUC in a vector</li>
+</ul>
+<p>At the end of the function, the vector containing the computed AUCs will be returned.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cross_fold</span>()</code></pre></div>
+<pre><code>## [1] 0.8628023 0.8050426 0.8115884</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Use more folds</span>
+
+<span class="kw">cross_fold</span>(<span class="dv">8</span>)</code></pre></div>
+<pre><code>## [1] 0.7619048 0.8842505 0.8476583 0.8727273 0.8866224 0.7475586 0.8633959
+## [8] 0.7528463</code></pre>
+<p>We could take the average of the AUCs to get a sense of how well this method would apply to unseen data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stripplot</span>(<span class="kw">cross_fold</span>(<span class="dv">8</span>),
+          <span class="dt">main=</span><span class="st">&quot;AUC values for K-Fold Validation&quot;</span>,
+          <span class="dt">type=</span><span class="kw">c</span>(<span class="st">&quot;g&quot;</span>,<span class="st">&quot;p&quot;</span>),<span class="dt">pch=</span><span class="dv">19</span>,<span class="dt">cex=</span><span class="fl">1.5</span>)</code></pre></div>
+<p><img src="SEMINAR_SERIES_files/figure-html/strip1-1.png" width="672" /></p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="splitting-the-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="is-there-a-better-way.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["SEMINAR_SERIES.pdf", "SEMINAR_SERIES.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
