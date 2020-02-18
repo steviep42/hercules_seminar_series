@@ -165,7 +165,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="comparing-models" class="section level1">
 <h1><span class="header-section-number">Chapter 8</span> Comparing Models</h1>
-<p>One of the more frequent activities in Machine Learning relates to setting up “shoot ours” between different models to see which one will perform the best. This is something we could do without <strong>caret</strong> but the package does help accomplish this using a standard interface. We’ll keep using the Pima Indians Data and (re)build a few models. We’ll use a common <strong>control</strong> object as well as a seed to maintain reproducibility.</p>
+<p>One of the more frequent activities in Machine Learning relates to setting up “shoot outs” between different models to see which one will perform the best. This is something we could do without <strong>caret</strong> but the package does help accomplish this using a standard interface. We’ll keep using the Pima Indians Data and (re)build a few models. We’ll use a common <strong>control</strong> object as well as a seed to maintain reproducibility.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method=</span><span class="st">&quot;cv&quot;</span>, 
                         <span class="dt">number=</span><span class="dv">5</span>, 
                         <span class="dt">summaryFunction =</span> twoClassSummary,
@@ -195,10 +195,19 @@ model_rf &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes<sp
                   <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,
                   <span class="dt">trControl=</span>control)
 
+<span class="co"># Train the knn model</span>
+<span class="kw">set.seed</span>(<span class="dv">7</span>)
+model_knn &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes<span class="op">~</span>., 
+                  <span class="dt">data=</span>pm, 
+                  <span class="dt">method=</span><span class="st">&quot;knn&quot;</span>, 
+                  <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,
+                  <span class="dt">trControl=</span>control)
+
 <span class="co"># Use the resamples function to prep for comparisons</span>
 results &lt;-<span class="st"> </span><span class="kw">resamples</span>(<span class="kw">list</span>(<span class="dt">GLM   =</span> model_glm, 
                           <span class="dt">RPART =</span> model_rpart, 
-                          <span class="dt">RF    =</span> model_rf))</code></pre></div>
+                          <span class="dt">RF    =</span> model_rf,
+                          <span class="dt">KNN   =</span> model_knn))</code></pre></div>
 <p>Now we can easily look at how well the different models compare:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># summarize the distributions</span>
 <span class="kw">summary</span>(results)</code></pre></div>
@@ -206,7 +215,7 @@ results &lt;-<span class="st"> </span><span class="kw">resamples</span>(<span cl
 ## Call:
 ## summary.resamples(object = results)
 ## 
-## Models: GLM, RPART, RF 
+## Models: GLM, RPART, RF, KNN 
 ## Number of resamples: 5 
 ## 
 ## ROC 
@@ -214,18 +223,21 @@ results &lt;-<span class="st"> </span><span class="kw">resamples</span>(<span cl
 ## GLM   0.8007407 0.8042593 0.8392593 0.8344745 0.8479245 0.8801887    0
 ## RPART 0.6974074 0.7090566 0.7329245 0.7411184 0.7579630 0.8082407    0
 ## RF    0.7878704 0.8193519 0.8359434 0.8323997 0.8368519 0.8819811    0
+## KNN   0.7449074 0.7754630 0.7788889 0.7900217 0.7938679 0.8569811    0
 ## 
 ## Sens 
 ##       Min. 1st Qu. Median  Mean 3rd Qu. Max. NA&#39;s
 ## GLM   0.85    0.87   0.89 0.886    0.89 0.93    0
 ## RPART 0.75    0.82   0.85 0.836    0.88 0.88    0
 ## RF    0.81    0.84   0.87 0.856    0.88 0.88    0
+## KNN   0.80    0.84   0.85 0.850    0.88 0.88    0
 ## 
 ## Spec 
 ##            Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA&#39;s
 ## GLM   0.5555556 0.5555556 0.5740741 0.5747729 0.5849057 0.6037736    0
 ## RPART 0.4444444 0.5471698 0.5660377 0.5596785 0.5740741 0.6666667    0
-## RF    0.5000000 0.5740741 0.5925926 0.6012579 0.6415094 0.6981132    0</code></pre>
+## RF    0.5000000 0.5740741 0.5925926 0.6012579 0.6415094 0.6981132    0
+## KNN   0.4814815 0.4814815 0.5283019 0.5377358 0.5370370 0.6603774    0</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># boxplots of results</span>
 <span class="kw">bwplot</span>(results)</code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/summcomp-1.png" width="672" /></p>

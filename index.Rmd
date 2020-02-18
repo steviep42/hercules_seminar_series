@@ -49,7 +49,7 @@ clustering, mixture models, DBSCAN, Association Rules, Neural Networks
 
 ## Predictive Modeling
 
-This lecture is concerned primarily with Predictive Modeling. Some use cases of Predictive Modeling include:
+This lecture is concerned primarily with Predictive Modeling. Some examples of Predictive Modeling include:
 
   * Predict current CD4 cell count of an HIV-positive patient using genome sequences
 
@@ -701,7 +701,7 @@ plot(results, type=c("g", "o"))
 
 # Comparing Models
 
-One of the more frequent activities in Machine Learning relates to setting up "shoot ours" between different models to see which one will perform the best. This is something we could do without **caret** but the package does help accomplish this using a standard interface. We'll keep using the Pima Indians Data and (re)build a few models. We'll use a common **control** object as well as a seed to maintain reproducibility.
+One of the more frequent activities in Machine Learning relates to setting up "shoot outs" between different models to see which one will perform the best. This is something we could do without **caret** but the package does help accomplish this using a standard interface. We'll keep using the Pima Indians Data and (re)build a few models. We'll use a common **control** object as well as a seed to maintain reproducibility.
 
 ```{r modcomp}
 control <- trainControl(method="cv", 
@@ -733,10 +733,19 @@ model_rf <- train(diabetes~.,
                   metric="ROC",
                   trControl=control)
 
+# Train the knn model
+set.seed(7)
+model_knn <- train(diabetes~., 
+                  data=pm, 
+                  method="knn", 
+                  metric="ROC",
+                  trControl=control)
+
 # Use the resamples function to prep for comparisons
 results <- resamples(list(GLM   = model_glm, 
                           RPART = model_rpart, 
-                          RF    = model_rf))
+                          RF    = model_rf,
+                          KNN   = model_knn))
 ```
 
 
