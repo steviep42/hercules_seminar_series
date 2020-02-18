@@ -32,7 +32,7 @@
   
   
 
-<link rel="next" href="a-practical-example.html"/>
+<link rel="next" href="getting-hands-on.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -107,12 +107,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.1</b> Performance Metrics</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.2</b> In-Sample vs Out-Of-Sample Data</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.1</b> In-Sample vs Out-Of-Sample Data</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.2</b> Performance Metrics</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="a-practical-example.html"><a href="a-practical-example.html"><i class="fa fa-check"></i><b>2</b> A Practical Example</a><ul>
-<li class="chapter" data-level="2.1" data-path="a-practical-example.html"><a href="a-practical-example.html#important-terminology"><i class="fa fa-check"></i><b>2.1</b> Important Terminology</a></li>
-<li class="chapter" data-level="2.2" data-path="a-practical-example.html"><a href="a-practical-example.html#exploratory-plots"><i class="fa fa-check"></i><b>2.2</b> Exploratory Plots</a></li>
+<li class="chapter" data-level="2" data-path="getting-hands-on.html"><a href="getting-hands-on.html"><i class="fa fa-check"></i><b>2</b> Getting Hands On</a><ul>
+<li class="chapter" data-level="2.1" data-path="getting-hands-on.html"><a href="getting-hands-on.html#important-terminology"><i class="fa fa-check"></i><b>2.1</b> Important Terminology</a></li>
+<li class="chapter" data-level="2.2" data-path="getting-hands-on.html"><a href="getting-hands-on.html#exploratory-plots"><i class="fa fa-check"></i><b>2.2</b> Exploratory Plots</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="a-common-modeling-workflow.html"><a href="a-common-modeling-workflow.html"><i class="fa fa-check"></i><b>3</b> A Common Modeling Workflow</a></li>
 <li class="chapter" data-level="4" data-path="splitting-the-data.html"><a href="splitting-the-data.html"><i class="fa fa-check"></i><b>4</b> Splitting The Data</a><ul>
@@ -121,7 +121,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.2.1" data-path="splitting-the-data.html"><a href="splitting-the-data.html#selecting-the-correct-alpha"><i class="fa fa-check"></i><b>4.2.1</b> Selecting The Correct Alpha</a></li>
 <li class="chapter" data-level="4.2.2" data-path="splitting-the-data.html"><a href="splitting-the-data.html#confusion-matrices"><i class="fa fa-check"></i><b>4.2.2</b> Confusion Matrices</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="splitting-the-data.html"><a href="splitting-the-data.html#performance-measures"><i class="fa fa-check"></i><b>4.3</b> Performance Measures</a></li>
+<li class="chapter" data-level="4.3" data-path="splitting-the-data.html"><a href="splitting-the-data.html#performance-measures-revisited"><i class="fa fa-check"></i><b>4.3</b> Performance Measures Revisited</a></li>
 <li class="chapter" data-level="4.4" data-path="splitting-the-data.html"><a href="splitting-the-data.html#the-roc-curve"><i class="fa fa-check"></i><b>4.4</b> The ROC curve</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="other-methods.html"><a href="other-methods.html"><i class="fa fa-check"></i><b>5</b> Other Methods ?</a><ul>
@@ -177,13 +177,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Regression for Quantitative Out Comes</li>
 </ol>
 <p>This is when we wish to predict a numeric / continuous outcome such as a final sales price for a house or car. It might also be a prediction of tomorrow’s stock or Bit Coin price.</p>
-<div id="performance-metrics" class="section level2">
-<h2><span class="header-section-number">1.1</span> Performance Metrics</h2>
-<p>For either of those cases we need some type of metric or measure to let us know how well a given model will work on new or unseen data - also known as “out of sample” data. for Classification problems we look at things like “sensitivity”, “specificity”, “accuracy”, and “Area Under Curve”. For Quantitative outcomes, we look at things like Root Mean Square Error (RMSE) or Mean Absolute Error (MAE). The selection of metric will frequently depend on your domain of interest.</p>
-</div>
 <div id="in-sample-vs-out-of-sample-data" class="section level2">
-<h2><span class="header-section-number">1.2</span> In-Sample vs Out-Of-Sample Data</h2>
-<p>Independently of the metric, the goal of predictive model is to generate models that can generalize to new data. It would be good if any model we generate could provide a good estimate of out of sample error. It’s easy to generate a model on an entire data set (in sample data) and then turn around and use that data for prediction. But how will it perform on new data ? Haven’t we just over trained our model ?</p>
+<h2><span class="header-section-number">1.1</span> In-Sample vs Out-Of-Sample Data</h2>
+<p>The goal of predictive model is to generate models that can generalize to new data. It would be good if any model we generate could provide a good estimate of out of sample error. It’s easy to generate a model on an entire data set (in sample data) and then turn around and use that data for prediction. But how will it perform on new data ? Haven’t we just over trained our model ?</p>
+</div>
+<div id="performance-metrics" class="section level2">
+<h2><span class="header-section-number">1.2</span> Performance Metrics</h2>
+<p>For either case (regression vs classification) we need some type of metric or measure to let us know how well a given model will work on new or unseen data - also known as “out of sample” data. for Classification problems we look at things like “sensitivity”, “specificity”, “accuracy”, and “Area Under Curve”. For Quantitative outcomes, we look at things like Root Mean Square Error (RMSE) or Mean Absolute Error (MAE). The selection of metric will frequently depend on your domain of interest.</p>
 </div>
 </div>
             </section>
@@ -192,7 +192,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
         </div>
       </div>
 
-<a href="a-practical-example.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="getting-hands-on.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

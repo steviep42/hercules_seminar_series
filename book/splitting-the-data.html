@@ -107,12 +107,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.1</b> Performance Metrics</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.2</b> In-Sample vs Out-Of-Sample Data</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.1</b> In-Sample vs Out-Of-Sample Data</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.2</b> Performance Metrics</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="a-practical-example.html"><a href="a-practical-example.html"><i class="fa fa-check"></i><b>2</b> A Practical Example</a><ul>
-<li class="chapter" data-level="2.1" data-path="a-practical-example.html"><a href="a-practical-example.html#important-terminology"><i class="fa fa-check"></i><b>2.1</b> Important Terminology</a></li>
-<li class="chapter" data-level="2.2" data-path="a-practical-example.html"><a href="a-practical-example.html#exploratory-plots"><i class="fa fa-check"></i><b>2.2</b> Exploratory Plots</a></li>
+<li class="chapter" data-level="2" data-path="getting-hands-on.html"><a href="getting-hands-on.html"><i class="fa fa-check"></i><b>2</b> Getting Hands On</a><ul>
+<li class="chapter" data-level="2.1" data-path="getting-hands-on.html"><a href="getting-hands-on.html#important-terminology"><i class="fa fa-check"></i><b>2.1</b> Important Terminology</a></li>
+<li class="chapter" data-level="2.2" data-path="getting-hands-on.html"><a href="getting-hands-on.html#exploratory-plots"><i class="fa fa-check"></i><b>2.2</b> Exploratory Plots</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="a-common-modeling-workflow.html"><a href="a-common-modeling-workflow.html"><i class="fa fa-check"></i><b>3</b> A Common Modeling Workflow</a></li>
 <li class="chapter" data-level="4" data-path="splitting-the-data.html"><a href="splitting-the-data.html"><i class="fa fa-check"></i><b>4</b> Splitting The Data</a><ul>
@@ -121,7 +121,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.2.1" data-path="splitting-the-data.html"><a href="splitting-the-data.html#selecting-the-correct-alpha"><i class="fa fa-check"></i><b>4.2.1</b> Selecting The Correct Alpha</a></li>
 <li class="chapter" data-level="4.2.2" data-path="splitting-the-data.html"><a href="splitting-the-data.html#confusion-matrices"><i class="fa fa-check"></i><b>4.2.2</b> Confusion Matrices</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="splitting-the-data.html"><a href="splitting-the-data.html#performance-measures"><i class="fa fa-check"></i><b>4.3</b> Performance Measures</a></li>
+<li class="chapter" data-level="4.3" data-path="splitting-the-data.html"><a href="splitting-the-data.html#performance-measures-revisited"><i class="fa fa-check"></i><b>4.3</b> Performance Measures Revisited</a></li>
 <li class="chapter" data-level="4.4" data-path="splitting-the-data.html"><a href="splitting-the-data.html#the-roc-curve"><i class="fa fa-check"></i><b>4.4</b> The ROC curve</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="other-methods.html"><a href="other-methods.html"><i class="fa fa-check"></i><b>5</b> Other Methods ?</a><ul>
@@ -303,9 +303,9 @@ caret<span class="op">::</span><span class="kw">confusionMatrix</span>(mypreds,t
 ## </code></pre>
 </div>
 </div>
-<div id="performance-measures" class="section level2">
-<h2><span class="header-section-number">4.3</span> Performance Measures</h2>
-<p>This is helpful stuff although there are a number of measures to select as a primary performance metric. Ideally, we would already know which performance metric we would select to effectively “judge” the quality of our model. In medical tests, “sensitivity” and “specificity” are commonly used. Some applications use “Accuracy” (which isn’t good when there is large group imbalance). Anyway, if, for example, we pick “sensitivity” as a judge of model quality we see that is somewhere around .87. (A much deeper discussion about selecting the best performance measure is in order but we’ll keep moving for mow)</p>
+<div id="performance-measures-revisited" class="section level2">
+<h2><span class="header-section-number">4.3</span> Performance Measures Revisited</h2>
+<p>This is helpful stuff although there are a number of measures to select as a primary performance metric. Ideally, we would already know which performance metric we would select to effectively “judge” the quality of our model. In medical tests, “sensitivity” and “specificity” are commonly used. Some applications use “Accuracy” (which isn’t good when there is large group imbalance). Anyway, if, for example, we pick “sensitivity” as a judge of model quality we see that is somewhere around .87. (A much deeper discussion about selecting the best performance measure is in order but we’ll keep moving for now)</p>
 <p>The problem here is that all we have done is looked at the confusion matrix corresponding to one specific (and arbitrary) threshold value when what we need is to look at a number of confusion matrices corresponding to many different thresholds. For example, we might get a better sensitivity level had we selected the mean of the returned probabilities. This process could go on and on and on… So we would benefit from a rigorous approach to find the “best” threshold.</p>
 </div>
 <div id="the-roc-curve" class="section level2">

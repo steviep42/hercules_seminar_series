@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 8 Comparing Models | Predictive Modeling For Imposters</title>
+  <title>Chapter 2 Getting Hands On | Predictive Modeling For Imposters</title>
   <meta name="description" content="This is in support of the HERCULES Lecture Series." />
   <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 8 Comparing Models | Predictive Modeling For Imposters" />
+  <meta property="og:title" content="Chapter 2 Getting Hands On | Predictive Modeling For Imposters" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 8 Comparing Models | Predictive Modeling For Imposters" />
+  <meta name="twitter:title" content="Chapter 2 Getting Hands On | Predictive Modeling For Imposters" />
   
   <meta name="twitter:description" content="This is in support of the HERCULES Lecture Series." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="feature-importance.html"/>
-
+<link rel="prev" href="index.html"/>
+<link rel="next" href="a-common-modeling-workflow.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -161,84 +161,49 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="comparing-models" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Comparing Models</h1>
-<p>One of the more frequent activities in Machine Learning relates to setting up “shoot ours” between different models to see which one will perform the best. This is something we could do without <strong>caret</strong> but the package does help accomplish this using a standard interface. We’ll keep using the Pima Indians Data and (re)build a few models. We’ll use a common <strong>control</strong> object as well as a seed to maintain reproducibility.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method=</span><span class="st">&quot;cv&quot;</span>, 
-                        <span class="dt">number=</span><span class="dv">5</span>, 
-                        <span class="dt">summaryFunction =</span> twoClassSummary,
-                        <span class="dt">classProbs =</span> <span class="ot">TRUE</span>)
+<div id="getting-hands-on" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Getting Hands On</h1>
+<p>Let’s consider the Pima Indians Data that is part of the <strong>mlbench</strong> package. You can install this package via the <strong>Tools -&gt; Install Package</strong> menu item within RStudio or type the following at the R console prompt:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;mlbench&quot;</span>)</code></pre></div>
+<p>Once you have it installed then load it into the work space as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;PimaIndiansDiabetes&quot;</span>)
 
-<span class="co"># Train the glm model</span>
-<span class="kw">set.seed</span>(<span class="dv">7</span>)
-model_glm &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>., 
-                   <span class="dt">data=</span>pm, 
-                   <span class="dt">method=</span><span class="st">&quot;glm&quot;</span>, 
-                   <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,
-                   <span class="dt">trControl=</span>control)
+<span class="co"># Get a shorter handle. I hate typing. </span>
+pm &lt;-<span class="st"> </span>PimaIndiansDiabetes</code></pre></div>
+<p>The description of the data set is as follows:</p>
+<div class="figure">
+<img src="PICS/pima_desc.png" width="475" />
 
-<span class="co"># Train the Decision Tree &lt;odel</span>
-<span class="kw">set.seed</span>(<span class="dv">7</span>)
-model_rpart &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes<span class="op">~</span>., 
-                  <span class="dt">data=</span>pm, 
-                  <span class="dt">method=</span><span class="st">&quot;rpart&quot;</span>, 
-                  <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,
-                  <span class="dt">trControl=</span>control)
+</div>
+<p>So we now have some data on which we can build a model. Specifically, there is a variable in the data called “diabetes” which indicates the disease / diabetes status (“pos” or “neg”) of the person. It would be good to come up with a model that we could use with incoming data to determine if someone has diabetes.</p>
+<div id="important-terminology" class="section level2">
+<h2><span class="header-section-number">2.1</span> Important Terminology</h2>
+<p>In predictive modeling there are some common terms to consider:</p>
+<div class="figure">
+<img src="PICS/features2.png" width="475" />
 
-<span class="co"># Train the Random Forest model</span>
-<span class="kw">set.seed</span>(<span class="dv">7</span>)
-model_rf &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes<span class="op">~</span>., 
-                  <span class="dt">data=</span>pm, 
-                  <span class="dt">method=</span><span class="st">&quot;rf&quot;</span>, 
-                  <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,
-                  <span class="dt">trControl=</span>control)
-
-<span class="co"># Use the resamples function to prep for comparisons</span>
-results &lt;-<span class="st"> </span><span class="kw">resamples</span>(<span class="kw">list</span>(<span class="dt">GLM   =</span> model_glm, 
-                          <span class="dt">RPART =</span> model_rpart, 
-                          <span class="dt">RF    =</span> model_rf))</code></pre></div>
-<p>Now we can easily look at how well the different models compare:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># summarize the distributions</span>
-<span class="kw">summary</span>(results)</code></pre></div>
-<pre><code>## 
-## Call:
-## summary.resamples(object = results)
-## 
-## Models: GLM, RPART, RF 
-## Number of resamples: 5 
-## 
-## ROC 
-##            Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA&#39;s
-## GLM   0.8007407 0.8042593 0.8392593 0.8344745 0.8479245 0.8801887    0
-## RPART 0.6974074 0.7090566 0.7329245 0.7411184 0.7579630 0.8082407    0
-## RF    0.7878704 0.8193519 0.8359434 0.8323997 0.8368519 0.8819811    0
-## 
-## Sens 
-##       Min. 1st Qu. Median  Mean 3rd Qu. Max. NA&#39;s
-## GLM   0.85    0.87   0.89 0.886    0.89 0.93    0
-## RPART 0.75    0.82   0.85 0.836    0.88 0.88    0
-## RF    0.81    0.84   0.87 0.856    0.88 0.88    0
-## 
-## Spec 
-##            Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA&#39;s
-## GLM   0.5555556 0.5555556 0.5740741 0.5747729 0.5849057 0.6037736    0
-## RPART 0.4444444 0.5471698 0.5660377 0.5596785 0.5740741 0.6666667    0
-## RF    0.5000000 0.5740741 0.5925926 0.6012579 0.6415094 0.6981132    0</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># boxplots of results</span>
-<span class="kw">bwplot</span>(results)</code></pre></div>
-<p><img src="SEMINAR_SERIES_files/figure-html/summcomp-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># dot plots of results</span>
-<span class="kw">dotplot</span>(results)</code></pre></div>
-<p><img src="SEMINAR_SERIES_files/figure-html/summcomp-2.png" width="672" /></p>
-
+</div>
+</div>
+<div id="exploratory-plots" class="section level2">
+<h2><span class="header-section-number">2.2</span> Exploratory Plots</h2>
+<p>We’ll look use some stock plots from the <a href="https://github.com/elastacloud/automatic-data-explorer"><strong>DataExplorer</strong></a> package to get a feel for the data. Look at correlations between the variables to see if any are strongly correlated with the variable we wish to predict or any other variables.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_correlation</span>(pm, <span class="dt">type=</span><span class="st">&quot;continuous&quot;</span>)</code></pre></div>
+<p><img src="SEMINAR_SERIES_files/figure-html/decorr-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_bar</span>(pm)</code></pre></div>
+<p><img src="SEMINAR_SERIES_files/figure-html/debar-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_histogram</span>(pm)</code></pre></div>
+<p><img src="SEMINAR_SERIES_files/figure-html/phist-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_boxplot</span>(pm,<span class="dt">by=</span><span class="st">&quot;diabetes&quot;</span>)</code></pre></div>
+<p><img src="SEMINAR_SERIES_files/figure-html/pbox-1.png" width="672" /></p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="feature-importance.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="a-common-modeling-workflow.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
