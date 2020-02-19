@@ -158,7 +158,7 @@ The following graphic depicts the steps common to the Modeling Process. This is 
 ![](./PICS/sworkflow.jpg){height=600}
 
 
-# Splitting The Data
+## Splitting The Data
 
 A fundamental approach used in ML is to segment data into a "training" set which is some percentage of the original data - say 80%. The remaining 20% would be assigned to a "test" data set. Then we build a model on our training data set after which we use that model to predict outcomes for the test data set. This looks like the following. 
 

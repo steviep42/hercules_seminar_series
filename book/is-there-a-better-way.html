@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 6 Is There a Better Way ? | Predictive Modeling For Imposters</title>
+  <title>Chapter 5 Is There a Better Way ? | Predictive Modeling For Imposters</title>
   <meta name="description" content="This is in support of the HERCULES Lecture Series." />
   <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 6 Is There a Better Way ? | Predictive Modeling For Imposters" />
+  <meta property="og:title" content="Chapter 5 Is There a Better Way ? | Predictive Modeling For Imposters" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 6 Is There a Better Way ? | Predictive Modeling For Imposters" />
+  <meta name="twitter:title" content="Chapter 5 Is There a Better Way ? | Predictive Modeling For Imposters" />
   
   <meta name="twitter:description" content="This is in support of the HERCULES Lecture Series." />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-02-18" />
+<meta name="date" content="2020-02-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,41 +53,66 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -117,33 +142,33 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.1" data-path="getting-hands-on.html"><a href="getting-hands-on.html#important-terminology"><i class="fa fa-check"></i><b>2.1</b> Important Terminology</a></li>
 <li class="chapter" data-level="2.2" data-path="getting-hands-on.html"><a href="getting-hands-on.html#exploratory-plots"><i class="fa fa-check"></i><b>2.2</b> Exploratory Plots</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="a-common-modeling-workflow.html"><a href="a-common-modeling-workflow.html"><i class="fa fa-check"></i><b>3</b> A Common Modeling Workflow</a></li>
-<li class="chapter" data-level="4" data-path="splitting-the-data.html"><a href="splitting-the-data.html"><i class="fa fa-check"></i><b>4</b> Splitting The Data</a><ul>
-<li class="chapter" data-level="4.1" data-path="splitting-the-data.html"><a href="splitting-the-data.html#first-model"><i class="fa fa-check"></i><b>4.1</b> First Model</a></li>
-<li class="chapter" data-level="4.2" data-path="splitting-the-data.html"><a href="splitting-the-data.html#first-prediction"><i class="fa fa-check"></i><b>4.2</b> First Prediction</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="splitting-the-data.html"><a href="splitting-the-data.html#selecting-the-correct-alpha"><i class="fa fa-check"></i><b>4.2.1</b> Selecting The Correct Alpha</a></li>
-<li class="chapter" data-level="4.2.2" data-path="splitting-the-data.html"><a href="splitting-the-data.html#confusion-matrices"><i class="fa fa-check"></i><b>4.2.2</b> Confusion Matrices</a></li>
+<li class="chapter" data-level="3" data-path="a-common-modeling-workflow.html"><a href="a-common-modeling-workflow.html"><i class="fa fa-check"></i><b>3</b> A Common Modeling Workflow</a><ul>
+<li class="chapter" data-level="3.1" data-path="a-common-modeling-workflow.html"><a href="a-common-modeling-workflow.html#splitting-the-data"><i class="fa fa-check"></i><b>3.1</b> Splitting The Data</a></li>
+<li class="chapter" data-level="3.2" data-path="a-common-modeling-workflow.html"><a href="a-common-modeling-workflow.html#first-model"><i class="fa fa-check"></i><b>3.2</b> First Model</a></li>
+<li class="chapter" data-level="3.3" data-path="a-common-modeling-workflow.html"><a href="a-common-modeling-workflow.html#first-prediction"><i class="fa fa-check"></i><b>3.3</b> First Prediction</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="a-common-modeling-workflow.html"><a href="a-common-modeling-workflow.html#selecting-the-correct-alpha"><i class="fa fa-check"></i><b>3.3.1</b> Selecting The Correct Alpha</a></li>
+<li class="chapter" data-level="3.3.2" data-path="a-common-modeling-workflow.html"><a href="a-common-modeling-workflow.html#confusion-matrices"><i class="fa fa-check"></i><b>3.3.2</b> Confusion Matrices</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="splitting-the-data.html"><a href="splitting-the-data.html#performance-measures-revisited"><i class="fa fa-check"></i><b>4.3</b> Performance Measures Revisited</a></li>
-<li class="chapter" data-level="4.4" data-path="splitting-the-data.html"><a href="splitting-the-data.html#the-roc-curve"><i class="fa fa-check"></i><b>4.4</b> The ROC curve</a></li>
+<li class="chapter" data-level="3.4" data-path="a-common-modeling-workflow.html"><a href="a-common-modeling-workflow.html#performance-measures-revisited"><i class="fa fa-check"></i><b>3.4</b> Performance Measures Revisited</a></li>
+<li class="chapter" data-level="3.5" data-path="a-common-modeling-workflow.html"><a href="a-common-modeling-workflow.html#the-roc-curve"><i class="fa fa-check"></i><b>3.5</b> The ROC curve</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="other-methods.html"><a href="other-methods.html"><i class="fa fa-check"></i><b>5</b> Other Methods ?</a><ul>
-<li class="chapter" data-level="5.1" data-path="other-methods.html"><a href="other-methods.html#improving-the-models"><i class="fa fa-check"></i><b>5.1</b> Improving The Model(s)</a></li>
-<li class="chapter" data-level="5.2" data-path="other-methods.html"><a href="other-methods.html#cross-fold-validation"><i class="fa fa-check"></i><b>5.2</b> Cross Fold Validation</a></li>
+<li class="chapter" data-level="4" data-path="other-methods.html"><a href="other-methods.html"><i class="fa fa-check"></i><b>4</b> Other Methods ?</a><ul>
+<li class="chapter" data-level="4.1" data-path="other-methods.html"><a href="other-methods.html#improving-the-models"><i class="fa fa-check"></i><b>4.1</b> Improving The Model(s)</a></li>
+<li class="chapter" data-level="4.2" data-path="other-methods.html"><a href="other-methods.html#cross-fold-validation"><i class="fa fa-check"></i><b>4.2</b> Cross Fold Validation</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html"><i class="fa fa-check"></i><b>6</b> Is There a Better Way ?</a><ul>
-<li class="chapter" data-level="6.1" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#data-splitting-using-caret"><i class="fa fa-check"></i><b>6.1</b> Data Splitting Using Caret</a></li>
-<li class="chapter" data-level="6.2" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#specifying-control-options"><i class="fa fa-check"></i><b>6.2</b> Specifying Control Options</a></li>
-<li class="chapter" data-level="6.3" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#inspecting-the-model"><i class="fa fa-check"></i><b>6.3</b> Inspecting The Model</a></li>
-<li class="chapter" data-level="6.4" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#how-well-did-it-perform"><i class="fa fa-check"></i><b>6.4</b> How Well Did It Perform ?</a></li>
-<li class="chapter" data-level="6.5" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#comparing-performance-across-other-methods"><i class="fa fa-check"></i><b>6.5</b> Comparing Performance Across Other Methods</a></li>
-<li class="chapter" data-level="6.6" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#different-performance-measures"><i class="fa fa-check"></i><b>6.6</b> Different Performance Measures</a></li>
+<li class="chapter" data-level="5" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html"><i class="fa fa-check"></i><b>5</b> Is There a Better Way ?</a><ul>
+<li class="chapter" data-level="5.1" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#data-splitting-using-caret"><i class="fa fa-check"></i><b>5.1</b> Data Splitting Using Caret</a></li>
+<li class="chapter" data-level="5.2" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#specifying-control-options"><i class="fa fa-check"></i><b>5.2</b> Specifying Control Options</a></li>
+<li class="chapter" data-level="5.3" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#inspecting-the-model"><i class="fa fa-check"></i><b>5.3</b> Inspecting The Model</a></li>
+<li class="chapter" data-level="5.4" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#how-well-did-it-perform"><i class="fa fa-check"></i><b>5.4</b> How Well Did It Perform ?</a></li>
+<li class="chapter" data-level="5.5" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#comparing-performance-across-other-methods"><i class="fa fa-check"></i><b>5.5</b> Comparing Performance Across Other Methods</a></li>
+<li class="chapter" data-level="5.6" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#different-performance-measures"><i class="fa fa-check"></i><b>5.6</b> Different Performance Measures</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="feature-importance.html"><a href="feature-importance.html"><i class="fa fa-check"></i><b>7</b> Feature Importance</a><ul>
-<li class="chapter" data-level="7.0.1" data-path="feature-importance.html"><a href="feature-importance.html#feature-elimination"><i class="fa fa-check"></i><b>7.0.1</b> Feature Elimination</a></li>
-<li class="chapter" data-level="7.0.2" data-path="feature-importance.html"><a href="feature-importance.html#the-rfe-function"><i class="fa fa-check"></i><b>7.0.2</b> The rfe Function</a></li>
+<li class="chapter" data-level="6" data-path="feature-importance.html"><a href="feature-importance.html"><i class="fa fa-check"></i><b>6</b> Feature Importance</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="feature-importance.html"><a href="feature-importance.html#feature-elimination"><i class="fa fa-check"></i><b>6.0.1</b> Feature Elimination</a></li>
+<li class="chapter" data-level="6.0.2" data-path="feature-importance.html"><a href="feature-importance.html#the-rfe-function"><i class="fa fa-check"></i><b>6.0.2</b> The rfe Function</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="comparing-models.html"><a href="comparing-models.html"><i class="fa fa-check"></i><b>8</b> Comparing Models</a></li>
+<li class="chapter" data-level="7" data-path="comparing-models.html"><a href="comparing-models.html"><i class="fa fa-check"></i><b>7</b> Comparing Models</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -165,7 +190,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="is-there-a-better-way" class="section level1">
-<h1><span class="header-section-number">Chapter 6</span> Is There a Better Way ?</h1>
+<h1><span class="header-section-number">Chapter 5</span> Is There a Better Way ?</h1>
 <p>In R, as well as with Python, there are a growing number of packages available to help simplify repetitive processes. Building predictive models is no exception especially given that so many sub processes are involved such as splitting data, building a model, making a prediction, comparing it to the labelled data, and so on. The <strong>caret</strong> package provides an easy point of entry into the world of predictive modeling. It provides the following features:</p>
 <pre><code>- Streamlined and consistent syntax for more than 
   200 different models
@@ -178,23 +203,23 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 - Simplifed comparison of different models</code></pre>
 <p>The caret package was designed specifically for predictive modeling and, in particular, to provide an intuitive approach to creating, managing, and comparing different models emerging from various methods. Let’s work through our previous examples using functions from <strong>caret</strong>.</p>
 <div id="data-splitting-using-caret" class="section level2">
-<h2><span class="header-section-number">6.1</span> Data Splitting Using Caret</h2>
+<h2><span class="header-section-number">5.1</span> Data Splitting Using Caret</h2>
 <p>Let’s split the data into a training / test pair. The caret package provides some useful functions for this one of which is the <strong>CreateDataPartition</strong> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">idx &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(pm<span class="op">$</span>diabetes,
-                           <span class="dt">p=</span>.<span class="dv">80</span>,
-                           <span class="dt">list=</span><span class="ot">FALSE</span>)
-
-Train &lt;-<span class="st"> </span>pm[idx,]
-Test  &lt;-<span class="st"> </span>pm[<span class="op">-</span>idx,]
-
-<span class="kw">nrow</span>(Train)</code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">idx &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(pm<span class="op">$</span>diabetes,</a>
+<a class="sourceLine" id="cb41-2" data-line-number="2">                           <span class="dt">p=</span>.<span class="dv">80</span>,</a>
+<a class="sourceLine" id="cb41-3" data-line-number="3">                           <span class="dt">list=</span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb41-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb41-5" data-line-number="5">Train &lt;-<span class="st"> </span>pm[idx,]</a>
+<a class="sourceLine" id="cb41-6" data-line-number="6">Test  &lt;-<span class="st"> </span>pm[<span class="op">-</span>idx,]</a>
+<a class="sourceLine" id="cb41-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb41-8" data-line-number="8"><span class="kw">nrow</span>(Train)</a></code></pre></div>
 <pre><code>## [1] 615</code></pre>
 <p>Now we can use this to create a training object with caret. We’ll create a GLM model similar to the one we’ve already created. The primary, and most frequently used, function in <strong>caret</strong> is the <strong>train</strong> function. In this example we’ll use it build a model using the <strong>glm</strong> method. We will also specify that “Accuracy” will be the preferred performance measure.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myglm_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,
-                     <span class="dt">data =</span> Train,
-                     <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,
-                     <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>)
-myglm_caret</code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">myglm_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2">                     <span class="dt">data =</span> Train,</a>
+<a class="sourceLine" id="cb43-3" data-line-number="3">                     <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,</a>
+<a class="sourceLine" id="cb43-4" data-line-number="4">                     <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>)</a>
+<a class="sourceLine" id="cb43-5" data-line-number="5">myglm_caret</a></code></pre></div>
 <pre><code>## Generalized Linear Model 
 ## 
 ## 615 samples
@@ -210,17 +235,17 @@ myglm_caret</code></pre></div>
 ##   0.7711624  0.4728834</code></pre>
 </div>
 <div id="specifying-control-options" class="section level2">
-<h2><span class="header-section-number">6.2</span> Specifying Control Options</h2>
+<h2><span class="header-section-number">5.2</span> Specifying Control Options</h2>
 <p>We can even request cross fold validation without having to write our own function to do this. To do this requires the specification of a “control” object which contains information that we would like for the <strong>train</strong> function to consider as it does its work.</p>
 <p>Not every invocation of <strong>train</strong> requires an associated <strong>trainControl</strong> object although as you become more experienced building models, you will frequently use this approach.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">5</span>)
-
-myglm_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,
-                     <span class="dt">data =</span> Train,
-                     <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,
-                     <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,
-                     <span class="dt">trControl =</span> control)
-myglm_caret</code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb45-3" data-line-number="3">myglm_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb45-4" data-line-number="4">                     <span class="dt">data =</span> Train,</a>
+<a class="sourceLine" id="cb45-5" data-line-number="5">                     <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,</a>
+<a class="sourceLine" id="cb45-6" data-line-number="6">                     <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,</a>
+<a class="sourceLine" id="cb45-7" data-line-number="7">                     <span class="dt">trControl =</span> control)</a>
+<a class="sourceLine" id="cb45-8" data-line-number="8">myglm_caret</a></code></pre></div>
 <pre><code>## Generalized Linear Model 
 ## 
 ## 615 samples
@@ -236,26 +261,26 @@ myglm_caret</code></pre></div>
 ##   0.7772358  0.4789439</code></pre>
 </div>
 <div id="inspecting-the-model" class="section level2">
-<h2><span class="header-section-number">6.3</span> Inspecting The Model</h2>
+<h2><span class="header-section-number">5.3</span> Inspecting The Model</h2>
 <p>The object returned by caret has a great deal of information packed into it much of which is there to support reproducibility. Some key aspects of the object include, in this case, the Accuracy computation for each fold.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myglm_caret<span class="op">$</span>resample</code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">myglm_caret<span class="op">$</span>resample</a></code></pre></div>
 <pre><code>##    Accuracy     Kappa Resample
 ## 1 0.7642276 0.4612596    Fold1
 ## 2 0.7967480 0.5194562    Fold2
 ## 3 0.7886179 0.5142770    Fold3
 ## 4 0.7235772 0.3270035    Fold4
 ## 5 0.8130081 0.5727232    Fold5</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myglm_caret<span class="op">$</span>results</code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">myglm_caret<span class="op">$</span>results</a></code></pre></div>
 <pre><code>##   parameter  Accuracy     Kappa AccuracySD    KappaSD
 ## 1      none 0.7772358 0.4789439 0.03477927 0.09365205</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Note that the final reported Accuracy metric is simply the average of </span>
-<span class="co"># the reported Accuracy values for each fold</span>
-
-myglm_caret<span class="op">$</span>results[<span class="dv">2</span>] <span class="op">==</span><span class="st"> </span><span class="kw">mean</span>(myglm_caret<span class="op">$</span>resample<span class="op">$</span>Accuracy)</code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="co"># Note that the final reported Accuracy metric is simply the average of </span></a>
+<a class="sourceLine" id="cb51-2" data-line-number="2"><span class="co"># the reported Accuracy values for each fold</span></a>
+<a class="sourceLine" id="cb51-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb51-4" data-line-number="4">myglm_caret<span class="op">$</span>results[<span class="dv">2</span>] <span class="op">==</span><span class="st"> </span><span class="kw">mean</span>(myglm_caret<span class="op">$</span>resample<span class="op">$</span>Accuracy)</a></code></pre></div>
 <pre><code>##   Accuracy
 ## 1     TRUE</code></pre>
 <p>Of course, you can always look at the model itself to get summary information just as you could if you were not using the <strong>train</strong> function. That is, the <strong>caret</strong> package does not try to conceal or replace what could be done using standard approaches. It overlays the model with information in a way that is transparent.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(myglm_caret)</code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">summary</span>(myglm_caret)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## NULL
@@ -287,9 +312,9 @@ myglm_caret<span class="op">$</span>results[<span class="dv">2</span>] <span cla
 ## Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 <div id="how-well-did-it-perform" class="section level2">
-<h2><span class="header-section-number">6.4</span> How Well Did It Perform ?</h2>
+<h2><span class="header-section-number">5.4</span> How Well Did It Perform ?</h2>
 <p>Remember that one of the features of using caret is that it can help us estimate the out of sample error we will experience when applying our model to new or unseen data. The above model provides an estimate of out of band accuracy as .77</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myglm_caret</code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">myglm_caret</a></code></pre></div>
 <pre><code>## Generalized Linear Model 
 ## 
 ## 615 samples
@@ -304,26 +329,26 @@ myglm_caret<span class="op">$</span>results[<span class="dv">2</span>] <span cla
 ##   Accuracy   Kappa    
 ##   0.7772358  0.4789439</code></pre>
 <p>Let’s create a prediction object using the Test data to see how close we came to this estimate. It’s a little worse than caret’s estimate which is to be expected. Also, this is just an estimate using a single threshold when using the predict function. There are more sophisticated ways to estimate the accuracy.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mypreds_glm &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm_caret, Test)
-
-<span class="co"># Create a Table of known outcomes vs the predicted outcomes</span>
-outcome &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="dt">preds=</span>mypreds_glm,<span class="dt">actual=</span>Test<span class="op">$</span>diabetes)
-
-(acc_outcome &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">diag</span>(outcome))<span class="op">/</span><span class="kw">sum</span>(outcome))</code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">mypreds_glm &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm_caret, Test)</a>
+<a class="sourceLine" id="cb57-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb57-3" data-line-number="3"><span class="co"># Create a Table of known outcomes vs the predicted outcomes</span></a>
+<a class="sourceLine" id="cb57-4" data-line-number="4">outcome &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="dt">preds=</span>mypreds_glm,<span class="dt">actual=</span>Test<span class="op">$</span>diabetes)</a>
+<a class="sourceLine" id="cb57-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb57-6" data-line-number="6">(acc_outcome &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">diag</span>(outcome))<span class="op">/</span><span class="kw">sum</span>(outcome))</a></code></pre></div>
 <pre><code>## [1] 0.7581699</code></pre>
 </div>
 <div id="comparing-performance-across-other-methods" class="section level2">
-<h2><span class="header-section-number">6.5</span> Comparing Performance Across Other Methods</h2>
+<h2><span class="header-section-number">5.5</span> Comparing Performance Across Other Methods</h2>
 <p>The advantage of the <strong>train</strong> function is that we can use the same control objects across a number of modeling techniques which then makes it easier to compare performance across various methods.</p>
 <p>As an example, instead of using the “glm” method we could pick another one such as Decision Tree. All we need to know is the name of the method we want. A complete list of supported models listed by category can be found <a href="https://topepo.github.io/caret/available-models.html">here</a></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">5</span>)
-
-myrpart_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,
-                     <span class="dt">data =</span> Train,
-                     <span class="dt">method =</span> <span class="st">&quot;rpart&quot;</span>,
-                     <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,
-                     <span class="dt">trControl =</span> control)
-myrpart_caret</code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb59-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb59-3" data-line-number="3">myrpart_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb59-4" data-line-number="4">                     <span class="dt">data =</span> Train,</a>
+<a class="sourceLine" id="cb59-5" data-line-number="5">                     <span class="dt">method =</span> <span class="st">&quot;rpart&quot;</span>,</a>
+<a class="sourceLine" id="cb59-6" data-line-number="6">                     <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,</a>
+<a class="sourceLine" id="cb59-7" data-line-number="7">                     <span class="dt">trControl =</span> control)</a>
+<a class="sourceLine" id="cb59-8" data-line-number="8">myrpart_caret</a></code></pre></div>
 <pre><code>## CART 
 ## 
 ## 615 samples
@@ -345,21 +370,21 @@ myrpart_caret</code></pre></div>
 <p>This method employs a Decision Tree approach which also involves use of “hyper parameters”. However, at this point we don’t really need to know much about those (although we should) when selecting the method. The larger point is that all we need to know is the name of the alternative method and we can reuse the previous <strong>control</strong> object.</p>
 </div>
 <div id="different-performance-measures" class="section level2">
-<h2><span class="header-section-number">6.6</span> Different Performance Measures</h2>
+<h2><span class="header-section-number">5.6</span> Different Performance Measures</h2>
 <p>Not only can we easily select different methods we can also select different performance measures. It does require changes to the control object and arguments to the <strong>train</strong> function though we do not need to read the underlying help pages for a given method to do this. This is a true convenience and time saver that makes reproducing these experiments much easier.</p>
 <p>In this example we want to use the “Area Under Curve” (AUC) metric that comes from an associated ROC curve. To do this will require the model to generate class probabilities from which to build the ROC curve so this information needs to be specified in the control object.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">classProbs =</span> <span class="ot">TRUE</span>,
-                        <span class="dt">summaryFunction =</span> twoClassSummary,
-                        <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>,
-                        <span class="dt">number =</span> <span class="dv">8</span>)
-
-myglm_caret_roc &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,
-                         <span class="dt">data =</span> Train,
-                         <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,
-                         <span class="dt">metric =</span> <span class="st">&quot;ROC&quot;</span>,
-                         <span class="dt">trControl =</span> control)
-
-myglm_caret_roc</code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">classProbs =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb61-2" data-line-number="2">                        <span class="dt">summaryFunction =</span> twoClassSummary,</a>
+<a class="sourceLine" id="cb61-3" data-line-number="3">                        <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>,</a>
+<a class="sourceLine" id="cb61-4" data-line-number="4">                        <span class="dt">number =</span> <span class="dv">8</span>)</a>
+<a class="sourceLine" id="cb61-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb61-6" data-line-number="6">myglm_caret_roc &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb61-7" data-line-number="7">                         <span class="dt">data =</span> Train,</a>
+<a class="sourceLine" id="cb61-8" data-line-number="8">                         <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,</a>
+<a class="sourceLine" id="cb61-9" data-line-number="9">                         <span class="dt">metric =</span> <span class="st">&quot;ROC&quot;</span>,</a>
+<a class="sourceLine" id="cb61-10" data-line-number="10">                         <span class="dt">trControl =</span> control)</a>
+<a class="sourceLine" id="cb61-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb61-12" data-line-number="12">myglm_caret_roc</a></code></pre></div>
 <pre><code>## Generalized Linear Model 
 ## 
 ## 615 samples
@@ -375,20 +400,20 @@ myglm_caret_roc</code></pre></div>
 ##   0.8345335  0.895  0.5712251</code></pre>
 <p>This is a true convenience and we don’t have to use a separate R package to compute the AUC. It becomes a by product of the modeling process.</p>
 <p>Specifically, the control object can remain the same across different methods assuming that we wish to continue with classification. Here, we’ll use Random Forests which are a generalization beyond a single Decision Tree.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The following is the same control object from before</span>
-control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">classProbs =</span> <span class="ot">TRUE</span>,
-                        <span class="dt">summaryFunction =</span> twoClassSummary,
-                        <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>,
-                        <span class="dt">number =</span> <span class="dv">8</span>)
-<span class="co"># We&#39;ll </span>
-myrf_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,
-               <span class="dt">data =</span> Train,
- <span class="co">#              method = &quot;svmLinear&quot;,</span>
-               <span class="dt">method =</span> <span class="st">&quot;rf&quot;</span>,
-               <span class="dt">metric =</span> <span class="st">&quot;ROC&quot;</span>,
-               <span class="dt">trControl =</span> control)
-
-myrf_caret</code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="co"># The following is the same control object from before</span></a>
+<a class="sourceLine" id="cb63-2" data-line-number="2">control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">classProbs =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb63-3" data-line-number="3">                        <span class="dt">summaryFunction =</span> twoClassSummary,</a>
+<a class="sourceLine" id="cb63-4" data-line-number="4">                        <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>,</a>
+<a class="sourceLine" id="cb63-5" data-line-number="5">                        <span class="dt">number =</span> <span class="dv">8</span>)</a>
+<a class="sourceLine" id="cb63-6" data-line-number="6"><span class="co"># We&#39;ll </span></a>
+<a class="sourceLine" id="cb63-7" data-line-number="7">myrf_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb63-8" data-line-number="8">               <span class="dt">data =</span> Train,</a>
+<a class="sourceLine" id="cb63-9" data-line-number="9"> <span class="co">#              method = &quot;svmLinear&quot;,</span></a>
+<a class="sourceLine" id="cb63-10" data-line-number="10">               <span class="dt">method =</span> <span class="st">&quot;rf&quot;</span>,</a>
+<a class="sourceLine" id="cb63-11" data-line-number="11">               <span class="dt">metric =</span> <span class="st">&quot;ROC&quot;</span>,</a>
+<a class="sourceLine" id="cb63-12" data-line-number="12">               <span class="dt">trControl =</span> control)</a>
+<a class="sourceLine" id="cb63-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb63-14" data-line-number="14">myrf_caret</a></code></pre></div>
 <pre><code>## Random Forest 
 ## 
 ## 615 samples
@@ -407,7 +432,7 @@ myrf_caret</code></pre></div>
 ## 
 ## ROC was used to select the optimal model using the largest value.
 ## The final value used for the model was mtry = 2.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(myrf_caret)</code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">plot</span>(myrf_caret)</a></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/plotrf-1.png" width="672" /></p>
 </div>
 </div>
