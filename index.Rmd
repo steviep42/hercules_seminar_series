@@ -1,5 +1,5 @@
 --- 
-title: "Predictive Modeling For Imposters"
+title: "Predictive Modeling"
 author: "Steve Pittard"
 email: wsp@emory.edu
 affiliation: Department of Biostatistics and Bioinformatics
@@ -16,8 +16,8 @@ biblio-style: apalike
 
 # Introduction {#intro}
 
-Predictive Modeling is a type of Machine Learning which itself is a sub branch of Artifical Intelligence. The [following graphic](https://blogs.nvidia.com/blog/2016/07/29/whats-difference-artificial-intelligence-machine-learning-deep-learning-ai/
-) provides us with some history of these domains. This is helpful if you are trying to orient yourself in the world of analytics and machine learning. Note that AI has been around for squite some time. The Wikipedia definition of AI is:
+Predictive Modeling is a type of Machine Learning which itself is a sub branch of Artificial Intelligence. The [following graphic](https://blogs.nvidia.com/blog/2016/07/29/whats-difference-artificial-intelligence-machine-learning-deep-learning-ai/
+) provides us with some history of these domains. This is helpful if you are trying to orient yourself in the world of analytics and machine learning. Note that AI has been around for quite some time. The Wikipedia definition of AI is:
 
 > The study of "intelligent agents": any device that perceives its environment and takes 
 > actions that maximize its chance of successfully achieving its goals
@@ -26,7 +26,7 @@ Predictive Modeling is a type of Machine Learning which itself is a sub branch o
 
 ## Machine Learning
 
-Machine Learning relies upon "patterns and inference"" to "perform a specific task without using explicit instructions". It is a form of Applied AI that attempts to automatically learn from experience without being explicitly programmed. Think of Preditive Modeling as a subset of this which falls into two categories:
+Machine Learning relies upon "patterns and inference"" to "perform a specific task without using explicit instructions". It is a form of Applied AI that attempts to automatically learn from experience without being explicitly programmed. Think of Predictive Modeling as a subset of this which falls into two categories:
 
 **Supervised**
 
@@ -99,7 +99,7 @@ library(caret)
 ```
 
 
-Let's consider the Pima Indians Data that is part of the **mlbench** package. You can install this package via the **Tools -> Install Package** menu item within RStudio or type the following at the R console prompt:
+Let's consider the Pima Indians Data that is part of the **mlbench** package. You can install this package via the **Tools -> Install Package** menu item within R Studio or type the following at the R console prompt:
 
 ```{r mlbench,eval=FALSE}
 install.packages("mlbench")
@@ -769,4 +769,147 @@ dotplot(results)
 ```
 
 
+# Using Exeternal ML Frameworks
+
+There are a number of companies that provide easy access to Machine Learning services including Google, Amazon, Data Robot, and H2o. In particular, the company H20.ai provides frameworks for accessible Machine Learning by experts and non-experts. They promote the idea of “citizen data science” which seeks to lower barriers to participation in the world of AI. While they have a commercial product, they also provide an open source tool:
+
+
+> H2O is a fully open source, distributed in-memory machine learning platform with linear 
+> scalability. H2O supports the most widely used statistical & machine learning algorithms 
+> including gradient boosted machines, generalized linear models, deep learning and more.
+
+Moreover, H2O provides access to an “Auto ML” service that selects methods appropriate to a given data set. This is useful to help jump start ideas.
+
+> H2O also has an industry leading AutoML functionality that automatically runs through 
+> all the algorithms and their hyperparameters to produce a leaderboard of the best models. 
+> The H2O platform is used by over 18,000 organizations globally and is extremely popular 
+> in both the R & Python communities.
+
+Better yet, there is an R package called, somewhat unimaginatively, “h2o” “which provides:
+
+> R interface for ‘H2O’, the scalable open source machine learning platform that offers 
+> parallelized implementations of many supervised and unsupervised machine learning algorithms 
+> such as Generalized Linear Models, Gradient Boosting Machines (including XGBoost), Random 
+> Forests, Deep Neural Networks (Deep Learning), Stacked Ensembles, Naive Bayes, Cox 
+> Proportional Hazards, K-Means, PCA, Word2Vec, as well as a fully automatic machine learning
+> algorithm (AutoML).
+
+## H2O In Action
+
+The package must first be installed which can done using the install.packages function (or the menu in R Studio). Loading the library is done just as you would any other library.
+
+```{r loadh2o, messages=FALSE}
+library(h2o)
+```
+
+The goal of using this library is not to replace the methods available to you in R but, just like the caret package, seeks to provide a uniform interface for a variety of underlying methods. This includes common methods including an “Auto ML” service that picks methods for you. Let’s apply h2o to our work. The underlying h2o architecture uses a “running instance” concept that can be initialized and accessed from R. You initialize it once per interactive session.
+
+```{r h2oinit}
+h2o.init()
+```
+
+
+Once the h2o environment has been initialized then work can begin. This will take the form of using R functions provided by the h2o package to read in data and prepare it for use with various methods. Let’s repeat the regression on mtcars using h2o functions. Since mtcars is already available in the the R environment we can easily import it into h2o.
+
+```{r}
+# Import mtcars
+mtcars_h2o_df <- as.h2o(mtcars)
+
+# Idenitfy the variable to be predicted
+y <- "mpg"
+
+# Put the predictor names into a vector
+x <- setdiff(colnames(mtcars_h2o_df),y)
+```
+
+
+## Create Some Models
+
+Now let’s create some training and test data sets. We could do this ourselves using conventional R commands or helper functions from the caret package. However, the h2o package provides its own set of helpers.
+
+```{r}
+data(mtcars)
+splits <- h2o.splitFrame(mtcars_h2o_df, ratios=0.8,seed=1)
+train_h2o <- splits[[1]]
+test_h2o  <- splits[[2]]
+
+train_h2o
+```
+
+
+Now let’s create a model. We’ll use the Generalized Linear Model function from h2o. It is important to note that this function is implemented from within h2o. That is, we are not in anyway using any existing R packages to do this nor are we using anything from the care package. Here we’ll request a 4-Fold, Cross Validation step as part of the model assembly.
+
+```{r h2oglm}
+h2o_glm_model <- h2o.glm(y=y,x=x,train_h2o,nfolds=4)
+summary(h2o_glm_model)
+```
+
+
+Now we can do a prediction on the object against the test set.
+
+```{r h2opred}
+(h2o_glm_preds <- h2o.predict(h2o_glm_model,test_h2o))
+```
+
+
+Now look at the performance diagnostics:
+
+```{r h2operf}
+h2o.performance(h2o_glm_model,test_h2o)
+```
+
+## Saving A Model
+
+You can save the contents of any h2o generated model by using the h2o.saveModel() function. You could extract pieces of information from the S4 object but saving the model is easy to do - as is reading it back in.
+
+```{r}
+model_path <- h2o.saveModel(h2o_glm_model,path=getwd(),force=TRUE)
+
+# If you need to load a previously saved model
+
+saved_model <- h2o.loadModel(model_path)
+```
+
+
+## Using the Auto ML Feature
+
+Are you curious as to what model might be the “best” for your data ? This is a very fertile field of research that keeps growing and some feel will one be the dominant technology in ML - where a model picks a model. Sounds odd but that is where it is heading. Check the current h2o Auto ML documentation for more details. For now, most of the Auto ML services use a set of heuristics to examine data and then find the most appropriate method to build a model. The currently supported method implementations in the opensource version include:
+
+
+    - three pre-specified XGBoost GBM (Gradient Boosting Machine) models
+    - a fixed grid of GLMs, a default Random Forest (DRF)
+    - five pre-specified H2O GBMs
+    - a near-default Deep Neural Net
+    - an Extremely Randomized Forest (XRT)
+    - a random grid of XGBoost GBMs
+    - a random grid of H2O GBMs
+    - a random grid of Deep Neural Nets.
+
+## Launching A Job
+
+Of course, it all begins with the idea of specifying a performance metric such as RMSE or the area under a ROC curve. The idea here is that we specify some input, apply transformations, create a test/train pair, and then call the h2o auto function.
+
+```{r h2oautoml}
+h2o_auto_mtcars <- h2o.automl(y = y, x = x,
+                              training_frame = train_h2o,
+                              leaderboard_frame = test_h2o,
+                              max_runtime_secs = 60,
+                              seed = 1,
+                              sort_metric = "RMSE",
+                              project_name = "mtcars")
+```
+
+
+Let’s check out the object that is returned. It is an S4 object in R which means that it has “slots” which can be accessed via the “@” operator.
+
+```{r rhsoslots}
+slotNames(h2o_auto_mtcars)
+h2o_auto_mtcars@leaderboard
+```
+
+Stop the H2O instance
+
+```{r h2ostop}
+h2o.shutdown(prompt=FALSE)
+```
 
