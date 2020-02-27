@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Using Exeternal ML Frameworks | Predictive Modeling</title>
   <meta name="description" content="This is in support of the HERCULES Lecture Series." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Using Exeternal ML Frameworks | Predictive Modeling" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-02-26" />
+<meta name="date" content="2020-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,41 +53,66 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -109,7 +134,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#machine-learning"><i class="fa fa-check"></i><b>1.1</b> Machine Learning</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#predictive-modeling"><i class="fa fa-check"></i><b>1.2</b> Predictive Modeling</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.3</b> In-Sample vs Out-Of-Sample Data</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-error"><i class="fa fa-check"></i><b>1.3</b> In-Sample vs Out-Of-Sample Error</a></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.4</b> Performance Metrics</a></li>
 <li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#black-box"><i class="fa fa-check"></i><b>1.5</b> Black Box</a></li>
 </ul></li>
@@ -175,76 +200,109 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1><span class="header-section-number">Chapter 8</span> Using Exeternal ML Frameworks</h1>
 <p>There are a number of companies that provide easy access to Machine Learning services including Google, Amazon, Data Robot, and H2o. In particular, the company H20.ai provides frameworks for accessible Machine Learning by experts and non-experts. They promote the idea of “citizen data science” which seeks to lower barriers to participation in the world of AI. While they have a commercial product, they also provide an open source tool:</p>
 <blockquote>
-<p>H2O is a fully open source, distributed in-memory machine learning platform with linear scalability. H2O supports the most widely used statistical &amp; machine learning algorithms including gradient boosted machines, generalized linear models, deep learning and more.</p>
+<p>H2O is a fully open source, distributed in-memory machine learning platform with linear
+scalability. H2O supports the most widely used statistical &amp; machine learning algorithms
+including gradient boosted machines, generalized linear models, deep learning and more.</p>
 </blockquote>
 <p>Moreover, H2O provides access to an “Auto ML” service that selects methods appropriate to a given data set. This is useful to help jump start ideas.</p>
 <blockquote>
-<p>H2O also has an industry leading AutoML functionality that automatically runs through all the algorithms and their hyperparameters to produce a leaderboard of the best models. The H2O platform is used by over 18,000 organizations globally and is extremely popular in both the R &amp; Python communities.</p>
+<p>H2O also has an industry leading AutoML functionality that automatically runs through
+all the algorithms and their hyperparameters to produce a leaderboard of the best models.
+The H2O platform is used by over 18,000 organizations globally and is extremely popular
+in both the R &amp; Python communities.</p>
 </blockquote>
 <p>Better yet, there is an R package called, somewhat unimaginatively, “h2o” “which provides:</p>
 <blockquote>
-<p>R interface for ‘H2O’, the scalable open source machine learning platform that offers parallelized implementations of many supervised and unsupervised machine learning algorithms such as Generalized Linear Models, Gradient Boosting Machines (including XGBoost), Random Forests, Deep Neural Networks (Deep Learning), Stacked Ensembles, Naive Bayes, Cox Proportional Hazards, K-Means, PCA, Word2Vec, as well as a fully automatic machine learning algorithm (AutoML).</p>
+<p>R interface for ‘H2O’, the scalable open source machine learning platform that offers
+parallelized implementations of many supervised and unsupervised machine learning algorithms
+such as Generalized Linear Models, Gradient Boosting Machines (including XGBoost), Random
+Forests, Deep Neural Networks (Deep Learning), Stacked Ensembles, Naive Bayes, Cox
+Proportional Hazards, K-Means, PCA, Word2Vec, as well as a fully automatic machine learning
+algorithm (AutoML).</p>
 </blockquote>
 <div id="h2o-in-action" class="section level2">
 <h2><span class="header-section-number">8.1</span> H2O In Action</h2>
 <p>The package must first be installed which can done using the install.packages function (or the menu in R Studio). Loading the library is done just as you would any other library.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(h2o)</code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="kw">library</span>(h2o)</a></code></pre></div>
+<pre><code>## 
+## ----------------------------------------------------------------------
+## 
+## Your next step is to start H2O:
+##     &gt; h2o.init()
+## 
+## For H2O package documentation, ask for help:
+##     &gt; ??h2o
+## 
+## After starting H2O, you can use the Web UI at http://localhost:54321
+## For more information visit http://docs.h2o.ai
+## 
+## ----------------------------------------------------------------------</code></pre>
+<pre><code>## 
+## Attaching package: &#39;h2o&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:pROC&#39;:
+## 
+##     var</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     cor, sd, var</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     &amp;&amp;, %*%, %in%, ||, apply, as.factor, as.numeric, colnames, colnames&lt;-, ifelse,
+##     is.character, is.factor, is.numeric, log, log10, log1p, log2, round, signif,
+##     trunc</code></pre>
 <p>The goal of using this library is not to replace the methods available to you in R but, just like the caret package, seeks to provide a uniform interface for a variety of underlying methods. This includes common methods including an “Auto ML” service that picks methods for you. Let’s apply h2o to our work. The underlying h2o architecture uses a “running instance” concept that can be initialized and accessed from R. You initialize it once per interactive session.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">h2o.init</span>()</code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">h2o.init</span>()</a></code></pre></div>
 <pre><code>## 
 ## H2O is not running yet, starting it now...
 ## 
 ## Note:  In case of errors look at the following log files:
-##     /var/folders/wh/z0v5hqgx3dzdfgz47lnbr_3w0000gn/T//RtmpVqPBVd/h2o_esteban_started_from_r.out
-##     /var/folders/wh/z0v5hqgx3dzdfgz47lnbr_3w0000gn/T//RtmpVqPBVd/h2o_esteban_started_from_r.err
+##     /var/folders/8l/xpk2d_2x1c1116bc25zcdvmr0000gn/T//RtmpL3zF0U/h2o_esteban_started_from_r.out
+##     /var/folders/8l/xpk2d_2x1c1116bc25zcdvmr0000gn/T//RtmpL3zF0U/h2o_esteban_started_from_r.err
 ## 
 ## 
 ## Starting H2O JVM and connecting: .. Connection successful!
 ## 
 ## R is connected to the H2O cluster: 
-##     H2O cluster uptime:         2 seconds 884 milliseconds 
+##     H2O cluster uptime:         2 seconds 18 milliseconds 
 ##     H2O cluster timezone:       America/New_York 
 ##     H2O data parsing timezone:  UTC 
-##     H2O cluster version:        3.26.0.2 
-##     H2O cluster version age:    6 months and 30 days !!! 
-##     H2O cluster name:           H2O_started_from_R_esteban_bqw141 
+##     H2O cluster version:        3.28.0.4 
+##     H2O cluster version age:    3 days  
+##     H2O cluster name:           H2O_started_from_R_esteban_gkg348 
 ##     H2O cluster total nodes:    1 
-##     H2O cluster total memory:   1.78 GB 
-##     H2O cluster total cores:    4 
-##     H2O cluster allowed cores:  4 
+##     H2O cluster total memory:   2.00 GB 
+##     H2O cluster total cores:    8 
+##     H2O cluster allowed cores:  8 
 ##     H2O cluster healthy:        TRUE 
 ##     H2O Connection ip:          localhost 
 ##     H2O Connection port:        54321 
 ##     H2O Connection proxy:       NA 
 ##     H2O Internal Security:      FALSE 
-##     H2O API Extensions:         Amazon S3, XGBoost, Algos, AutoML, Core V3, Core V4 
-##     R Version:                  R version 3.5.3 (2019-03-11)</code></pre>
-<pre><code>## Warning in h2o.clusterInfo(): 
-## Your H2O cluster version is too old (6 months and 30 days)!
-## Please download and install the latest version from http://h2o.ai/download/</code></pre>
+##     H2O API Extensions:         Amazon S3, XGBoost, Algos, AutoML, Core V3, TargetEncoder, Core V4 
+##     R Version:                  R version 3.6.2 (2019-12-12)</code></pre>
 <p>Once the h2o environment has been initialized then work can begin. This will take the form of using R functions provided by the h2o package to read in data and prepare it for use with various methods. Let’s repeat the regression on mtcars using h2o functions. Since mtcars is already available in the the R environment we can easily import it into h2o.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Import mtcars</span>
-mtcars_h2o_df &lt;-<span class="st"> </span><span class="kw">as.h2o</span>(mtcars)</code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1"><span class="co"># Import mtcars</span></a>
+<a class="sourceLine" id="cb93-2" data-line-number="2">mtcars_h2o_df &lt;-<span class="st"> </span><span class="kw">as.h2o</span>(mtcars)</a></code></pre></div>
 <pre><code>## 
-  |                                                                       
-  |                                                                 |   0%
-  |                                                                       
-  |=================================================================| 100%</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Idenitfy the variable to be predicted</span>
-y &lt;-<span class="st"> &quot;mpg&quot;</span>
-
-<span class="co"># Put the predictor names into a vector</span>
-x &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">colnames</span>(mtcars_h2o_df),y)</code></pre></div>
+  |                                                                                            
+  |                                                                                      |   0%
+  |                                                                                            
+  |======================================================================================| 100%</code></pre>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="co"># Idenitfy the variable to be predicted</span></a>
+<a class="sourceLine" id="cb95-2" data-line-number="2">y &lt;-<span class="st"> &quot;mpg&quot;</span></a>
+<a class="sourceLine" id="cb95-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb95-4" data-line-number="4"><span class="co"># Put the predictor names into a vector</span></a>
+<a class="sourceLine" id="cb95-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">colnames</span>(mtcars_h2o_df),y)</a></code></pre></div>
 </div>
 <div id="create-some-models" class="section level2">
 <h2><span class="header-section-number">8.2</span> Create Some Models</h2>
 <p>Now let’s create some training and test data sets. We could do this ourselves using conventional R commands or helper functions from the caret package. However, the h2o package provides its own set of helpers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(mtcars)
-splits &lt;-<span class="st"> </span><span class="kw">h2o.splitFrame</span>(mtcars_h2o_df, <span class="dt">ratios=</span><span class="fl">0.8</span>,<span class="dt">seed=</span><span class="dv">1</span>)
-train_h2o &lt;-<span class="st"> </span>splits[[<span class="dv">1</span>]]
-test_h2o  &lt;-<span class="st"> </span>splits[[<span class="dv">2</span>]]
-
-train_h2o</code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="kw">data</span>(mtcars)</a>
+<a class="sourceLine" id="cb96-2" data-line-number="2">splits &lt;-<span class="st"> </span><span class="kw">h2o.splitFrame</span>(mtcars_h2o_df, <span class="dt">ratios=</span><span class="fl">0.8</span>,<span class="dt">seed=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb96-3" data-line-number="3">train_h2o &lt;-<span class="st"> </span>splits[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb96-4" data-line-number="4">test_h2o  &lt;-<span class="st"> </span>splits[[<span class="dv">2</span>]]</a>
+<a class="sourceLine" id="cb96-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb96-6" data-line-number="6">train_h2o</a></code></pre></div>
 <pre><code>##    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 ## 1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 ## 2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
@@ -255,25 +313,23 @@ train_h2o</code></pre></div>
 ## 
 ## [29 rows x 11 columns]</code></pre>
 <p>Now let’s create a model. We’ll use the Generalized Linear Model function from h2o. It is important to note that this function is implemented from within h2o. That is, we are not in anyway using any existing R packages to do this nor are we using anything from the care package. Here we’ll request a 4-Fold, Cross Validation step as part of the model assembly.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">h2o_glm_model &lt;-<span class="st"> </span><span class="kw">h2o.glm</span>(<span class="dt">y=</span>y,<span class="dt">x=</span>x,train_h2o,<span class="dt">nfolds=</span><span class="dv">4</span>)</code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1">h2o_glm_model &lt;-<span class="st"> </span><span class="kw">h2o.glm</span>(<span class="dt">y=</span>y,<span class="dt">x=</span>x,train_h2o,<span class="dt">nfolds=</span><span class="dv">4</span>)</a></code></pre></div>
 <pre><code>## 
-  |                                                                       
-  |                                                                 |   0%
-  |                                                                       
-  |=================================================================| 100%</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(h2o_glm_model)</code></pre></div>
+  |                                                                                            
+  |                                                                                      |   0%
+  |                                                                                            
+  |======================================================================================| 100%</code></pre>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1"><span class="kw">summary</span>(h2o_glm_model)</a></code></pre></div>
 <pre><code>## Model Details:
 ## ==============
 ## 
 ## H2ORegressionModel: glm
-## Model Key:  GLM_model_R_1582752228762_1 
+## Model Key:  GLM_model_R_1582844309490_1 
 ## GLM Model: summary
-##     family     link                              regularization
-## 1 gaussian identity Elastic Net (alpha = 0.5, lambda = 1.0664 )
-##   number_of_predictors_total number_of_active_predictors
-## 1                         10                           9
-##   number_of_iterations    training_frame
-## 1                    1 RTMP_sid_b2d1_451
+##     family     link                              regularization number_of_predictors_total
+## 1 gaussian identity Elastic Net (alpha = 0.5, lambda = 1.0664 )                         10
+##   number_of_active_predictors number_of_iterations  training_frame
+## 1                           9                    1 RTMP_sid_b62d_3
 ## 
 ## H2ORegressionMetrics: glm
 ## ** Reported on training data. **
@@ -296,44 +352,33 @@ train_h2o</code></pre></div>
 ## ** Reported on cross-validation data. **
 ## ** 4-fold cross-validation on training data (Metrics computed for combined holdout predictions) **
 ## 
-## MSE:  10.35893
-## RMSE:  3.218529
-## MAE:  2.449348
-## RMSLE:  0.142006
-## Mean Residual Deviance :  10.35893
-## R^2 :  0.730712
-## Null Deviance :1177.438
+## MSE:  9.619741
+## RMSE:  3.101571
+## MAE:  2.555434
+## RMSLE:  0.1435954
+## Mean Residual Deviance :  9.619741
+## R^2 :  0.7499278
+## Null Deviance :1180.628
 ## Null D.o.F. :28
-## Residual Deviance :300.409
-## Residual D.o.F. :20
-## AIC :170.0961
+## Residual Deviance :278.9725
+## Residual D.o.F. :19
+## AIC :169.9491
 ## 
 ## 
 ## Cross-Validation Metrics Summary: 
-##                              mean          sd  cv_1_valid cv_2_valid
-## mae                      2.301343  0.29322538   2.2878878  1.8644787
-## mean_residual_deviance    8.25592    3.261369     5.64104  5.4836946
-## mse                       8.25592    3.261369     5.64104  5.4836946
-## null_deviance           294.35953   157.57362    82.29284  176.55617
-## r2                     0.53036827   0.2726217 -0.12770653 0.73557734
-## residual_deviance        75.10224   55.836918    16.92312   38.38586
-## rmse                    2.7813087   0.5100207   2.3750873   2.341729
-## rmsle                  0.13278857 0.019130375  0.14205904 0.09235242
-##                        cv_3_valid cv_4_valid
-## mae                     2.9711506   2.081854
-## mean_residual_deviance   16.24376  5.6551867
-## mse                      16.24376  5.6551867
-## null_deviance            665.9084  252.68077
-## r2                      0.6649758 0.84862655
-## residual_deviance       211.16887   33.93112
-## rmse                    4.0303545  2.3780637
-## rmsle                  0.16735952 0.12938331
+##                              mean          sd cv_1_valid cv_2_valid cv_3_valid cv_4_valid
+## mae                     2.6593719   0.6897429  3.5458734  2.6360617  1.8615401   2.594012
+## mean_residual_deviance  11.154392    6.768485  20.896694   8.970009  5.2315903   9.519278
+## mse                     11.154392    6.768485  20.896694   8.970009  5.2315903   9.519278
+## null_deviance           295.15692   196.96805  227.04884    419.259  49.465725  484.85413
+## r2                      0.6483279  0.19601761 0.69873095  0.7720693 0.35845876 0.76405257
+## residual_deviance        69.74312   29.250114  62.690083   89.70008  31.389542   95.19277
+## rmse                    3.2347217   0.9598386    4.57129  2.9949973   2.287267  3.0853326
+## rmsle                  0.14190516 0.025007207 0.16115777 0.14679277 0.10544085 0.15422924
 ## 
 ## Scoring History: 
-##             timestamp   duration iterations negative_log_likelihood
-## 1 2020-02-26 16:23:53  0.000 sec          0              1115.56759
-##   objective
-## 1  38.46785
+##             timestamp   duration iterations negative_log_likelihood objective
+## 1 2020-02-27 17:58:32  0.000 sec          0              1115.56759  38.46785
 ## 
 ## Variable Importances: (Extract with `h2o.varimp`) 
 ## =================================================
@@ -350,12 +395,12 @@ train_h2o</code></pre></div>
 ## 9      gear          0.02108593        0.01767551 0.003687692
 ## 10     qsec          0.00000000        0.00000000 0.000000000</code></pre>
 <p>Now we can do a prediction on the object against the test set.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(h2o_glm_preds &lt;-<span class="st"> </span><span class="kw">h2o.predict</span>(h2o_glm_model,test_h2o))</code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" data-line-number="1">(h2o_glm_preds &lt;-<span class="st"> </span><span class="kw">h2o.predict</span>(h2o_glm_model,test_h2o))</a></code></pre></div>
 <pre><code>## 
-  |                                                                       
-  |                                                                 |   0%
-  |                                                                       
-  |=================================================================| 100%</code></pre>
+  |                                                                                            
+  |                                                                                      |   0%
+  |                                                                                            
+  |======================================================================================| 100%</code></pre>
 <pre><code>##    predict
 ## 1 25.93186
 ## 2 20.67344
@@ -363,7 +408,7 @@ train_h2o</code></pre></div>
 ## 
 ## [3 rows x 1 column]</code></pre>
 <p>Now look at the performance diagnostics:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">h2o.performance</span>(h2o_glm_model,test_h2o)</code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" data-line-number="1"><span class="kw">h2o.performance</span>(h2o_glm_model,test_h2o)</a></code></pre></div>
 <pre><code>## H2ORegressionMetrics: glm
 ## 
 ## MSE:  6.762548
@@ -381,11 +426,11 @@ train_h2o</code></pre></div>
 <div id="saving-a-model" class="section level2">
 <h2><span class="header-section-number">8.3</span> Saving A Model</h2>
 <p>You can save the contents of any h2o generated model by using the h2o.saveModel() function. You could extract pieces of information from the S4 object but saving the model is easy to do - as is reading it back in.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_path &lt;-<span class="st"> </span><span class="kw">h2o.saveModel</span>(h2o_glm_model,<span class="dt">path=</span><span class="kw">getwd</span>(),<span class="dt">force=</span><span class="ot">TRUE</span>)
-
-<span class="co"># If you need to load a previously saved model</span>
-
-saved_model &lt;-<span class="st"> </span><span class="kw">h2o.loadModel</span>(model_path)</code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" data-line-number="1">model_path &lt;-<span class="st"> </span><span class="kw">h2o.saveModel</span>(h2o_glm_model,<span class="dt">path=</span><span class="kw">getwd</span>(),<span class="dt">force=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb107-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb107-3" data-line-number="3"><span class="co"># If you need to load a previously saved model</span></a>
+<a class="sourceLine" id="cb107-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb107-5" data-line-number="5">saved_model &lt;-<span class="st"> </span><span class="kw">h2o.loadModel</span>(model_path)</a></code></pre></div>
 </div>
 <div id="using-the-auto-ml-feature" class="section level2">
 <h2><span class="header-section-number">8.4</span> Using the Auto ML Feature</h2>
@@ -402,155 +447,123 @@ saved_model &lt;-<span class="st"> </span><span class="kw">h2o.loadModel</span>(
 <div id="launching-a-job" class="section level2">
 <h2><span class="header-section-number">8.5</span> Launching A Job</h2>
 <p>Of course, it all begins with the idea of specifying a performance metric such as RMSE or the area under a ROC curve. The idea here is that we specify some input, apply transformations, create a test/train pair, and then call the h2o auto function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">h2o_auto_mtcars &lt;-<span class="st"> </span><span class="kw">h2o.automl</span>(<span class="dt">y =</span> y, <span class="dt">x =</span> x,
-                              <span class="dt">training_frame =</span> train_h2o,
-                              <span class="dt">leaderboard_frame =</span> test_h2o,
-                              <span class="dt">max_runtime_secs =</span> <span class="dv">60</span>,
-                              <span class="dt">seed =</span> <span class="dv">1</span>,
-                              <span class="dt">sort_metric =</span> <span class="st">&quot;RMSE&quot;</span>,
-                              <span class="dt">project_name =</span> <span class="st">&quot;mtcars&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1">h2o_auto_mtcars &lt;-<span class="st"> </span><span class="kw">h2o.automl</span>(<span class="dt">y =</span> y, <span class="dt">x =</span> x,</a>
+<a class="sourceLine" id="cb109-2" data-line-number="2">                              <span class="dt">training_frame =</span> train_h2o,</a>
+<a class="sourceLine" id="cb109-3" data-line-number="3">                              <span class="dt">leaderboard_frame =</span> test_h2o,</a>
+<a class="sourceLine" id="cb109-4" data-line-number="4">                              <span class="dt">max_runtime_secs =</span> <span class="dv">60</span>,</a>
+<a class="sourceLine" id="cb109-5" data-line-number="5">                              <span class="dt">seed =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb109-6" data-line-number="6">                              <span class="dt">sort_metric =</span> <span class="st">&quot;RMSE&quot;</span>,</a>
+<a class="sourceLine" id="cb109-7" data-line-number="7">                              <span class="dt">project_name =</span> <span class="st">&quot;mtcars&quot;</span>)</a></code></pre></div>
 <pre><code>## 
-  |                                                                       
-  |                                                                 |   0%
-  |                                                                       
-  |=                                                                |   2%
-  |                                                                       
-  |==                                                               |   4%
-  |                                                                       
-  |===                                                              |   5%
-  |                                                                       
-  |=====                                                            |   7%
-  |                                                                       
-  |======                                                           |   9%
-  |                                                                       
-  |=======                                                          |  10%
-  |                                                                       
-  |=========                                                        |  13%
-  |                                                                       
-  |=========                                                        |  14%
-  |                                                                       
-  |==========                                                       |  15%
-  |                                                                       
-  |===========                                                      |  17%
-  |                                                                       
-  |============                                                     |  19%
-  |                                                                       
-  |==============                                                   |  21%
-  |                                                                       
-  |===============                                                  |  24%
-  |                                                                       
-  |===================                                              |  29%
-  |                                                                       
-  |=====================                                            |  32%
-  |                                                                       
-  |======================                                           |  34%
-  |                                                                       
-  |=======================                                          |  36%
-  |                                                                       
-  |========================                                         |  37%
-  |                                                                       
-  |=========================                                        |  39%
-  |                                                                       
-  |==========================                                       |  40%
-  |                                                                       
-  |===========================                                      |  42%
-  |                                                                       
-  |============================                                     |  43%
-  |                                                                       
-  |=============================                                    |  45%
-  |                                                                       
-  |==============================                                   |  46%
-  |                                                                       
-  |===============================                                  |  48%
-  |                                                                       
-  |================================                                 |  49%
-  |                                                                       
-  |=================================                                |  51%
-  |                                                                       
-  |==================================                               |  52%
-  |                                                                       
-  |===================================                              |  54%
-  |                                                                       
-  |====================================                             |  56%
-  |                                                                       
-  |=====================================                            |  57%
-  |                                                                       
-  |======================================                           |  58%
-  |                                                                       
-  |=======================================                          |  60%
-  |                                                                       
-  |=======================================                          |  61%
-  |                                                                       
-  |========================================                         |  61%
-  |                                                                       
-  |=========================================                        |  63%
-  |                                                                       
-  |==========================================                       |  65%
-  |                                                                       
-  |===========================================                      |  66%
-  |                                                                       
-  |============================================                     |  68%
-  |                                                                       
-  |=============================================                    |  70%
-  |                                                                       
-  |==============================================                   |  71%
-  |                                                                       
-  |===============================================                  |  73%
-  |                                                                       
-  |=================================================                |  75%
-  |                                                                       
-  |==================================================               |  76%
-  |                                                                       
-  |===================================================              |  78%
-  |                                                                       
-  |====================================================             |  80%
-  |                                                                       
-  |=====================================================            |  82%
-  |                                                                       
-  |======================================================           |  83%
-  |                                                                       
-  |=======================================================          |  85%
-  |                                                                       
-  |========================================================         |  87%
-  |                                                                       
-  |=========================================================        |  88%
-  |                                                                       
-  |==========================================================       |  90%
-  |                                                                       
-  |============================================================     |  92%
-  |                                                                       
-  |=============================================================    |  93%
-  |                                                                       
-  |==============================================================   |  95%
-  |                                                                       
-  |===============================================================  |  97%
-  |                                                                       
-  |================================================================ |  98%
-  |                                                                       
-  |=================================================================| 100%</code></pre>
-<p>Let’s check out the object that is returned. It is an S4 object in R which means that it has “slots” which can be accessed via the “@” operator.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">slotNames</span>(h2o_auto_mtcars)</code></pre></div>
-<pre><code>## [1] &quot;project_name&quot;  &quot;leader&quot;        &quot;leaderboard&quot;   &quot;event_log&quot;    
-## [5] &quot;training_info&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">h2o_auto_mtcars<span class="op">@</span>leaderboard</code></pre></div>
-<pre><code>##                                         model_id mean_residual_deviance
-## 1     GBM_grid_1_AutoML_20200226_162355_model_53              0.2147231
-## 2  XGBoost_grid_1_AutoML_20200226_162355_model_5              0.4787276
-## 3     GBM_grid_1_AutoML_20200226_162355_model_52              0.7571985
-## 4     GBM_grid_1_AutoML_20200226_162355_model_16              0.7772694
-## 5     GBM_grid_1_AutoML_20200226_162355_model_56              0.8560735
-## 6 XGBoost_grid_1_AutoML_20200226_162355_model_14              0.9254095
-##        rmse       mse       mae      rmsle
-## 1 0.4633822 0.2147231 0.4138704 0.02128094
-## 2 0.6919014 0.4787276 0.5760670 0.03091116
-## 3 0.8701716 0.7571985 0.7831136 0.03729489
-## 4 0.8816289 0.7772694 0.8020415 0.03896093
-## 5 0.9252424 0.8560735 0.7265200 0.03995733
-## 6 0.9619821 0.9254095 0.7998981 0.04277455
+  |                                                                                            
+  |                                                                                      |   0%
+  |                                                                                            
+  |==                                                                                    |   3%
+  |                                                                                            
+  |=====                                                                                 |   6%
+  |                                                                                            
+  |==========                                                                            |  11%
+  |                                                                                            
+  |============                                                                          |  14%
+  |                                                                                            
+  |==============                                                                        |  17%
+  |                                                                                            
+  |===================                                                                   |  22%
+  |                                                                                            
+  |=====================                                                                 |  24%
+## 17:58:45.540: Skipping training of model GBM_5_AutoML_20200227_175834 due to exception: water.exceptions.H2OModelBuilderIllegalArgumentException: Illegal argument(s) for GBM model: GBM_5_AutoML_20200227_175834.  Details: ERRR on field: _min_rows: The dataset size is too small to split for min_rows=100.0: must have at least 200.0 (weighted) rows, but have only 29.0.
 ## 
-## [81 rows x 6 columns]</code></pre>
+  |                                                                                            
+  |========================                                                              |  28%
+  |                                                                                            
+  |=============================                                                         |  33%
+  |                                                                                            
+  |==============================                                                        |  35%
+  |                                                                                            
+  |================================                                                      |  38%
+  |                                                                                            
+  |==================================                                                    |  39%
+  |                                                                                            
+  |===================================                                                   |  41%
+  |                                                                                            
+  |=====================================                                                 |  43%
+  |                                                                                            
+  |======================================                                                |  45%
+  |                                                                                            
+  |=========================================                                             |  48%
+  |                                                                                            
+  |==========================================                                            |  49%
+  |                                                                                            
+  |===========================================                                           |  51%
+  |                                                                                            
+  |==============================================                                        |  53%
+  |                                                                                            
+  |===============================================                                       |  55%
+  |                                                                                            
+  |==================================================                                    |  58%
+  |                                                                                            
+  |===================================================                                   |  59%
+  |                                                                                            
+  |====================================================                                  |  61%
+  |                                                                                            
+  |=====================================================                                 |  61%
+  |                                                                                            
+  |======================================================                                |  62%
+  |                                                                                            
+  |=======================================================                               |  64%
+  |                                                                                            
+  |==========================================================                            |  67%
+  |                                                                                            
+  |===========================================================                           |  69%
+  |                                                                                            
+  |=============================================================                         |  71%
+  |                                                                                            
+  |===============================================================                       |  73%
+  |                                                                                            
+  |=================================================================                     |  76%
+  |                                                                                            
+  |===================================================================                   |  78%
+  |                                                                                            
+  |=====================================================================                 |  81%
+  |                                                                                            
+  |========================================================================              |  83%
+  |                                                                                            
+  |==========================================================================            |  86%
+  |                                                                                            
+  |============================================================================          |  88%
+  |                                                                                            
+  |==============================================================================        |  91%
+  |                                                                                            
+  |================================================================================      |  93%
+  |                                                                                            
+  |===================================================================================   |  96%
+  |                                                                                            
+  |===================================================================================== |  98%
+  |                                                                                            
+  |======================================================================================| 100%</code></pre>
+<p>Let’s check out the object that is returned. It is an S4 object in R which means that it has “slots” which can be accessed via the “@” operator.</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="kw">slotNames</span>(h2o_auto_mtcars)</a></code></pre></div>
+<pre><code>## [1] &quot;project_name&quot;   &quot;leader&quot;         &quot;leaderboard&quot;    &quot;event_log&quot;      &quot;modeling_steps&quot;
+## [6] &quot;training_info&quot;</code></pre>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1">h2o_auto_mtcars<span class="op">@</span>leaderboard</a></code></pre></div>
+<pre><code>##                                       model_id      rmse mean_residual_deviance       mse
+## 1  GBM_grid__1_AutoML_20200227_175834_model_23 0.5072034              0.2572553 0.2572553
+## 2  GBM_grid__1_AutoML_20200227_175834_model_12 0.5535227              0.3063874 0.3063874
+## 3 GBM_grid__1_AutoML_20200227_175834_model_109 0.6473381              0.4190466 0.4190466
+## 4  GBM_grid__1_AutoML_20200227_175834_model_83 0.6642072              0.4411713 0.4411713
+## 5  GBM_grid__1_AutoML_20200227_175834_model_90 0.6907482              0.4771331 0.4771331
+## 6 GBM_grid__1_AutoML_20200227_175834_model_110 0.7158396              0.5124263 0.5124263
+##         mae      rmsle
+## 1 0.4586756 0.02395284
+## 2 0.5110664 0.02525881
+## 3 0.6317806 0.02938945
+## 4 0.6566763 0.03043514
+## 5 0.6493089 0.03170471
+## 6 0.5822283 0.03101520
+## 
+## [128 rows x 6 columns]</code></pre>
 <p>Stop the H2O instance</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">h2o.shutdown</span>(<span class="dt">prompt=</span><span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1"><span class="kw">h2o.shutdown</span>(<span class="dt">prompt=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 
 </div>
@@ -580,12 +593,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -597,6 +609,10 @@ gitbook.start({
 "text": null
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

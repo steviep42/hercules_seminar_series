@@ -71,7 +71,7 @@ This relates to situations such as whether someone has a disease ("positive") or
 
 This is when we wish to predict a numeric / continuous outcome such as a final sales price for a house or car. It might also be a prediction of tomorrow's stock or Bit Coin price. 
 
-## In-Sample vs  Out-Of-Sample Data 
+## In-Sample vs  Out-Of-Sample Error
 
 The goal of predictive model is to generate models that can generalize to new data. It would be good if any model we generate could provide a good estimate of out of sample error. It's easy to generate a model on an entire data set (in sample data) and then turn around and use that data for prediction. But how will it perform on new data ? Haven't we just over trained our model ? 
 

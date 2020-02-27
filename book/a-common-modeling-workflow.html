@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 A Common Modeling Workflow | Predictive Modeling</title>
   <meta name="description" content="This is in support of the HERCULES Lecture Series." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 A Common Modeling Workflow | Predictive Modeling" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-02-26" />
+<meta name="date" content="2020-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,41 +53,66 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -109,7 +134,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#machine-learning"><i class="fa fa-check"></i><b>1.1</b> Machine Learning</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#predictive-modeling"><i class="fa fa-check"></i><b>1.2</b> Predictive Modeling</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-data"><i class="fa fa-check"></i><b>1.3</b> In-Sample vs Out-Of-Sample Data</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-error"><i class="fa fa-check"></i><b>1.3</b> In-Sample vs Out-Of-Sample Error</a></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.4</b> Performance Metrics</a></li>
 <li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#black-box"><i class="fa fa-check"></i><b>1.5</b> Black Box</a></li>
 </ul></li>
@@ -174,71 +199,65 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="a-common-modeling-workflow" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> A Common Modeling Workflow</h1>
 <p>The following graphic depicts the steps common to the Modeling Process. This is not the only way to proceed but it provides a very helpful schematic by which to plan your work.</p>
-<div class="figure">
-<img src="PICS/sworkflow.jpg" height="600" />
-
-</div>
+<p><img src="PICS/sworkflow.jpg" height="600" /></p>
 <div id="splitting-the-data" class="section level2">
 <h2><span class="header-section-number">3.1</span> Splitting The Data</h2>
 <p>A fundamental approach used in ML is to segment data into a “training” set which is some percentage of the original data - say 80%. The remaining 20% would be assigned to a “test” data set. Then we build a model on our training data set after which we use that model to predict outcomes for the test data set. This looks like the following.</p>
-<div class="figure">
-<img src="PICS/crossvalid.png" width="500" />
-
-</div>
+<p><img src="PICS/crossvalid.png" width="500" /></p>
 <p>Note that some scenarios will split the data into three data sets: 1) training, 2) validation, and 3) test. This scenario is used when tuning so called hyper parameters for methods that have “tuning” parameters that could influence the resulting model. We’ll stick with the basic “train / test” approach for now.</p>
 <p>Splitting the data is not particularly challenging. We can use the built in <strong>sample</strong> function in R to do this. We aren’t sampling with replacement here which guarantees that no record can exist in both sets. That is, if a record from the data set is assigned to the training set, it will not be in the test data set.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Make this example reproducible</span>
-<span class="kw">set.seed</span>(<span class="dv">123</span>) 
-percent &lt;-<span class="st"> </span>.<span class="dv">80</span>
-
-<span class="co"># Get the indices for a training set.</span>
-idx &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pm),<span class="kw">round</span>(.<span class="dv">8</span><span class="op">*</span><span class="kw">nrow</span>(pm)),F)
-
-<span class="co"># Use bracket notation to create the train / test pair</span>
-train &lt;-<span class="st"> </span>pm[idx,]
-test  &lt;-<span class="st"> </span>pm[<span class="op">-</span>idx,]
-
-<span class="co"># The following should have 80 percent of the original </span>
-<span class="co"># data</span>
-
-<span class="kw">round</span>(<span class="kw">nrow</span>(train)<span class="op">/</span><span class="kw">nrow</span>(pm)<span class="op">*</span><span class="dv">100</span>)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Make this example reproducible</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">123</span>) </a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">percent &lt;-<span class="st"> </span><span class="fl">.80</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co"># Get the indices for a training set.</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">idx &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pm),<span class="kw">round</span>(.<span class="dv">8</span><span class="op">*</span><span class="kw">nrow</span>(pm)),F)</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co"># Use bracket notation to create the train / test pair</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">train &lt;-<span class="st"> </span>pm[idx,]</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">test  &lt;-<span class="st"> </span>pm[<span class="op">-</span>idx,]</a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co"># The following should have 80 percent of the original </span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co"># data</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="kw">round</span>(<span class="kw">nrow</span>(train)<span class="op">/</span><span class="kw">nrow</span>(pm)<span class="op">*</span><span class="dv">100</span>)</a></code></pre></div>
 <pre><code>## [1] 80</code></pre>
 </div>
 <div id="first-model" class="section level2">
 <h2><span class="header-section-number">3.2</span> First Model</h2>
 <p>Now let’s build a Generalized Linear Model to do the prediction. We will employ logistic regression.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myglm &lt;-<span class="st"> </span><span class="kw">glm</span>(diabetes <span class="op">~</span><span class="st"> </span>.,
-             <span class="dt">data =</span> train,
-             <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
-
-<span class="kw">summary</span>(myglm)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">myglm &lt;-<span class="st"> </span><span class="kw">glm</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">             <span class="dt">data =</span> train,</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">             <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw">summary</span>(myglm)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = diabetes ~ ., family = &quot;binomial&quot;, data = train)
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -2.3941  -0.7235  -0.4285   0.7476   3.0031  
+## -2.4798  -0.7300  -0.4281   0.7420   2.9493  
 ## 
 ## Coefficients:
 ##               Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept) -8.2308564  0.7816436 -10.530  &lt; 2e-16 ***
-## pregnant     0.1138202  0.0366475   3.106  0.00190 ** 
-## glucose      0.0366854  0.0041947   8.746  &lt; 2e-16 ***
-## pressure    -0.0131360  0.0059415  -2.211  0.02704 *  
-## triceps     -0.0006303  0.0075466  -0.084  0.93343    
-## insulin     -0.0017394  0.0009826  -1.770  0.07667 .  
-## mass         0.0847273  0.0161080   5.260 1.44e-07 ***
-## pedigree     0.9057850  0.3329203   2.721  0.00651 ** 
-## age          0.0120925  0.0107367   1.126  0.26005    
+## (Intercept) -8.2130001  0.7785903 -10.549  &lt; 2e-16 ***
+## pregnant     0.1183929  0.0357879   3.308 0.000939 ***
+## glucose      0.0352638  0.0041847   8.427  &lt; 2e-16 ***
+## pressure    -0.0130875  0.0057262  -2.286 0.022281 *  
+## triceps     -0.0009585  0.0075277  -0.127 0.898678    
+## insulin     -0.0009091  0.0009840  -0.924 0.355526    
+## mass         0.0860673  0.0166329   5.175 2.29e-07 ***
+## pedigree     0.7810790  0.3211506   2.432 0.015010 *  
+## age          0.0152288  0.0102926   1.480 0.138982    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
-##     Null deviance: 790.13  on 613  degrees of freedom
-## Residual deviance: 581.40  on 605  degrees of freedom
-## AIC: 599.4
+##     Null deviance: 796.42  on 613  degrees of freedom
+## Residual deviance: 583.55  on 605  degrees of freedom
+## AIC: 601.55
 ## 
 ## Number of Fisher Scoring iterations: 5</code></pre>
 <p>In looking at the output we see some problems such as a number of predictors aren’t significant so maybe we should eliminate them from the model. For now, we’ll keep going because we are trying to outline the larger process / workflow.</p>
@@ -247,110 +266,112 @@ test  &lt;-<span class="st"> </span>pm[<span class="op">-</span>idx,]
 <h2><span class="header-section-number">3.3</span> First Prediction</h2>
 <p>We could now use this new model to predict outcomes using the test data set. Remember that we are attempting to predict a binary outcome - in this case whether the person is positive for diabetes or negative.</p>
 <p>What we get back from the prediction object are probabilities for which we have to determine a threshold above which we would say the observation is “positive” for diabetes and, below the threshold, “negative”.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">probs &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm,
-                 <span class="dt">newdata =</span> test,
-                 <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
-
-probs[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</code></pre></div>
-<pre><code>##         2         3         9        12        13        17        18 
-## 0.0503311 0.8208652 0.6680994 0.9016430 0.7766679 0.3361188 0.2029466 
-##        23        25        31 
-## 0.9453408 0.6693923 0.4026717</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">probs &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm,</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">                 <span class="dt">newdata =</span> test,</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">                 <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">probs[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre></div>
+<pre><code>##          1          3          9         17         22         27         28         32 
+## 0.70756327 0.79695675 0.74524797 0.36330982 0.31803457 0.74106187 0.04892642 0.56777794 
+##         42         43 
+## 0.68427254 0.11927265</code></pre>
 <p>With logistic regression we are dealing with a curve like the one below which is a sigmoid function. The idea is to take our probabilities, which range between 0 and 1, and then pick a threshold over which we would classify that person as being positive for diabetes.</p>
 <p><img src="SEMINAR_SERIES_files/figure-html/logitplot-1.png" width="672" /></p>
 <div id="selecting-the-correct-alpha" class="section level3">
 <h3><span class="header-section-number">3.3.1</span> Selecting The Correct Alpha</h3>
 <p>The temptation is to select 0.5 as the threshold such that if a returned probability exceeds 0.5 then we classify the associated subject as being “positive” for the disease. But then this assumes that the probabilities are distributed accordingly. This is frequently not the case though it doesn’t stop people from using 0.5.</p>
 <p>We might first wish to look at the distribution of the returned probabilities before making a decision about where to set the threshold. We can see clearly that selecting 0.5 in this case would not be appropriate.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">boxplot</span>(probs, 
-        <span class="dt">main=</span><span class="st">&quot;Probabilities from our GLM Model&quot;</span>)
-<span class="kw">grid</span>()</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">boxplot</span>(probs, </a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">        <span class="dt">main=</span><span class="st">&quot;Probabilities from our GLM Model&quot;</span>)</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="kw">grid</span>()</a></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/bxplotalpha-1.png" width="672" /></p>
 <p>The median is somewhere around .25 so we could use that for now although we are just guessing.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mypreds &lt;-<span class="st"> </span><span class="kw">ifelse</span>(probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.25</span>,<span class="st">&quot;pos&quot;</span>,<span class="st">&quot;neg&quot;</span>)
-mypreds &lt;-<span class="st"> </span><span class="kw">factor</span>(mypreds, <span class="dt">levels =</span> <span class="kw">levels</span>(test[[<span class="st">&quot;diabetes&quot;</span>]]))
-mypreds[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</code></pre></div>
-<pre><code>##   2   3   9  12  13  17  18  23  25  31 
-## neg pos pos pos pos pos neg pos pos pos 
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">mypreds &lt;-<span class="st"> </span><span class="kw">ifelse</span>(probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.25</span>,<span class="st">&quot;pos&quot;</span>,<span class="st">&quot;neg&quot;</span>)</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">mypreds &lt;-<span class="st"> </span><span class="kw">factor</span>(mypreds, <span class="dt">levels =</span> <span class="kw">levels</span>(test[[<span class="st">&quot;diabetes&quot;</span>]]))</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">mypreds[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre></div>
+<pre><code>##   1   3   9  17  22  27  28  32  42  43 
+## pos pos pos pos pos pos neg pos pos neg 
 ## Levels: neg pos</code></pre>
 </div>
 <div id="confusion-matrices" class="section level3">
 <h3><span class="header-section-number">3.3.2</span> Confusion Matrices</h3>
 <p>Next, we would compare our predictions against the known outcomes which are stored in the test data frame:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># How does this compare to the truth ?</span>
-<span class="kw">table</span>(<span class="dt">predicted =</span> mypreds,
-      <span class="dt">actual =</span> test<span class="op">$</span>diabetes)</code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co"># How does this compare to the truth ?</span></a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw">table</span>(<span class="dt">predicted =</span> mypreds,</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">      <span class="dt">actual =</span> test<span class="op">$</span>diabetes)</a></code></pre></div>
 <pre><code>##          actual
 ## predicted neg pos
-##       neg  60   7
-##       pos  37  50</code></pre>
+##       neg  66   9
+##       pos  36  43</code></pre>
 <p>What we are doing is building a “Confusion Matrix” which can help us determine how effective our model is. From such a matrix table we can compute a number of “performance measures”, such as accuracy, precision, sensitivity, specificity and others, to help assess the quality of the model. In predictive modeling we are always interested in how well any given model will perform on “new” data.</p>
 <p>There are some functions that can help us compute a confusion matrix. Because the variable we are trying to predict, (diabetes), is a two level factor, (“neg” or “pos”) we’ll need to turn our predictions into a comparable factor. Right now, it’s just a character string.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># test$diabetes &lt;- ordered(test$diabetes,c(&quot;pos&quot;,&quot;neg&quot;))</span>
-
-mypreds &lt;-<span class="st"> </span><span class="kw">factor</span>(mypreds,
-                  <span class="dt">levels=</span><span class="kw">levels</span>(test<span class="op">$</span>diabetes))
-
-caret<span class="op">::</span><span class="kw">confusionMatrix</span>(mypreds,test<span class="op">$</span>diabetes,<span class="dt">positive=</span><span class="st">&quot;pos&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co"># test$diabetes &lt;- ordered(test$diabetes,c(&quot;pos&quot;,&quot;neg&quot;))</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">mypreds &lt;-<span class="st"> </span><span class="kw">factor</span>(mypreds,</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4">                  <span class="dt">levels=</span><span class="kw">levels</span>(test<span class="op">$</span>diabetes))</a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(mypreds,test<span class="op">$</span>diabetes,<span class="dt">positive=</span><span class="st">&quot;pos&quot;</span>)</a></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
 ## Prediction neg pos
-##        neg  60   7
-##        pos  37  50
-##                                          
-##                Accuracy : 0.7143         
-##                  95% CI : (0.636, 0.7841)
-##     No Information Rate : 0.6299         
-##     P-Value [Acc &gt; NIR] : 0.01718        
-##                                          
-##                   Kappa : 0.4472         
-##                                          
-##  Mcnemar&#39;s Test P-Value : 1.232e-05      
-##                                          
-##             Sensitivity : 0.8772         
-##             Specificity : 0.6186         
-##          Pos Pred Value : 0.5747         
-##          Neg Pred Value : 0.8955         
-##              Prevalence : 0.3701         
-##          Detection Rate : 0.3247         
-##    Detection Prevalence : 0.5649         
-##       Balanced Accuracy : 0.7479         
-##                                          
-##        &#39;Positive&#39; Class : pos            
+##        neg  66   9
+##        pos  36  43
+##                                           
+##                Accuracy : 0.7078          
+##                  95% CI : (0.6292, 0.7782)
+##     No Information Rate : 0.6623          
+##     P-Value [Acc &gt; NIR] : 0.1335015       
+##                                           
+##                   Kappa : 0.4205          
+##                                           
+##  Mcnemar&#39;s Test P-Value : 0.0001063       
+##                                           
+##             Sensitivity : 0.8269          
+##             Specificity : 0.6471          
+##          Pos Pred Value : 0.5443          
+##          Neg Pred Value : 0.8800          
+##              Prevalence : 0.3377          
+##          Detection Rate : 0.2792          
+##    Detection Prevalence : 0.5130          
+##       Balanced Accuracy : 0.7370          
+##                                           
+##        &#39;Positive&#39; Class : pos             
 ## </code></pre>
 </div>
 </div>
 <div id="performance-measures-revisited" class="section level2">
 <h2><span class="header-section-number">3.4</span> Performance Measures Revisited</h2>
-<p>This is helpful stuff although there are a number of measures to select as a primary performance metric. Ideally, we would already know which performance metric we would select to effectively “judge” the quality of our model. In medical tests, “sensitivity” and “specificity” are commonly used. Some applications use “Accuracy” (which isn’t good when there is large group imbalance). Anyway, if, for example, we pick “sensitivity” as a judge of model quality we see that is somewhere around .87. (A much deeper discussion about selecting the best performance measure is in order but we’ll keep moving for now)</p>
+<p>This is helpful stuff although there are a number of measures to select as a primary performance metric. Ideally, we would already know which performance metric we would select to effectively “judge” the quality of our model. In medical tests, “sensitivity” and “specificity” are commonly used. Some applications use “Accuracy” (which isn’t good when there is large group imbalance). Anyway, if, for example, we pick “sensitivity” as a judge of model quality we see that is somewhere around .87.
+(A much deeper discussion about selecting the best performance measure is in order but we’ll keep moving for now)</p>
 <p>The problem here is that all we have done is looked at the confusion matrix corresponding to one specific (and arbitrary) threshold value when what we need is to look at a number of confusion matrices corresponding to many different thresholds. For example, we might get a better sensitivity level had we selected the mean of the returned probabilities. This process could go on and on and on… So we would benefit from a rigorous approach to find the “best” threshold.</p>
 </div>
 <div id="the-roc-curve" class="section level2">
 <h2><span class="header-section-number">3.5</span> The ROC curve</h2>
 <p>One way to do this is to use something known as the ROC curve. Luckily, R has functions to do this. This isn’t surprising as it is a standard tool that has been in use for decades long before the hype of AI and ML was around. The ROC curve gives us a “one stop shop” for estimating a value of alpha that results in maximal area under a curve.</p>
 <p>In fact, maximizing the area under a given ROC curve winds up being an effective way to judge the differences between one method and another. So, if we wanted to compare the glm model against a Support Vector Machine model, we could use the respective AUC (Area Under Curve) metric to help us. This isn’t the only way to do this but it’s reasonable for now.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span>ROCR<span class="op">::</span><span class="kw">prediction</span>(<span class="dt">predictions =</span> probs,
-                         <span class="dt">labels =</span> test<span class="op">$</span>diabetes)
-
-perf &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,
-                    <span class="st">&quot;tpr&quot;</span>,
-                    <span class="st">&quot;fpr&quot;</span>)
-<span class="kw">plot</span>(perf,<span class="dt">colorize=</span>T,
-     <span class="dt">print.cutoffs.at=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.1</span>),
-     <span class="dt">lwd=</span><span class="dv">3</span>,<span class="dt">las=</span><span class="dv">1</span>,<span class="dt">main=</span><span class="st">&quot;Cool ROC Curve&quot;</span>)
-<span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)
-
-<span class="kw">grid</span>()</code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">pred &lt;-<span class="st"> </span>ROCR<span class="op">::</span><span class="kw">prediction</span>(<span class="dt">predictions =</span> probs,</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">                         <span class="dt">labels =</span> test<span class="op">$</span>diabetes)</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb21-4" data-line-number="4">perf &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,</a>
+<a class="sourceLine" id="cb21-5" data-line-number="5">                    <span class="st">&quot;tpr&quot;</span>,</a>
+<a class="sourceLine" id="cb21-6" data-line-number="6">                    <span class="st">&quot;fpr&quot;</span>)</a>
+<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="kw">plot</span>(perf,<span class="dt">colorize=</span>T,</a>
+<a class="sourceLine" id="cb21-8" data-line-number="8">     <span class="dt">print.cutoffs.at=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.1</span>),</a>
+<a class="sourceLine" id="cb21-9" data-line-number="9">     <span class="dt">lwd=</span><span class="dv">3</span>,<span class="dt">las=</span><span class="dv">1</span>,<span class="dt">main=</span><span class="st">&quot;Cool ROC Curve&quot;</span>)</a>
+<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb21-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb21-12" data-line-number="12"><span class="kw">grid</span>()</a></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/rocrcalc-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myroc &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,<span class="dt">measure=</span><span class="st">&quot;auc&quot;</span>)
-myroc<span class="op">@</span>y.values[[<span class="dv">1</span>]]</code></pre></div>
-<pre><code>## [1] 0.8507868</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">myroc &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,<span class="dt">measure=</span><span class="st">&quot;auc&quot;</span>)</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">myroc<span class="op">@</span>y.values[[<span class="dv">1</span>]]</a></code></pre></div>
+<pre><code>## [1] 0.8508673</code></pre>
 <p>So what value of alpha corresponds to the stated max AUC of .80 ? We’ll have to dig into the performance object to get that but it looks to be between 0.30 and 0.40. Note that this is somewhat academic since knowing the max AUC alone helps us decide if our model is any “good”. For completeness we could use another R function to nail this down:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pROC)
-proc &lt;-<span class="st"> </span><span class="kw">roc</span>(test<span class="op">$</span>diabetes,probs)
-<span class="kw">round</span>(<span class="kw">coords</span>(proc, <span class="st">&quot;b&quot;</span>, <span class="dt">ret=</span><span class="st">&quot;t&quot;</span>, <span class="dt">transpose =</span> <span class="ot">FALSE</span>),<span class="dv">2</span>)</code></pre></div>
-<pre><code>## [1] 0.35</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">library</span>(pROC)</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">proc &lt;-<span class="st"> </span><span class="kw">roc</span>(test<span class="op">$</span>diabetes,probs)</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="kw">round</span>(<span class="kw">coords</span>(proc, <span class="st">&quot;b&quot;</span>, <span class="dt">ret=</span><span class="st">&quot;t&quot;</span>, <span class="dt">transpose =</span> <span class="ot">FALSE</span>),<span class="dv">2</span>)</a></code></pre></div>
+<pre><code>##   threshold
+## 1      0.36</code></pre>
 </div>
 </div>
             </section>
@@ -378,12 +399,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -395,6 +415,10 @@ gitbook.start({
 "text": null
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },
