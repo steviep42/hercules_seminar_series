@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-02-27" />
+<meta name="date" content="2020-03-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -271,10 +271,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb12-3" data-line-number="3">                 <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb12-5" data-line-number="5">probs[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre></div>
-<pre><code>##          1          3          9         17         22         27         28         32 
-## 0.70756327 0.79695675 0.74524797 0.36330982 0.31803457 0.74106187 0.04892642 0.56777794 
-##         42         43 
-## 0.68427254 0.11927265</code></pre>
+<pre><code>##          1          3          9         17         22         27         28         32         42 
+## 0.70756327 0.79695675 0.74524797 0.36330982 0.31803457 0.74106187 0.04892642 0.56777794 0.68427254 
+##         43 
+## 0.11927265</code></pre>
 <p>With logistic regression we are dealing with a curve like the one below which is a sigmoid function. The idea is to take our probabilities, which range between 0 and 1, and then pick a threshold over which we would classify that person as being positive for diabetes.</p>
 <p><img src="SEMINAR_SERIES_files/figure-html/logitplot-1.png" width="672" /></p>
 <div id="selecting-the-correct-alpha" class="section level3">

@@ -372,22 +372,6 @@ Each fold is simply a portion of the data. We'll generate a list called "folds" 
 
 ![](./PICS/crossk.png)
 
-To drive this home, and in case the graphic didn't help, consider the following simple data frame:
-
-```{r ddf,echo=FALSE}
- df <- data.frame(id=paste(letters[1:9],1:9,sep=""),
-                m1=round(runif(9),2),
-                m2=round(runif(9),2),
-                m3=round(runif(9),2))
-df
-```
-
-If we created three folds out of this data frame it would look like the following:
-
-
-![](./PICS/crossfold.png)
-
-
 Here is our function to implement the K-Fold validation. It's pretty straightforward to define in terms of coding though it winds up being  somewhat specific to the particular method we are using. 
 
 ```{r crossfoldfunc}
