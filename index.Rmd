@@ -101,8 +101,8 @@ library(caret)
 
 Here is a high level over view of an ML work flow. Note that:
 
-1) It is a cycle, likely to be repeated multiple times before arriving at some actionable result
-2) The driving questions / hypotheses are subject to change and redefinition 
+1) It is a cycle, quite likely to be repeated multiple times before arriving at some actionable result
+2) The driving questions / hypotheses are subject to change, redefinition, or abandonment 
 3) Multiple people might be involved 
 
 ![](./PICS/flowwork1.png)
@@ -203,11 +203,11 @@ summary(myglm)
 
 In looking at the output we see some problems such as a number of predictors aren't significant so maybe we should eliminate them from the model. For now, we'll keep going because we are trying to outline the larger process / workflow. 
 
-## First Prediction
+## First Prediction 
 
-We could now use this new model to predict outcomes using the test data set. Remember that we are attempting to predict a binary outcome - in this case whether the person is positive for diabetes or negative. 
+### A Stumbling Block For New Comers
 
-What we get back from the prediction object are probabilities for which we have to determine a threshold above which we would say the observation is "positive" for diabetes and, below the threshold, "negative". 
+We could now use this new model to predict outcomes using the test data set. Remember that we are attempting to predict a binary outcome - in this case whether the person is positive for diabetes or negative. What we get back from the prediction object are probabilities for which we have to determine a threshold above which we would say the observation is "positive" for diabetes and, below the threshold, "negative". 
 
 
 ```{r myglmpred}

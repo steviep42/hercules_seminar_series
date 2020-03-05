@@ -146,8 +146,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#splitting-the-data"><i class="fa fa-check"></i><b>3.1</b> Splitting The Data</a></li>
 <li class="chapter" data-level="3.2" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#first-model"><i class="fa fa-check"></i><b>3.2</b> First Model</a></li>
 <li class="chapter" data-level="3.3" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#first-prediction"><i class="fa fa-check"></i><b>3.3</b> First Prediction</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#selecting-the-correct-alpha"><i class="fa fa-check"></i><b>3.3.1</b> Selecting The Correct Alpha</a></li>
-<li class="chapter" data-level="3.3.2" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#confusion-matrices"><i class="fa fa-check"></i><b>3.3.2</b> Confusion Matrices</a></li>
+<li class="chapter" data-level="3.3.1" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#a-stumbling-block-for-new-comers"><i class="fa fa-check"></i><b>3.3.1</b> A Stumbling Block For New Comers</a></li>
+<li class="chapter" data-level="3.3.2" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#selecting-the-correct-alpha"><i class="fa fa-check"></i><b>3.3.2</b> Selecting The Correct Alpha</a></li>
+<li class="chapter" data-level="3.3.3" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#confusion-matrices"><i class="fa fa-check"></i><b>3.3.3</b> Confusion Matrices</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#performance-measures-revisited"><i class="fa fa-check"></i><b>3.4</b> Performance Measures Revisited</a></li>
 <li class="chapter" data-level="3.5" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#the-roc-curve"><i class="fa fa-check"></i><b>3.5</b> The ROC curve</a></li>
@@ -264,8 +265,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="first-prediction" class="section level2">
 <h2><span class="header-section-number">3.3</span> First Prediction</h2>
-<p>We could now use this new model to predict outcomes using the test data set. Remember that we are attempting to predict a binary outcome - in this case whether the person is positive for diabetes or negative.</p>
-<p>What we get back from the prediction object are probabilities for which we have to determine a threshold above which we would say the observation is “positive” for diabetes and, below the threshold, “negative”.</p>
+<div id="a-stumbling-block-for-new-comers" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> A Stumbling Block For New Comers</h3>
+<p>We could now use this new model to predict outcomes using the test data set. Remember that we are attempting to predict a binary outcome - in this case whether the person is positive for diabetes or negative. What we get back from the prediction object are probabilities for which we have to determine a threshold above which we would say the observation is “positive” for diabetes and, below the threshold, “negative”.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">probs &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm,</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">                 <span class="dt">newdata =</span> test,</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3">                 <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</a>
@@ -277,8 +279,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 0.11927265</code></pre>
 <p>With logistic regression we are dealing with a curve like the one below which is a sigmoid function. The idea is to take our probabilities, which range between 0 and 1, and then pick a threshold over which we would classify that person as being positive for diabetes.</p>
 <p><img src="SEMINAR_SERIES_files/figure-html/logitplot-1.png" width="672" /></p>
+</div>
 <div id="selecting-the-correct-alpha" class="section level3">
-<h3><span class="header-section-number">3.3.1</span> Selecting The Correct Alpha</h3>
+<h3><span class="header-section-number">3.3.2</span> Selecting The Correct Alpha</h3>
 <p>The temptation is to select 0.5 as the threshold such that if a returned probability exceeds 0.5 then we classify the associated subject as being “positive” for the disease. But then this assumes that the probabilities are distributed accordingly. This is frequently not the case though it doesn’t stop people from using 0.5. Another way to view this is as follows. This graphic shows a “perfect” classifier which more or less matches the logit function above:</p>
 <p><img src="PICS/pc.png" /></p>
 <p>Note that this is a rare situation wherein our model has given us a clean separation between negative and positive cases. In reality, we usually have something like this:</p>
@@ -297,7 +300,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Levels: neg pos</code></pre>
 </div>
 <div id="confusion-matrices" class="section level3">
-<h3><span class="header-section-number">3.3.2</span> Confusion Matrices</h3>
+<h3><span class="header-section-number">3.3.3</span> Confusion Matrices</h3>
 <p>Next, we would compare our predictions against the known outcomes which are stored in the test data frame:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># How does this compare to the truth ?</span></a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw">table</span>(<span class="dt">predicted =</span> mypreds,</a>
