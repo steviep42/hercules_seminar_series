@@ -788,14 +788,57 @@ library(h2o)
 
 The goal of using this library is not to replace the methods available to you in R but, just like the caret package, seeks to provide a uniform interface for a variety of underlying methods. This includes common methods including an “Auto ML” service that picks methods for you. Let’s apply h2o to our work. The underlying h2o architecture uses a “running instance” concept that can be initialized and accessed from R. You initialize it once per interactive session.
 
-```{r h2oinit}
+```{r h2oinit,eval=FALSE}
 h2o.init()
+
+H2O is not running yet, starting it now...
+
+Note:  In case of errors look at the following log files:
+    /var/folders/wh/z0v5hqgx3dzdfgz47lnbr_3w0000gn/T//RtmpRehHby/h2o_esteban_started_from_r.out
+    /var/folders/wh/z0v5hqgx3dzdfgz47lnbr_3w0000gn/T//RtmpRehHby/h2o_esteban_started_from_r.err
+
+java version "1.8.0_131"
+Java(TM) SE Runtime Environment (build 1.8.0_131-b11)
+Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
+
+Starting H2O JVM and connecting: .. Connection successful!
+
+R is connected to the H2O cluster: 
+    H2O cluster uptime:         2 seconds 577 milliseconds 
+    H2O cluster timezone:       America/New_York 
+    H2O data parsing timezone:  UTC 
+    H2O cluster version:        3.26.0.2 
+    H2O cluster version age:    5 months and 5 days !!! 
+    H2O cluster name:           H2O_started_from_R_esteban_pgj795 
+    H2O cluster total nodes:    1 
+    H2O cluster total memory:   1.78 GB 
+    H2O cluster total cores:    4 
+    H2O cluster allowed cores:  4 
+    H2O cluster healthy:        TRUE 
+    H2O Connection ip:          localhost 
+    H2O Connection port:        54321 
+    H2O Connection proxy:       NA 
+    H2O Internal Security:      FALSE 
+    H2O API Extensions:         Amazon S3, XGBoost, Algos, AutoML, Core V3, Core V4 
+    R Version:                  R version 3.5.3 (2019-03-11) 
+
+Your H2O cluster version is too old (5 months and 5 days)!
+Please download and install the latest version from http://h2o.ai/download/
+Show in New WindowClear OutputExpand/Collapse Output
+  |===========================================================| 100%
+Console~/Dropbox/ML/bookdown-minimal/
+Console
+Terminal
+
+R Markdown
+
+~/Dropbox/ML/bookdown-minimal/	
 ```
 
 
 Once the h2o environment has been initialized then work can begin. This will take the form of using R functions provided by the h2o package to read in data and prepare it for use with various methods. Let’s repeat the regression on mtcars using h2o functions. Since mtcars is already available in the the R environment we can easily import it into h2o.
 
-```{r}
+```{r h2oimport, eval=FALSE}
 # Import mtcars
 mtcars_h2o_df <- as.h2o(mtcars)
 
@@ -811,42 +854,182 @@ x <- setdiff(colnames(mtcars_h2o_df),y)
 
 Now let’s create some training and test data sets. We could do this ourselves using conventional R commands or helper functions from the caret package. However, the h2o package provides its own set of helpers.
 
-```{r}
+```{r h2osplit, eval=FALSE}
 data(mtcars)
 splits <- h2o.splitFrame(mtcars_h2o_df, ratios=0.8,seed=1)
 train_h2o <- splits[[1]]
 test_h2o  <- splits[[2]]
 
-train_h2o
+train
+
+mpg cyl disp  hp drat    wt  qsec vs am gear carb
+1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+3 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+4 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+5 18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+6 14.3   8  360 245 3.21 3.570 15.84  0  0    3    4
+
+[29 rows x 11 columns] 
 ```
 
 
 Now let’s create a model. We’ll use the Generalized Linear Model function from h2o. It is important to note that this function is implemented from within h2o. That is, we are not in anyway using any existing R packages to do this nor are we using anything from the care package. Here we’ll request a 4-Fold, Cross Validation step as part of the model assembly.
 
-```{r h2oglm}
+```{r h2oglmod, eval=FALSE}
 h2o_glm_model <- h2o.glm(y=y,x=x,train_h2o,nfolds=4)
 summary(h2o_glm_model)
+
+#
+
+ |===========================================================| 100%
+Model Details:
+==============
+
+H2ORegressionModel: glm
+Model Key:  GLM_model_R_1577927955348_1 
+GLM Model: summary
+    family     link                              regularization
+1 gaussian identity Elastic Net (alpha = 0.5, lambda = 1.0664 )
+  number_of_predictors_total number_of_active_predictors
+1                         10                           9
+  number_of_iterations    training_frame
+1                    1 RTMP_sid_bf87_673
+
+H2ORegressionMetrics: glm
+** Reported on training data. **
+
+MSE:  6.185253
+RMSE:  2.487017
+MAE:  1.940791
+RMSLE:  0.1135999
+Mean Residual Deviance :  6.185253
+R^2 :  0.8392098
+Null Deviance :1115.568
+Null D.o.F. :28
+Residual Deviance :179.3723
+Residual D.o.F. :19
+AIC :157.1413
+
+
+
+H2ORegressionMetrics: glm
+** Reported on cross-validation data. **
+** 4-fold cross-validation on training data (Metrics computed for combined holdout predictions) **
+
+MSE:  9.520966
+RMSE:  3.085606
+MAE:  2.478209
+RMSLE:  0.1462186
+Mean Residual Deviance :  9.520966
+R^2 :  0.7524955
+Null Deviance :1194.241
+Null D.o.F. :28
+Residual Deviance :276.108
+Residual D.o.F. :19
+AIC :169.6498
+
+
+Cross-Validation Metrics Summary: 
+                            mean          sd cv_1_valid cv_2_valid
+mae                    2.4294133   0.4533141  3.3255308  2.6851656
+mean_residual_deviance  9.431254   2.5729601  11.924386  13.098149
+mse                     9.431254   2.5729601  11.924386  13.098149
+null_deviance          298.56015    73.43793   429.7452  322.68143
+r2                     0.7409388 0.041704282  0.6850852 0.70873845
+residual_deviance         69.027   21.894964  107.31948  65.490746
+rmse                   2.9984744  0.46925735  3.4531705  3.6191366
+rmsle                  0.1363086 0.026307607 0.19733523 0.13199924
+                       cv_3_valid cv_4_valid
+mae                     1.6167169  2.0902402
+mean_residual_deviance  3.6748443   9.027636
+mse                     3.6748443   9.027636
+null_deviance           139.37894  302.43506
+r2                     0.83919096 0.73074067
+residual_deviance       22.049067   81.24872
+rmse                    1.9169884  3.0046024
+rmsle                   0.0983199 0.11758001
+
+Scoring History: 
+            timestamp   duration iterations negative_log_likelihood
+1 2020-01-01 20:21:13  0.000 sec          0              1115.56759
+  objective
+1  38.46785
+
+Variable Importances: (Extract with `h2o.varimp`) 
+=================================================
+
+   variable relative_importance scaled_importance  percentage
+1        wt          1.19294625        1.00000000 0.208632891
+2       cyl          0.92951526        0.77917615 0.162561772
+3      disp          0.78424629        0.65740287 0.137155861
+4        hp          0.69294345        0.58086729 0.121188021
+5      carb          0.62287613        0.52213261 0.108934035
+6        am          0.55736672        0.46721864 0.097477175
+7        vs          0.46246830        0.38766902 0.080880507
+8      drat          0.45447201        0.38096604 0.079482047
+9      gear          0.02108593        0.01767551 0.003687692
+10     qsec          0.00000000        0.00000000 0.000000000
 ```
 
 
 Now we can do a prediction on the object against the test set.
 
-```{r h2opred}
+```{r h20glmpreds, eval=FALSE}
 (h2o_glm_preds <- h2o.predict(h2o_glm_model,test_h2o))
+
+#
+h2o.performance(h2o_glm_model,test_h2o)
+
+ |===========================================================| 100%
+   predict
+1 25.93186
+2 20.67344
+3 24.38237
+
+[3 rows x 1 column] 
+H2ORegressionMetrics: glm
+
+MSE:  6.762548
+RMSE:  2.60049
+MAE:  2.495891
+RMSLE:  0.1076563
+Mean Residual Deviance :  6.762548
+R^2 :  -2.052306
+Null Deviance :10.87611
+Null D.o.F. :2
+Residual Deviance :20.28765
+Residual D.o.F. :-7
+AIC :36.24783
+
 ```
 
 
 Now look at the performance diagnostics:
 
-```{r h2operf}
+```{r h2operf,eval=FALSE}
 h2o.performance(h2o_glm_model,test_h2o)
+
+H2ORegressionMetrics: glm
+
+MSE:  6.762548
+RMSE:  2.60049
+MAE:  2.495891
+RMSLE:  0.1076563
+Mean Residual Deviance :  6.762548
+R^2 :  -2.052306
+Null Deviance :10.87611
+Null D.o.F. :2
+Residual Deviance :20.28765
+Residual D.o.F. :-7
+AIC :36.24783
 ```
 
 ## Saving A Model
 
 You can save the contents of any h2o generated model by using the h2o.saveModel() function. You could extract pieces of information from the S4 object but saving the model is easy to do - as is reading it back in.
 
-```{r}
+```{r saveh2o, eval=FALSE}
 model_path <- h2o.saveModel(h2o_glm_model,path=getwd(),force=TRUE)
 
 # If you need to load a previously saved model
@@ -873,7 +1056,7 @@ Are you curious as to what model might be the “best” for your data ? This is
 
 Of course, it all begins with the idea of specifying a performance metric such as RMSE or the area under a ROC curve. The idea here is that we specify some input, apply transformations, create a test/train pair, and then call the h2o auto function.
 
-```{r h2oautoml}
+```{r genautomt, eval=FALSE}
 h2o_auto_mtcars <- h2o.automl(y = y, x = x,
                               training_frame = train_h2o,
                               leaderboard_frame = test_h2o,
@@ -883,17 +1066,37 @@ h2o_auto_mtcars <- h2o.automl(y = y, x = x,
                               project_name = "mtcars")
 ```
 
-
 Let’s check out the object that is returned. It is an S4 object in R which means that it has “slots” which can be accessed via the “@” operator.
 
-```{r rhsoslots}
+
+```{r accesssutomt, eval=FALSE}
 slotNames(h2o_auto_mtcars)
 h2o_auto_mtcars@leaderboard
+
+[1] "project_name"  "leader"        "leaderboard"   "event_log"    
+[5] "training_info"
+                                        model_id
+1     GBM_grid_1_AutoML_20200101_202413_model_53
+2          DeepLearning_1_AutoML_20200101_202413
+3 XGBoost_grid_1_AutoML_20200101_202413_model_14
+4  XGBoost_grid_1_AutoML_20200101_202413_model_5
+5     GBM_grid_1_AutoML_20200101_202413_model_52
+6     GBM_grid_1_AutoML_20200101_202413_model_16
+  mean_residual_deviance      rmse       mse       mae      rmsle
+1              0.2147231 0.4633822 0.2147231 0.4138704 0.02128094
+2              0.3734735 0.6111248 0.3734735 0.5076945 0.02559229
+3              0.4586288 0.6772213 0.4586288 0.6318582 0.03060372
+4              0.4787276 0.6919014 0.4787276 0.5760670 0.03091116
+5              0.7571985 0.8701716 0.7571985 0.7831136 0.03729489
+6              0.7772694 0.8816289 0.7772694 0.8020415 0.03896093
+
+[89 rows x 6 columns] 
 ```
 
 Stop the H2O instance
 
-```{r h2ostop}
+
+```{r h2oterm, eval=FALSE}
 h2o.shutdown(prompt=FALSE)
 ```
 

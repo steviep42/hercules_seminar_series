@@ -213,48 +213,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## insulin    5.656
 ## triceps    0.000</code></pre>
 <p>If you wanted to see how the different models rates the significance of predictor variables then you can easily plot them.</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">library</span>(gridExtra)</a></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;gridExtra&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     combine</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1">p1 &lt;-<span class="st"> </span><span class="kw">plot</span>(<span class="kw">varImp</span>(myglm_caret),<span class="dt">main=</span><span class="st">&quot;varImp for glm&quot;</span>)</a>
-<a class="sourceLine" id="cb70-2" data-line-number="2">p2 &lt;-<span class="st"> </span><span class="kw">plot</span>(<span class="kw">varImp</span>(myrf_caret),<span class="dt">main=</span><span class="st">&quot;varImp for Rf&quot;</span>)</a>
-<a class="sourceLine" id="cb70-3" data-line-number="3"><span class="kw">grid.arrange</span>(p1,p2,<span class="dt">ncol=</span><span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">library</span>(gridExtra)</a>
+<a class="sourceLine" id="cb67-2" data-line-number="2">p1 &lt;-<span class="st"> </span><span class="kw">plot</span>(<span class="kw">varImp</span>(myglm_caret),<span class="dt">main=</span><span class="st">&quot;varImp for glm&quot;</span>)</a>
+<a class="sourceLine" id="cb67-3" data-line-number="3">p2 &lt;-<span class="st"> </span><span class="kw">plot</span>(<span class="kw">varImp</span>(myrf_caret),<span class="dt">main=</span><span class="st">&quot;varImp for Rf&quot;</span>)</a>
+<a class="sourceLine" id="cb67-4" data-line-number="4"><span class="kw">grid.arrange</span>(p1,p2,<span class="dt">ncol=</span><span class="dv">2</span>)</a></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/plotfeat-1.png" width="672" /></p>
 <div id="feature-elimination" class="section level3">
 <h3><span class="header-section-number">6.0.1</span> Feature Elimination</h3>
 <p>The caret package also supports “recursive feature elimination” which automates the selection of optimal features. This can be controversial since such a process could work at the expense of important statistical considerations. However, it remains a tool in the Machine Learning toolbox.</p>
 <p>Let’s work though an example of this using caret functions. First, we’ll remove highly correlated predictor variables from consideration. We don’t really have a lot of highly correlated variables. It turns out that “age” is correlated with “pregnant” at a level of 0.54.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1"><span class="kw">plot_correlation</span>(pm[,<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>], <span class="dt">type=</span><span class="st">&quot;continuous&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1"><span class="kw">plot_correlation</span>(pm[,<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>], <span class="dt">type=</span><span class="st">&quot;continuous&quot;</span>)</a></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/elimfeat-1.png" width="672" /></p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="co"># find attributes that exceed some spcified threshold</span></a>
-<a class="sourceLine" id="cb72-2" data-line-number="2">highlyCorrelated &lt;-<span class="st"> </span><span class="kw">findCorrelation</span>(<span class="kw">cor</span>(pm[,<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>]),</a>
-<a class="sourceLine" id="cb72-3" data-line-number="3">                                    <span class="dt">cutoff=</span><span class="fl">0.5</span>,</a>
-<a class="sourceLine" id="cb72-4" data-line-number="4">                                    <span class="dt">names =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb72-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb72-6" data-line-number="6"><span class="co"># print indexes of highly correlated attributes</span></a>
-<a class="sourceLine" id="cb72-7" data-line-number="7"><span class="kw">print</span>(highlyCorrelated)</a></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="co"># find attributes that exceed some spcified threshold</span></a>
+<a class="sourceLine" id="cb69-2" data-line-number="2">highlyCorrelated &lt;-<span class="st"> </span><span class="kw">findCorrelation</span>(<span class="kw">cor</span>(pm[,<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>]),</a>
+<a class="sourceLine" id="cb69-3" data-line-number="3">                                    <span class="dt">cutoff=</span><span class="fl">0.5</span>,</a>
+<a class="sourceLine" id="cb69-4" data-line-number="4">                                    <span class="dt">names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb69-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb69-6" data-line-number="6"><span class="co"># print indexes of highly correlated attributes</span></a>
+<a class="sourceLine" id="cb69-7" data-line-number="7"><span class="kw">print</span>(highlyCorrelated)</a></code></pre></div>
 <pre><code>## [1] &quot;age&quot;</code></pre>
 </div>
 <div id="the-rfe-function" class="section level3">
 <h3><span class="header-section-number">6.0.2</span> The rfe Function</h3>
 <p>Let’s apply the RFE method on the Pima Indians Diabetes data set. The algorithm is configured to explore all possible subsets of the attributes. All 8 attributes are selected in this example, although in the plot showing the accuracy of the different attribute subset sizes, we can see that just 4 attributes gives almost comparable results</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1">rfFuncs<span class="op">$</span>summary &lt;-<span class="st"> </span>twoClassSummary</a>
-<a class="sourceLine" id="cb74-2" data-line-number="2">control &lt;-<span class="st"> </span><span class="kw">rfeControl</span>(<span class="dt">functions=</span>rfFuncs, </a>
-<a class="sourceLine" id="cb74-3" data-line-number="3">                      <span class="dt">method=</span><span class="st">&quot;cv&quot;</span>, </a>
-<a class="sourceLine" id="cb74-4" data-line-number="4">                      <span class="dt">number=</span><span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb74-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb74-6" data-line-number="6"><span class="co"># run the RFE algorithm</span></a>
-<a class="sourceLine" id="cb74-7" data-line-number="7">results &lt;-<span class="st"> </span><span class="kw">rfe</span>(pm[,<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>], </a>
-<a class="sourceLine" id="cb74-8" data-line-number="8">               pm[,<span class="dv">9</span>], </a>
-<a class="sourceLine" id="cb74-9" data-line-number="9">               <span class="dt">sizes=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>), </a>
-<a class="sourceLine" id="cb74-10" data-line-number="10">               <span class="dt">rfeControl=</span>control,</a>
-<a class="sourceLine" id="cb74-11" data-line-number="11">               <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>)</a>
-<a class="sourceLine" id="cb74-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb74-13" data-line-number="13"><span class="co"># summarize the results</span></a>
-<a class="sourceLine" id="cb74-14" data-line-number="14"><span class="kw">print</span>(results)</a></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">rfFuncs<span class="op">$</span>summary &lt;-<span class="st"> </span>twoClassSummary</a>
+<a class="sourceLine" id="cb71-2" data-line-number="2">control &lt;-<span class="st"> </span><span class="kw">rfeControl</span>(<span class="dt">functions=</span>rfFuncs, </a>
+<a class="sourceLine" id="cb71-3" data-line-number="3">                      <span class="dt">method=</span><span class="st">&quot;cv&quot;</span>, </a>
+<a class="sourceLine" id="cb71-4" data-line-number="4">                      <span class="dt">number=</span><span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb71-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb71-6" data-line-number="6"><span class="co"># run the RFE algorithm</span></a>
+<a class="sourceLine" id="cb71-7" data-line-number="7">results &lt;-<span class="st"> </span><span class="kw">rfe</span>(pm[,<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>], </a>
+<a class="sourceLine" id="cb71-8" data-line-number="8">               pm[,<span class="dv">9</span>], </a>
+<a class="sourceLine" id="cb71-9" data-line-number="9">               <span class="dt">sizes=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>), </a>
+<a class="sourceLine" id="cb71-10" data-line-number="10">               <span class="dt">rfeControl=</span>control,</a>
+<a class="sourceLine" id="cb71-11" data-line-number="11">               <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>)</a>
+<a class="sourceLine" id="cb71-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb71-13" data-line-number="13"><span class="co"># summarize the results</span></a>
+<a class="sourceLine" id="cb71-14" data-line-number="14"><span class="kw">print</span>(results)</a></code></pre></div>
 <pre><code>## 
 ## Recursive feature selection
 ## 
@@ -274,11 +269,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## The top 5 variables (out of 8):
 ##    glucose, mass, age, pregnant, pedigree</code></pre>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1"><span class="co"># list the chosen features</span></a>
-<a class="sourceLine" id="cb76-2" data-line-number="2"><span class="kw">predictors</span>(results)</a></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="co"># list the chosen features</span></a>
+<a class="sourceLine" id="cb73-2" data-line-number="2"><span class="kw">predictors</span>(results)</a></code></pre></div>
 <pre><code>## [1] &quot;glucose&quot;  &quot;mass&quot;     &quot;age&quot;      &quot;pregnant&quot; &quot;pedigree&quot; &quot;insulin&quot;  &quot;triceps&quot;  &quot;pressure&quot;</code></pre>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1"><span class="co"># plot the results</span></a>
-<a class="sourceLine" id="cb78-2" data-line-number="2"><span class="kw">plot</span>(results, <span class="dt">type=</span><span class="kw">c</span>(<span class="st">&quot;g&quot;</span>, <span class="st">&quot;o&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="co"># plot the results</span></a>
+<a class="sourceLine" id="cb75-2" data-line-number="2"><span class="kw">plot</span>(results, <span class="dt">type=</span><span class="kw">c</span>(<span class="st">&quot;g&quot;</span>, <span class="st">&quot;o&quot;</span>))</a></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/rfe1-1.png" width="672" /></p>
 </div>
 </div>
