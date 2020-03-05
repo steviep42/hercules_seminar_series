@@ -99,19 +99,19 @@ library(caret)
 ```
 
 
-Let's consider the Pima Indians Data that is part of the **mlbench** package. You can install this package via the **Tools -> Install Package** menu item within R Studio or type the following at the R console prompt:
+Here is a high level over view of an ML work flow. Note that:
 
-```{r mlbench,eval=FALSE}
-install.packages("mlbench")
-```
+1) It is a cycle, likely to be repeated multiple times before arriving at some actionable result
+2) The driving questions / hypotheses are subject to change and redefinition 
+3) Multiple people might be involved 
 
-Once you have it installed then load it into the work space as follows:
+![](./PICS/flowwork1.png)
+
+To get the ball rolling with a practical case, let's consider the Pima Indians Data Frame. Read in a copy. 
 
 ```{r loadpima}
-data("PimaIndiansDiabetes")
-
-# Get a shorter handle. I hate typing. 
-pm <- PimaIndiansDiabetes
+url <- "https://raw.githubusercontent.com/steviep42/bios534_spring_2020/master/data/pima.csv"
+pm <- read.csv(url)
 ```
 
 The description of the data set is as follows:
@@ -119,7 +119,9 @@ The description of the data set is as follows:
 
 ![](./PICS/pima_desc.png){width=475}
 
-So we now have some data on which we can build a model.  Specifically, there is a variable in the data called "diabetes" which indicates the disease / diabetes status ("pos" or "neg") of the person. It would be good to come up with a model that we could use with incoming data to determine if someone has diabetes. 
+So we now have some data on which we can build a model. Our defining question or driving motivation might be how to predict whether someone will be postitive for diabetes based on other variables within the data. Is glucose, for example, an important variable to consider ? 
+
+In lookin at the data, there is a variable in the data called "diabetes" which indicates the disease / diabetes status ("pos" or "neg") of the person. It would be good to come up with a model that we could use with incoming data to determine if someone has diabetes. 
 
 
 ## Important Terminology
@@ -151,9 +153,9 @@ plot_histogram(pm)
 plot_boxplot(pm,by="diabetes")
 ```
 
-# A Common Modeling Workflow
+# Build A Model - A Detailed Workflow
 
-The following graphic depicts the steps common to the Modeling Process. This is not the only way to proceed but it provides a very helpful schematic by which to plan your work. 
+The following graphic depicts the detailed steps involved in the typical Modeling Process. This is not the only way to proceed but it is used by many professional Data Scientists.
 
 ![](./PICS/sworkflow.jpg){height=600}
 
