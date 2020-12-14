@@ -201,7 +201,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="other-methods" class="section level1">
 <h1><span class="header-section-number">Chapter 4</span> Other Methods ?</h1>
-<p>Well, we could use another method to see if it yields better performance as determined by the AUC ? Let’s use the <strong>ranger</strong> function which is a fast implementation of random forests. One thing you will notice is that we need to include the “probability” argument in the call to ranger to get the necessary probabilities for computing the AUC. This is one of the aggravations with using different functions. They all have their own peculiar way of doing things.</p>
+<p>Well, we could use another method to see if it yields better performance as determined by the AUC. Let’s use the <strong>ranger</strong> function which is a fast implementation of random forests. One thing you will notice is that we need to include the “probability” argument in the call to ranger to get the necessary probabilities for computing the AUC. This is one of the aggravations with using different functions. They all have their own peculiar way of doing things.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="other-methods.html#cb25-1"></a><span class="kw">library</span>(ranger)</span>
 <span id="cb25-2"><a href="other-methods.html#cb25-2"></a>ranger_mod &lt;-<span class="st"> </span><span class="kw">ranger</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
 <span id="cb25-3"><a href="other-methods.html#cb25-3"></a>                   <span class="dt">data =</span> train,</span>

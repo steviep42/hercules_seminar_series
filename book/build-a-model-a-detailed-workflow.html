@@ -279,7 +279,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 0.70756327 0.79695675 0.74524797 0.36330982 0.31803457 0.74106187 0.04892642 
 ##         32         42         43 
 ## 0.56777794 0.68427254 0.11927265</code></pre>
-<p>With logistic regression we are dealing with a curve like the one below which is a sigmoid function. The idea is to take our probabilities, which range between 0 and 1, and then pick a threshold over which we would classify that person as being positive for diabetes.</p>
+<p>With logistic regression we are dealing with a curve like the one below which is a sigmoid function. The idea is to take our probabilities, which range between 0 and 1, and then pick a threshold over which we would classify that person as being positive for diabetes. In this context, we have a continuum.</p>
 <p><img src="SEMINAR_SERIES_files/figure-html/logitplot-1.png" width="672" /></p>
 </div>
 <div id="selecting-the-correct-alpha" class="section level3">
@@ -380,6 +380,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb23-3"><a href="build-a-model-a-detailed-workflow.html#cb23-3"></a><span class="kw">round</span>(<span class="kw">coords</span>(proc, <span class="st">&quot;b&quot;</span>, <span class="dt">ret=</span><span class="st">&quot;t&quot;</span>, <span class="dt">transpose =</span> <span class="ot">FALSE</span>),<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##   threshold
 ## 1      0.36</code></pre>
+<p>Generally speaking, here is a graphic which shows you some ROC curve shapes and how they relate to AUC.</p>
+<p><img src="PICS/multirocs.png" /></p>
 </div>
 </div>
             </section>

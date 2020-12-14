@@ -218,7 +218,7 @@ probs <- predict(myglm,
 probs[1:10]
 ```
 
-With logistic regression we are dealing with a curve like the one below which is a sigmoid function. The idea is to take our probabilities, which range between 0 and 1, and then pick a threshold over which we would classify that person as being positive for diabetes. 
+With logistic regression we are dealing with a curve like the one below which is a sigmoid function. The idea is to take our probabilities, which range between 0 and 1, and then pick a threshold over which we would classify that person as being positive for diabetes. In this context, we have a continuum. 
 
 
 ```{r logitplot,echo=FALSE}
@@ -325,10 +325,15 @@ proc <- roc(test$diabetes,probs)
 round(coords(proc, "b", ret="t", transpose = FALSE),2)
 ```
 
+Generally speaking, here is a graphic which shows you some ROC curve shapes and how they relate to AUC. 
+
+
+![](./PICS/multirocs.png)
+
 
 # Other Methods ? 
 
-Well, we could use another method to see if it yields better performance as determined by the AUC ? Let's use the **ranger** function which is a fast implementation of random forests. One thing you will notice is that we need to include the "probability" argument in the call to ranger to get the necessary probabilities for computing the AUC. This is one of the aggravations with using different functions. They all have their own peculiar way of doing things. 
+Well, we could use another method to see if it yields better performance as determined by the AUC. Let's use the **ranger** function which is a fast implementation of random forests. One thing you will notice is that we need to include the "probability" argument in the call to ranger to get the necessary probabilities for computing the AUC. This is one of the aggravations with using different functions. They all have their own peculiar way of doing things. 
 
 ```{r range1,message=FALSE}
 library(ranger)
