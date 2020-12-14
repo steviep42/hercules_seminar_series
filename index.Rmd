@@ -240,10 +240,17 @@ The temptation is to select 0.5 as the threshold such that if a returned probabi
 
 ![](./PICS/pc.png)
 
-Note that this is a rare situation wherein our model has given us a clean separation between negative and positive cases. In reality, we usually have something like this:
+Note that this is a rare situation wherein our model has given us a clean separation between negative and positive cases. We could have something like this:
 
 ![](./PICS/tnfp.png)
 
+Or this:
+
+![](./PICS/sk2.png)
+
+Or even this: 
+
+![](./PICS/sk1.png)
 
 One thing we should do here is to look at the distribution of the returned probabilities before making a decision about where to set the threshold. We can see clearly that selecting 0.5 in this case would not be appropriate. 
 
@@ -278,8 +285,8 @@ There are some functions that can help us compute a confusion matrix.  Because t
 ```{r pred1}
 # test$diabetes <- ordered(test$diabetes,c("pos","neg"))
 
-mypreds <- factor(mypreds,
-                  levels=levels(test$diabetes))
+# mypreds <- factor(mypreds,
+ #                 levels=levels(test$diabetes))
 
 caret::confusionMatrix(mypreds,test$diabetes,positive="pos")
 ```

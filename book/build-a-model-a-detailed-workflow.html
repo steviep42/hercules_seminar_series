@@ -286,8 +286,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">3.3.2</span> Selecting The Correct Alpha</h3>
 <p>The temptation is to select 0.5 as the threshold such that if a returned probability exceeds 0.5 then we classify the associated subject as being “positive” for the disease. But then this assumes that the probabilities are distributed accordingly. This is frequently not the case though it doesn’t stop people from using 0.5. Another way to view this is as follows. This graphic shows a “perfect” classifier which more or less matches the logit function above:</p>
 <p><img src="PICS/pc.png" /></p>
-<p>Note that this is a rare situation wherein our model has given us a clean separation between negative and positive cases. In reality, we usually have something like this:</p>
+<p>Note that this is a rare situation wherein our model has given us a clean separation between negative and positive cases. We could have something like this:</p>
 <p><img src="PICS/tnfp.png" /></p>
+<p>Or this:</p>
+<p><img src="PICS/sk2.png" /></p>
+<p>Or even this:</p>
+<p><img src="PICS/sk1.png" /></p>
 <p>One thing we should do here is to look at the distribution of the returned probabilities before making a decision about where to set the threshold. We can see clearly that selecting 0.5 in this case would not be appropriate.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="build-a-model-a-detailed-workflow.html#cb13-1"></a><span class="kw">boxplot</span>(probs, </span>
 <span id="cb13-2"><a href="build-a-model-a-detailed-workflow.html#cb13-2"></a>        <span class="dt">main=</span><span class="st">&quot;Probabilities from our GLM Model&quot;</span>)</span>
@@ -315,8 +319,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>There are some functions that can help us compute a confusion matrix. Because the variable we are trying to predict, (diabetes), is a two level factor, (“neg” or “pos”) we’ll need to turn our predictions into a comparable factor. Right now, it’s just a character string.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="build-a-model-a-detailed-workflow.html#cb18-1"></a><span class="co"># test$diabetes &lt;- ordered(test$diabetes,c(&quot;pos&quot;,&quot;neg&quot;))</span></span>
 <span id="cb18-2"><a href="build-a-model-a-detailed-workflow.html#cb18-2"></a></span>
-<span id="cb18-3"><a href="build-a-model-a-detailed-workflow.html#cb18-3"></a>mypreds &lt;-<span class="st"> </span><span class="kw">factor</span>(mypreds,</span>
-<span id="cb18-4"><a href="build-a-model-a-detailed-workflow.html#cb18-4"></a>                  <span class="dt">levels=</span><span class="kw">levels</span>(test<span class="op">$</span>diabetes))</span>
+<span id="cb18-3"><a href="build-a-model-a-detailed-workflow.html#cb18-3"></a><span class="co"># mypreds &lt;- factor(mypreds,</span></span>
+<span id="cb18-4"><a href="build-a-model-a-detailed-workflow.html#cb18-4"></a> <span class="co">#                 levels=levels(test$diabetes))</span></span>
 <span id="cb18-5"><a href="build-a-model-a-detailed-workflow.html#cb18-5"></a></span>
 <span id="cb18-6"><a href="build-a-model-a-detailed-workflow.html#cb18-6"></a>caret<span class="op">::</span><span class="kw">confusionMatrix</span>(mypreds,test<span class="op">$</span>diabetes,<span class="dt">positive=</span><span class="st">&quot;pos&quot;</span>)</span></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
