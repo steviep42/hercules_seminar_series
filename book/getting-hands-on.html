@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-03-04" />
+<meta name="date" content="2020-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +64,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -199,11 +201,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="getting-hands-on" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> Getting Hands On</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(mlbench)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(ROCR)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(DataExplorer)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(caret)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="getting-hands-on.html#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="getting-hands-on.html#cb1-2"></a><span class="kw">library</span>(mlbench)</span>
+<span id="cb1-3"><a href="getting-hands-on.html#cb1-3"></a><span class="kw">library</span>(ROCR)</span>
+<span id="cb1-4"><a href="getting-hands-on.html#cb1-4"></a><span class="kw">library</span>(DataExplorer)</span>
+<span id="cb1-5"><a href="getting-hands-on.html#cb1-5"></a><span class="kw">library</span>(caret)</span></code></pre></div>
 <p>Here is a high level over view of an ML work flow. Note that:</p>
 <ol style="list-style-type: decimal">
 <li>It is a cycle, quite likely to be repeated multiple times before arriving at some actionable result</li>
@@ -212,8 +214,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p><img src="PICS/flowwork1.png" /></p>
 <p>To get the ball rolling with a practical case, let’s consider the Pima Indians Data Frame. Read in a copy.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">url &lt;-<span class="st"> &quot;https://raw.githubusercontent.com/steviep42/bios534_spring_2020/master/data/pima.csv&quot;</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">pm &lt;-<span class="st"> </span><span class="kw">read.csv</span>(url)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="getting-hands-on.html#cb2-1"></a>url &lt;-<span class="st"> &quot;https://raw.githubusercontent.com/steviep42/bios534_spring_2020/master/data/pima.csv&quot;</span></span>
+<span id="cb2-2"><a href="getting-hands-on.html#cb2-2"></a>pm &lt;-<span class="st"> </span><span class="kw">read.csv</span>(url)</span></code></pre></div>
 <p>The description of the data set is as follows:</p>
 <p><img src="PICS/pima_desc.png" width="475" /></p>
 <p>So we now have some data on which we can build a model. Our defining question or driving motivation might be how to predict whether someone will be postitive for diabetes based on other variables within the data. Is glucose, for example, an important variable to consider ?</p>
@@ -226,13 +228,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="exploratory-plots" class="section level2">
 <h2><span class="header-section-number">2.2</span> Exploratory Plots</h2>
 <p>We’ll look use some stock plots from the <a href="https://github.com/elastacloud/automatic-data-explorer"><strong>DataExplorer</strong></a> package to get a feel for the data. Look at correlations between the variables to see if any are strongly correlated with the variable we wish to predict or any other variables.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">plot_correlation</span>(pm, <span class="dt">type=</span><span class="st">&quot;continuous&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="getting-hands-on.html#cb3-1"></a><span class="kw">plot_correlation</span>(pm, <span class="dt">type=</span><span class="st">&quot;continuous&quot;</span>)</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/decorr-1.png" width="672" /></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">plot_bar</span>(pm)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="getting-hands-on.html#cb4-1"></a><span class="kw">plot_bar</span>(pm)</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/debar-1.png" width="672" /></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">plot_histogram</span>(pm)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="getting-hands-on.html#cb5-1"></a><span class="kw">plot_histogram</span>(pm)</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/phist-1.png" width="672" /></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">plot_boxplot</span>(pm,<span class="dt">by=</span><span class="st">&quot;diabetes&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="getting-hands-on.html#cb6-1"></a><span class="kw">plot_boxplot</span>(pm,<span class="dt">by=</span><span class="st">&quot;diabetes&quot;</span>)</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/pbox-1.png" width="672" /></p>
 </div>
 </div>

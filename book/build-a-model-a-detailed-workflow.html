@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-03-04" />
+<meta name="date" content="2020-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +64,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -207,31 +209,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="PICS/crossvalid.png" width="500" /></p>
 <p>Note that some scenarios will split the data into three data sets: 1) training, 2) validation, and 3) test. This scenario is used when tuning so called hyper parameters for methods that have “tuning” parameters that could influence the resulting model. We’ll stick with the basic “train / test” approach for now.</p>
 <p>Splitting the data is not particularly challenging. We can use the built in <strong>sample</strong> function in R to do this. We aren’t sampling with replacement here which guarantees that no record can exist in both sets. That is, if a record from the data set is assigned to the training set, it will not be in the test data set.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Make this example reproducible</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">123</span>) </a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">percent &lt;-<span class="st"> </span><span class="fl">.80</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co"># Get the indices for a training set.</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">idx &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pm),<span class="kw">round</span>(.<span class="dv">8</span><span class="op">*</span><span class="kw">nrow</span>(pm)),F)</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co"># Use bracket notation to create the train / test pair</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9">train &lt;-<span class="st"> </span>pm[idx,]</a>
-<a class="sourceLine" id="cb7-10" data-line-number="10">test  &lt;-<span class="st"> </span>pm[<span class="op">-</span>idx,]</a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co"># The following should have 80 percent of the original </span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co"># data</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="kw">round</span>(<span class="kw">nrow</span>(train)<span class="op">/</span><span class="kw">nrow</span>(pm)<span class="op">*</span><span class="dv">100</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="build-a-model-a-detailed-workflow.html#cb7-1"></a><span class="co"># Make this example reproducible</span></span>
+<span id="cb7-2"><a href="build-a-model-a-detailed-workflow.html#cb7-2"></a><span class="kw">set.seed</span>(<span class="dv">123</span>) </span>
+<span id="cb7-3"><a href="build-a-model-a-detailed-workflow.html#cb7-3"></a>percent &lt;-<span class="st"> </span><span class="fl">.80</span></span>
+<span id="cb7-4"><a href="build-a-model-a-detailed-workflow.html#cb7-4"></a></span>
+<span id="cb7-5"><a href="build-a-model-a-detailed-workflow.html#cb7-5"></a><span class="co"># Get the indices for a training set.</span></span>
+<span id="cb7-6"><a href="build-a-model-a-detailed-workflow.html#cb7-6"></a>idx &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pm),<span class="kw">round</span>(.<span class="dv">8</span><span class="op">*</span><span class="kw">nrow</span>(pm)),F)</span>
+<span id="cb7-7"><a href="build-a-model-a-detailed-workflow.html#cb7-7"></a></span>
+<span id="cb7-8"><a href="build-a-model-a-detailed-workflow.html#cb7-8"></a><span class="co"># Use bracket notation to create the train / test pair</span></span>
+<span id="cb7-9"><a href="build-a-model-a-detailed-workflow.html#cb7-9"></a>train &lt;-<span class="st"> </span>pm[idx,]</span>
+<span id="cb7-10"><a href="build-a-model-a-detailed-workflow.html#cb7-10"></a>test  &lt;-<span class="st"> </span>pm[<span class="op">-</span>idx,]</span>
+<span id="cb7-11"><a href="build-a-model-a-detailed-workflow.html#cb7-11"></a></span>
+<span id="cb7-12"><a href="build-a-model-a-detailed-workflow.html#cb7-12"></a><span class="co"># The following should have 80 percent of the original </span></span>
+<span id="cb7-13"><a href="build-a-model-a-detailed-workflow.html#cb7-13"></a><span class="co"># data</span></span>
+<span id="cb7-14"><a href="build-a-model-a-detailed-workflow.html#cb7-14"></a></span>
+<span id="cb7-15"><a href="build-a-model-a-detailed-workflow.html#cb7-15"></a><span class="kw">round</span>(<span class="kw">nrow</span>(train)<span class="op">/</span><span class="kw">nrow</span>(pm)<span class="op">*</span><span class="dv">100</span>)</span></code></pre></div>
 <pre><code>## [1] 80</code></pre>
 </div>
 <div id="first-model" class="section level2">
 <h2><span class="header-section-number">3.2</span> First Model</h2>
 <p>Now let’s build a Generalized Linear Model to do the prediction. We will employ logistic regression.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">myglm &lt;-<span class="st"> </span><span class="kw">glm</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">             <span class="dt">data =</span> train,</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">             <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw">summary</span>(myglm)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="build-a-model-a-detailed-workflow.html#cb9-1"></a>myglm &lt;-<span class="st"> </span><span class="kw">glm</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
+<span id="cb9-2"><a href="build-a-model-a-detailed-workflow.html#cb9-2"></a>             <span class="dt">data =</span> train,</span>
+<span id="cb9-3"><a href="build-a-model-a-detailed-workflow.html#cb9-3"></a>             <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb9-4"><a href="build-a-model-a-detailed-workflow.html#cb9-4"></a></span>
+<span id="cb9-5"><a href="build-a-model-a-detailed-workflow.html#cb9-5"></a><span class="kw">summary</span>(myglm)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = diabetes ~ ., family = &quot;binomial&quot;, data = train)
@@ -268,15 +270,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a-stumbling-block-for-new-comers" class="section level3">
 <h3><span class="header-section-number">3.3.1</span> A Stumbling Block For New Comers</h3>
 <p>We could now use this new model to predict outcomes using the test data set. Remember that we are attempting to predict a binary outcome - in this case whether the person is positive for diabetes or negative. What we get back from the prediction object are probabilities for which we have to determine a threshold above which we would say the observation is “positive” for diabetes and, below the threshold, “negative”.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">probs &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm,</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">                 <span class="dt">newdata =</span> test,</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">                 <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">probs[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre></div>
-<pre><code>##          1          3          9         17         22         27         28         32         42 
-## 0.70756327 0.79695675 0.74524797 0.36330982 0.31803457 0.74106187 0.04892642 0.56777794 0.68427254 
-##         43 
-## 0.11927265</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="build-a-model-a-detailed-workflow.html#cb11-1"></a>probs &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm,</span>
+<span id="cb11-2"><a href="build-a-model-a-detailed-workflow.html#cb11-2"></a>                 <span class="dt">newdata =</span> test,</span>
+<span id="cb11-3"><a href="build-a-model-a-detailed-workflow.html#cb11-3"></a>                 <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb11-4"><a href="build-a-model-a-detailed-workflow.html#cb11-4"></a></span>
+<span id="cb11-5"><a href="build-a-model-a-detailed-workflow.html#cb11-5"></a>probs[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</span></code></pre></div>
+<pre><code>##          1          3          9         17         22         27         28 
+## 0.70756327 0.79695675 0.74524797 0.36330982 0.31803457 0.74106187 0.04892642 
+##         32         42         43 
+## 0.56777794 0.68427254 0.11927265</code></pre>
 <p>With logistic regression we are dealing with a curve like the one below which is a sigmoid function. The idea is to take our probabilities, which range between 0 and 1, and then pick a threshold over which we would classify that person as being positive for diabetes.</p>
 <p><img src="SEMINAR_SERIES_files/figure-html/logitplot-1.png" width="672" /></p>
 </div>
@@ -287,14 +289,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Note that this is a rare situation wherein our model has given us a clean separation between negative and positive cases. In reality, we usually have something like this:</p>
 <p><img src="PICS/tnfp.png" /></p>
 <p>One thing we should do here is to look at the distribution of the returned probabilities before making a decision about where to set the threshold. We can see clearly that selecting 0.5 in this case would not be appropriate.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">boxplot</span>(probs, </a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">        <span class="dt">main=</span><span class="st">&quot;Probabilities from our GLM Model&quot;</span>)</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw">grid</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="build-a-model-a-detailed-workflow.html#cb13-1"></a><span class="kw">boxplot</span>(probs, </span>
+<span id="cb13-2"><a href="build-a-model-a-detailed-workflow.html#cb13-2"></a>        <span class="dt">main=</span><span class="st">&quot;Probabilities from our GLM Model&quot;</span>)</span>
+<span id="cb13-3"><a href="build-a-model-a-detailed-workflow.html#cb13-3"></a><span class="kw">grid</span>()</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/bxplotalpha-1.png" width="672" /></p>
 <p>The median is somewhere around .25 so we could use that for now although we are just guessing.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">mypreds &lt;-<span class="st"> </span><span class="kw">ifelse</span>(probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.25</span>,<span class="st">&quot;pos&quot;</span>,<span class="st">&quot;neg&quot;</span>)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">mypreds &lt;-<span class="st"> </span><span class="kw">factor</span>(mypreds, <span class="dt">levels =</span> <span class="kw">levels</span>(test[[<span class="st">&quot;diabetes&quot;</span>]]))</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">mypreds[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="build-a-model-a-detailed-workflow.html#cb14-1"></a>mypreds &lt;-<span class="st"> </span><span class="kw">ifelse</span>(probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.25</span>,<span class="st">&quot;pos&quot;</span>,<span class="st">&quot;neg&quot;</span>)</span>
+<span id="cb14-2"><a href="build-a-model-a-detailed-workflow.html#cb14-2"></a>mypreds &lt;-<span class="st"> </span><span class="kw">factor</span>(mypreds, <span class="dt">levels =</span> <span class="kw">levels</span>(test[[<span class="st">&quot;diabetes&quot;</span>]]))</span>
+<span id="cb14-3"><a href="build-a-model-a-detailed-workflow.html#cb14-3"></a>mypreds[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</span></code></pre></div>
 <pre><code>##   1   3   9  17  22  27  28  32  42  43 
 ## pos pos pos pos pos pos neg pos pos neg 
 ## Levels: neg pos</code></pre>
@@ -302,21 +304,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="confusion-matrices" class="section level3">
 <h3><span class="header-section-number">3.3.3</span> Confusion Matrices</h3>
 <p>Next, we would compare our predictions against the known outcomes which are stored in the test data frame:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># How does this compare to the truth ?</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw">table</span>(<span class="dt">predicted =</span> mypreds,</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">      <span class="dt">actual =</span> test<span class="op">$</span>diabetes)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="build-a-model-a-detailed-workflow.html#cb16-1"></a><span class="co"># How does this compare to the truth ?</span></span>
+<span id="cb16-2"><a href="build-a-model-a-detailed-workflow.html#cb16-2"></a><span class="kw">table</span>(<span class="dt">predicted =</span> mypreds,</span>
+<span id="cb16-3"><a href="build-a-model-a-detailed-workflow.html#cb16-3"></a>      <span class="dt">actual =</span> test<span class="op">$</span>diabetes)</span></code></pre></div>
 <pre><code>##          actual
 ## predicted neg pos
 ##       neg  66   9
 ##       pos  36  43</code></pre>
 <p>What we are doing is building a “Confusion Matrix” which can help us determine how effective our model is. From such a matrix table we can compute a number of “performance measures”, such as accuracy, precision, sensitivity, specificity and others, to help assess the quality of the model. In predictive modeling we are always interested in how well any given model will perform on “new” data.</p>
 <p>There are some functions that can help us compute a confusion matrix. Because the variable we are trying to predict, (diabetes), is a two level factor, (“neg” or “pos”) we’ll need to turn our predictions into a comparable factor. Right now, it’s just a character string.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co"># test$diabetes &lt;- ordered(test$diabetes,c(&quot;pos&quot;,&quot;neg&quot;))</span></a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">mypreds &lt;-<span class="st"> </span><span class="kw">factor</span>(mypreds,</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">                  <span class="dt">levels=</span><span class="kw">levels</span>(test<span class="op">$</span>diabetes))</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb18-6" data-line-number="6">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(mypreds,test<span class="op">$</span>diabetes,<span class="dt">positive=</span><span class="st">&quot;pos&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="build-a-model-a-detailed-workflow.html#cb18-1"></a><span class="co"># test$diabetes &lt;- ordered(test$diabetes,c(&quot;pos&quot;,&quot;neg&quot;))</span></span>
+<span id="cb18-2"><a href="build-a-model-a-detailed-workflow.html#cb18-2"></a></span>
+<span id="cb18-3"><a href="build-a-model-a-detailed-workflow.html#cb18-3"></a>mypreds &lt;-<span class="st"> </span><span class="kw">factor</span>(mypreds,</span>
+<span id="cb18-4"><a href="build-a-model-a-detailed-workflow.html#cb18-4"></a>                  <span class="dt">levels=</span><span class="kw">levels</span>(test<span class="op">$</span>diabetes))</span>
+<span id="cb18-5"><a href="build-a-model-a-detailed-workflow.html#cb18-5"></a></span>
+<span id="cb18-6"><a href="build-a-model-a-detailed-workflow.html#cb18-6"></a>caret<span class="op">::</span><span class="kw">confusionMatrix</span>(mypreds,test<span class="op">$</span>diabetes,<span class="dt">positive=</span><span class="st">&quot;pos&quot;</span>)</span></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -356,26 +358,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">3.5</span> The ROC curve</h2>
 <p>One way to do this is to use something known as the ROC curve. Luckily, R has functions to do this. This isn’t surprising as it is a standard tool that has been in use for decades long before the hype of AI and ML was around. The ROC curve gives us a “one stop shop” for estimating a value of alpha that results in maximal area under a curve.</p>
 <p>In fact, maximizing the area under a given ROC curve winds up being an effective way to judge the differences between one method and another. So, if we wanted to compare the glm model against a Support Vector Machine model, we could use the respective AUC (Area Under Curve) metric to help us. This isn’t the only way to do this but it’s reasonable for now.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">pred &lt;-<span class="st"> </span>ROCR<span class="op">::</span><span class="kw">prediction</span>(<span class="dt">predictions =</span> probs,</a>
-<a class="sourceLine" id="cb20-2" data-line-number="2">                         <span class="dt">labels =</span> test<span class="op">$</span>diabetes)</a>
-<a class="sourceLine" id="cb20-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb20-4" data-line-number="4">perf &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,</a>
-<a class="sourceLine" id="cb20-5" data-line-number="5">                    <span class="st">&quot;tpr&quot;</span>,</a>
-<a class="sourceLine" id="cb20-6" data-line-number="6">                    <span class="st">&quot;fpr&quot;</span>)</a>
-<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="kw">plot</span>(perf,<span class="dt">colorize=</span>T,</a>
-<a class="sourceLine" id="cb20-8" data-line-number="8">     <span class="dt">print.cutoffs.at=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.1</span>),</a>
-<a class="sourceLine" id="cb20-9" data-line-number="9">     <span class="dt">lwd=</span><span class="dv">3</span>,<span class="dt">las=</span><span class="dv">1</span>,<span class="dt">main=</span><span class="st">&quot;Cool ROC Curve&quot;</span>)</a>
-<a class="sourceLine" id="cb20-10" data-line-number="10"><span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb20-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb20-12" data-line-number="12"><span class="kw">grid</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="build-a-model-a-detailed-workflow.html#cb20-1"></a>pred &lt;-<span class="st"> </span>ROCR<span class="op">::</span><span class="kw">prediction</span>(<span class="dt">predictions =</span> probs,</span>
+<span id="cb20-2"><a href="build-a-model-a-detailed-workflow.html#cb20-2"></a>                         <span class="dt">labels =</span> test<span class="op">$</span>diabetes)</span>
+<span id="cb20-3"><a href="build-a-model-a-detailed-workflow.html#cb20-3"></a></span>
+<span id="cb20-4"><a href="build-a-model-a-detailed-workflow.html#cb20-4"></a>perf &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,</span>
+<span id="cb20-5"><a href="build-a-model-a-detailed-workflow.html#cb20-5"></a>                    <span class="st">&quot;tpr&quot;</span>,</span>
+<span id="cb20-6"><a href="build-a-model-a-detailed-workflow.html#cb20-6"></a>                    <span class="st">&quot;fpr&quot;</span>)</span>
+<span id="cb20-7"><a href="build-a-model-a-detailed-workflow.html#cb20-7"></a><span class="kw">plot</span>(perf,<span class="dt">colorize=</span>T,</span>
+<span id="cb20-8"><a href="build-a-model-a-detailed-workflow.html#cb20-8"></a>     <span class="dt">print.cutoffs.at=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.1</span>),</span>
+<span id="cb20-9"><a href="build-a-model-a-detailed-workflow.html#cb20-9"></a>     <span class="dt">lwd=</span><span class="dv">3</span>,<span class="dt">las=</span><span class="dv">1</span>,<span class="dt">main=</span><span class="st">&quot;Cool ROC Curve&quot;</span>)</span>
+<span id="cb20-10"><a href="build-a-model-a-detailed-workflow.html#cb20-10"></a><span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</span>
+<span id="cb20-11"><a href="build-a-model-a-detailed-workflow.html#cb20-11"></a></span>
+<span id="cb20-12"><a href="build-a-model-a-detailed-workflow.html#cb20-12"></a><span class="kw">grid</span>()</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/rocrcalc-1.png" width="672" /></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">myroc &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,<span class="dt">measure=</span><span class="st">&quot;auc&quot;</span>)</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2">myroc<span class="op">@</span>y.values[[<span class="dv">1</span>]]</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="build-a-model-a-detailed-workflow.html#cb21-1"></a>myroc &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,<span class="dt">measure=</span><span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb21-2"><a href="build-a-model-a-detailed-workflow.html#cb21-2"></a>myroc<span class="op">@</span>y.values[[<span class="dv">1</span>]]</span></code></pre></div>
 <pre><code>## [1] 0.8508673</code></pre>
 <p>So what value of alpha corresponds to the stated max AUC of .80 ? We’ll have to dig into the performance object to get that but it looks to be between 0.30 and 0.40. Note that this is somewhat academic since knowing the max AUC alone helps us decide if our model is any “good”. For completeness we could use another R function to nail this down:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">library</span>(pROC)</a>
-<a class="sourceLine" id="cb23-2" data-line-number="2">proc &lt;-<span class="st"> </span><span class="kw">roc</span>(test<span class="op">$</span>diabetes,probs)</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="kw">round</span>(<span class="kw">coords</span>(proc, <span class="st">&quot;b&quot;</span>, <span class="dt">ret=</span><span class="st">&quot;t&quot;</span>, <span class="dt">transpose =</span> <span class="ot">FALSE</span>),<span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="build-a-model-a-detailed-workflow.html#cb23-1"></a><span class="kw">library</span>(pROC)</span>
+<span id="cb23-2"><a href="build-a-model-a-detailed-workflow.html#cb23-2"></a>proc &lt;-<span class="st"> </span><span class="kw">roc</span>(test<span class="op">$</span>diabetes,probs)</span>
+<span id="cb23-3"><a href="build-a-model-a-detailed-workflow.html#cb23-3"></a><span class="kw">round</span>(<span class="kw">coords</span>(proc, <span class="st">&quot;b&quot;</span>, <span class="dt">ret=</span><span class="st">&quot;t&quot;</span>, <span class="dt">transpose =</span> <span class="ot">FALSE</span>),<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##   threshold
 ## 1      0.36</code></pre>
 </div>

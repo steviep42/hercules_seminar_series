@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-03-04" />
+<meta name="date" content="2020-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +64,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -200,51 +202,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="comparing-models" class="section level1">
 <h1><span class="header-section-number">Chapter 7</span> Comparing Models</h1>
 <p>One of the more frequent activities in Machine Learning relates to setting up “shoot outs” between different models to see which one will perform the best. This is something we could do without <strong>caret</strong> but the package does help accomplish this using a standard interface. We’ll keep using the Pima Indians Data and (re)build a few models. We’ll use a common <strong>control</strong> object as well as a seed to maintain reproducibility.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1">control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method=</span><span class="st">&quot;cv&quot;</span>, </a>
-<a class="sourceLine" id="cb75-2" data-line-number="2">                        <span class="dt">number=</span><span class="dv">5</span>, </a>
-<a class="sourceLine" id="cb75-3" data-line-number="3">                        <span class="dt">summaryFunction =</span> twoClassSummary,</a>
-<a class="sourceLine" id="cb75-4" data-line-number="4">                        <span class="dt">classProbs =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb75-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb75-6" data-line-number="6"><span class="co"># Train the glm model</span></a>
-<a class="sourceLine" id="cb75-7" data-line-number="7"><span class="kw">set.seed</span>(<span class="dv">7</span>)</a>
-<a class="sourceLine" id="cb75-8" data-line-number="8">model_glm &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>., </a>
-<a class="sourceLine" id="cb75-9" data-line-number="9">                   <span class="dt">data=</span>pm, </a>
-<a class="sourceLine" id="cb75-10" data-line-number="10">                   <span class="dt">method=</span><span class="st">&quot;glm&quot;</span>, </a>
-<a class="sourceLine" id="cb75-11" data-line-number="11">                   <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,</a>
-<a class="sourceLine" id="cb75-12" data-line-number="12">                   <span class="dt">trControl=</span>control)</a>
-<a class="sourceLine" id="cb75-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb75-14" data-line-number="14"><span class="co"># Train the Decision Tree &lt;odel</span></a>
-<a class="sourceLine" id="cb75-15" data-line-number="15"><span class="kw">set.seed</span>(<span class="dv">7</span>)</a>
-<a class="sourceLine" id="cb75-16" data-line-number="16">model_rpart &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes<span class="op">~</span>., </a>
-<a class="sourceLine" id="cb75-17" data-line-number="17">                  <span class="dt">data=</span>pm, </a>
-<a class="sourceLine" id="cb75-18" data-line-number="18">                  <span class="dt">method=</span><span class="st">&quot;rpart&quot;</span>, </a>
-<a class="sourceLine" id="cb75-19" data-line-number="19">                  <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,</a>
-<a class="sourceLine" id="cb75-20" data-line-number="20">                  <span class="dt">trControl=</span>control)</a>
-<a class="sourceLine" id="cb75-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb75-22" data-line-number="22"><span class="co"># Train the Random Forest model</span></a>
-<a class="sourceLine" id="cb75-23" data-line-number="23"><span class="kw">set.seed</span>(<span class="dv">7</span>)</a>
-<a class="sourceLine" id="cb75-24" data-line-number="24">model_rf &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes<span class="op">~</span>., </a>
-<a class="sourceLine" id="cb75-25" data-line-number="25">                  <span class="dt">data=</span>pm, </a>
-<a class="sourceLine" id="cb75-26" data-line-number="26">                  <span class="dt">method=</span><span class="st">&quot;rf&quot;</span>, </a>
-<a class="sourceLine" id="cb75-27" data-line-number="27">                  <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,</a>
-<a class="sourceLine" id="cb75-28" data-line-number="28">                  <span class="dt">trControl=</span>control)</a>
-<a class="sourceLine" id="cb75-29" data-line-number="29"></a>
-<a class="sourceLine" id="cb75-30" data-line-number="30"><span class="co"># Train the knn model</span></a>
-<a class="sourceLine" id="cb75-31" data-line-number="31"><span class="kw">set.seed</span>(<span class="dv">7</span>)</a>
-<a class="sourceLine" id="cb75-32" data-line-number="32">model_knn &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes<span class="op">~</span>., </a>
-<a class="sourceLine" id="cb75-33" data-line-number="33">                  <span class="dt">data=</span>pm, </a>
-<a class="sourceLine" id="cb75-34" data-line-number="34">                  <span class="dt">method=</span><span class="st">&quot;knn&quot;</span>, </a>
-<a class="sourceLine" id="cb75-35" data-line-number="35">                  <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,</a>
-<a class="sourceLine" id="cb75-36" data-line-number="36">                  <span class="dt">trControl=</span>control)</a>
-<a class="sourceLine" id="cb75-37" data-line-number="37"></a>
-<a class="sourceLine" id="cb75-38" data-line-number="38"><span class="co"># Use the resamples function to prep for comparisons</span></a>
-<a class="sourceLine" id="cb75-39" data-line-number="39">results &lt;-<span class="st"> </span><span class="kw">resamples</span>(<span class="kw">list</span>(<span class="dt">GLM   =</span> model_glm, </a>
-<a class="sourceLine" id="cb75-40" data-line-number="40">                          <span class="dt">RPART =</span> model_rpart, </a>
-<a class="sourceLine" id="cb75-41" data-line-number="41">                          <span class="dt">RF    =</span> model_rf,</a>
-<a class="sourceLine" id="cb75-42" data-line-number="42">                          <span class="dt">KNN   =</span> model_knn))</a></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="comparing-models.html#cb81-1"></a>control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method=</span><span class="st">&quot;cv&quot;</span>, </span>
+<span id="cb81-2"><a href="comparing-models.html#cb81-2"></a>                        <span class="dt">number=</span><span class="dv">5</span>, </span>
+<span id="cb81-3"><a href="comparing-models.html#cb81-3"></a>                        <span class="dt">summaryFunction =</span> twoClassSummary,</span>
+<span id="cb81-4"><a href="comparing-models.html#cb81-4"></a>                        <span class="dt">classProbs =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb81-5"><a href="comparing-models.html#cb81-5"></a></span>
+<span id="cb81-6"><a href="comparing-models.html#cb81-6"></a><span class="co"># Train the glm model</span></span>
+<span id="cb81-7"><a href="comparing-models.html#cb81-7"></a><span class="kw">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb81-8"><a href="comparing-models.html#cb81-8"></a>model_glm &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>., </span>
+<span id="cb81-9"><a href="comparing-models.html#cb81-9"></a>                   <span class="dt">data=</span>pm, </span>
+<span id="cb81-10"><a href="comparing-models.html#cb81-10"></a>                   <span class="dt">method=</span><span class="st">&quot;glm&quot;</span>, </span>
+<span id="cb81-11"><a href="comparing-models.html#cb81-11"></a>                   <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,</span>
+<span id="cb81-12"><a href="comparing-models.html#cb81-12"></a>                   <span class="dt">trControl=</span>control)</span>
+<span id="cb81-13"><a href="comparing-models.html#cb81-13"></a></span>
+<span id="cb81-14"><a href="comparing-models.html#cb81-14"></a><span class="co"># Train the Decision Tree &lt;odel</span></span>
+<span id="cb81-15"><a href="comparing-models.html#cb81-15"></a><span class="kw">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb81-16"><a href="comparing-models.html#cb81-16"></a>model_rpart &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes<span class="op">~</span>., </span>
+<span id="cb81-17"><a href="comparing-models.html#cb81-17"></a>                  <span class="dt">data=</span>pm, </span>
+<span id="cb81-18"><a href="comparing-models.html#cb81-18"></a>                  <span class="dt">method=</span><span class="st">&quot;rpart&quot;</span>, </span>
+<span id="cb81-19"><a href="comparing-models.html#cb81-19"></a>                  <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,</span>
+<span id="cb81-20"><a href="comparing-models.html#cb81-20"></a>                  <span class="dt">trControl=</span>control)</span>
+<span id="cb81-21"><a href="comparing-models.html#cb81-21"></a></span>
+<span id="cb81-22"><a href="comparing-models.html#cb81-22"></a><span class="co"># Train the Random Forest model</span></span>
+<span id="cb81-23"><a href="comparing-models.html#cb81-23"></a><span class="kw">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb81-24"><a href="comparing-models.html#cb81-24"></a>model_rf &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes<span class="op">~</span>., </span>
+<span id="cb81-25"><a href="comparing-models.html#cb81-25"></a>                  <span class="dt">data=</span>pm, </span>
+<span id="cb81-26"><a href="comparing-models.html#cb81-26"></a>                  <span class="dt">method=</span><span class="st">&quot;rf&quot;</span>, </span>
+<span id="cb81-27"><a href="comparing-models.html#cb81-27"></a>                  <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,</span>
+<span id="cb81-28"><a href="comparing-models.html#cb81-28"></a>                  <span class="dt">trControl=</span>control)</span>
+<span id="cb81-29"><a href="comparing-models.html#cb81-29"></a></span>
+<span id="cb81-30"><a href="comparing-models.html#cb81-30"></a><span class="co"># Train the knn model</span></span>
+<span id="cb81-31"><a href="comparing-models.html#cb81-31"></a><span class="kw">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb81-32"><a href="comparing-models.html#cb81-32"></a>model_knn &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes<span class="op">~</span>., </span>
+<span id="cb81-33"><a href="comparing-models.html#cb81-33"></a>                  <span class="dt">data=</span>pm, </span>
+<span id="cb81-34"><a href="comparing-models.html#cb81-34"></a>                  <span class="dt">method=</span><span class="st">&quot;knn&quot;</span>, </span>
+<span id="cb81-35"><a href="comparing-models.html#cb81-35"></a>                  <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,</span>
+<span id="cb81-36"><a href="comparing-models.html#cb81-36"></a>                  <span class="dt">trControl=</span>control)</span>
+<span id="cb81-37"><a href="comparing-models.html#cb81-37"></a></span>
+<span id="cb81-38"><a href="comparing-models.html#cb81-38"></a><span class="co"># Use the resamples function to prep for comparisons</span></span>
+<span id="cb81-39"><a href="comparing-models.html#cb81-39"></a>results &lt;-<span class="st"> </span><span class="kw">resamples</span>(<span class="kw">list</span>(<span class="dt">GLM   =</span> model_glm, </span>
+<span id="cb81-40"><a href="comparing-models.html#cb81-40"></a>                          <span class="dt">RPART =</span> model_rpart, </span>
+<span id="cb81-41"><a href="comparing-models.html#cb81-41"></a>                          <span class="dt">RF    =</span> model_rf,</span>
+<span id="cb81-42"><a href="comparing-models.html#cb81-42"></a>                          <span class="dt">KNN   =</span> model_knn))</span></code></pre></div>
 <p>Now we can easily look at how well the different models compare:</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1"><span class="co"># summarize the distributions</span></a>
-<a class="sourceLine" id="cb76-2" data-line-number="2"><span class="kw">summary</span>(results)</a></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="comparing-models.html#cb82-1"></a><span class="co"># summarize the distributions</span></span>
+<span id="cb82-2"><a href="comparing-models.html#cb82-2"></a><span class="kw">summary</span>(results)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## summary.resamples(object = results)
@@ -272,11 +274,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## RPART 0.4716981 0.5740741 0.5849057 0.5928022 0.5925926 0.7407407    0
 ## RF    0.5555556 0.5660377 0.5849057 0.6005590 0.6481481 0.6481481    0
 ## KNN   0.4629630 0.5283019 0.5471698 0.5410203 0.5555556 0.6111111    0</code></pre>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1"><span class="co"># boxplots of results</span></a>
-<a class="sourceLine" id="cb78-2" data-line-number="2"><span class="kw">bwplot</span>(results)</a></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="comparing-models.html#cb84-1"></a><span class="co"># boxplots of results</span></span>
+<span id="cb84-2"><a href="comparing-models.html#cb84-2"></a><span class="kw">bwplot</span>(results)</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/summcomp-1.png" width="672" /></p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="co"># dot plots of results</span></a>
-<a class="sourceLine" id="cb79-2" data-line-number="2"><span class="kw">dotplot</span>(results)</a></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="comparing-models.html#cb85-1"></a><span class="co"># dot plots of results</span></span>
+<span id="cb85-2"><a href="comparing-models.html#cb85-2"></a><span class="kw">dotplot</span>(results)</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/summcomp-2.png" width="672" /></p>
 </div>
             </section>

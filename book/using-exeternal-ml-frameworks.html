@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-03-04" />
+<meta name="date" content="2020-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +64,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -224,226 +226,226 @@ algorithm (AutoML).</p>
 <div id="h2o-in-action" class="section level2">
 <h2><span class="header-section-number">8.1</span> H2O In Action</h2>
 <p>The package must first be installed which can done using the install.packages function (or the menu in R Studio). Loading the library is done just as you would any other library.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1"><span class="kw">library</span>(h2o)</a></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="using-exeternal-ml-frameworks.html#cb86-1"></a><span class="kw">library</span>(h2o)</span></code></pre></div>
 <p>The goal of using this library is not to replace the methods available to you in R but, just like the caret package, seeks to provide a uniform interface for a variety of underlying methods. This includes common methods including an “Auto ML” service that picks methods for you. Let’s apply h2o to our work. The underlying h2o architecture uses a “running instance” concept that can be initialized and accessed from R. You initialize it once per interactive session.</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw">h2o.init</span>()</a>
-<a class="sourceLine" id="cb81-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb81-3" data-line-number="3">H2O is not running yet, starting it now...</a>
-<a class="sourceLine" id="cb81-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb81-5" data-line-number="5">Note<span class="op">:</span><span class="st">  </span>In case of errors look at the following log files<span class="op">:</span></a>
-<a class="sourceLine" id="cb81-6" data-line-number="6"><span class="st">    </span><span class="er">/</span>var<span class="op">/</span>folders<span class="op">/</span>wh<span class="op">/</span>z0v5hqgx3dzdfgz47lnbr_3w0000gn<span class="op">/</span>T<span class="op">/</span><span class="er">/</span>RtmpRehHby<span class="op">/</span>h2o_esteban_started_from_r.out</a>
-<a class="sourceLine" id="cb81-7" data-line-number="7">    <span class="op">/</span>var<span class="op">/</span>folders<span class="op">/</span>wh<span class="op">/</span>z0v5hqgx3dzdfgz47lnbr_3w0000gn<span class="op">/</span>T<span class="op">/</span><span class="er">/</span>RtmpRehHby<span class="op">/</span>h2o_esteban_started_from_r.err</a>
-<a class="sourceLine" id="cb81-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb81-9" data-line-number="9">java version <span class="st">&quot;1.8.0_131&quot;</span></a>
-<a class="sourceLine" id="cb81-10" data-line-number="10"><span class="kw">Java</span>(TM) SE Runtime <span class="kw">Environment</span> (build <span class="dv">1</span>.<span class="fl">8.0</span>_<span class="dv">131</span><span class="op">-</span>b11)</a>
-<a class="sourceLine" id="cb81-11" data-line-number="11">Java <span class="kw">HotSpot</span>(TM) <span class="dv">64</span><span class="op">-</span>Bit Server <span class="kw">VM</span> (build <span class="fl">25.131</span><span class="op">-</span>b11, mixed mode)</a>
-<a class="sourceLine" id="cb81-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb81-13" data-line-number="13">Starting H2O JVM and connecting<span class="op">:</span><span class="st"> </span>.. Connection successful<span class="op">!</span></a>
-<a class="sourceLine" id="cb81-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb81-15" data-line-number="15">R is connected to the H2O cluster<span class="op">:</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb81-16" data-line-number="16"><span class="st">    </span>H2O cluster uptime<span class="op">:</span><span class="st">         </span><span class="dv">2</span> seconds <span class="dv">577</span> milliseconds </a>
-<a class="sourceLine" id="cb81-17" data-line-number="17">    H2O cluster timezone<span class="op">:</span><span class="st">       </span>America<span class="op">/</span>New_York </a>
-<a class="sourceLine" id="cb81-18" data-line-number="18">    H2O data parsing timezone<span class="op">:</span><span class="st">  </span>UTC </a>
-<a class="sourceLine" id="cb81-19" data-line-number="19">    H2O cluster version<span class="op">:</span><span class="st">        </span><span class="dv">3</span>.<span class="dv">26</span>.<span class="fl">0.2</span> </a>
-<a class="sourceLine" id="cb81-20" data-line-number="20">    H2O cluster version age<span class="op">:</span><span class="st">    </span><span class="dv">5</span> months and <span class="dv">5</span> days <span class="op">!!!</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb81-21" data-line-number="21"><span class="st">    </span>H2O cluster name<span class="op">:</span><span class="st">           </span>H2O_started_from_R_esteban_pgj795 </a>
-<a class="sourceLine" id="cb81-22" data-line-number="22">    H2O cluster total nodes<span class="op">:</span><span class="st">    </span><span class="dv">1</span> </a>
-<a class="sourceLine" id="cb81-23" data-line-number="23">    H2O cluster total memory<span class="op">:</span><span class="st">   </span><span class="fl">1.78</span> GB </a>
-<a class="sourceLine" id="cb81-24" data-line-number="24">    H2O cluster total cores<span class="op">:</span><span class="st">    </span><span class="dv">4</span> </a>
-<a class="sourceLine" id="cb81-25" data-line-number="25">    H2O cluster allowed cores<span class="op">:</span><span class="st">  </span><span class="dv">4</span> </a>
-<a class="sourceLine" id="cb81-26" data-line-number="26">    H2O cluster healthy<span class="op">:</span><span class="st">        </span><span class="ot">TRUE</span> </a>
-<a class="sourceLine" id="cb81-27" data-line-number="27">    H2O Connection ip<span class="op">:</span><span class="st">          </span>localhost </a>
-<a class="sourceLine" id="cb81-28" data-line-number="28">    H2O Connection port<span class="op">:</span><span class="st">        </span><span class="dv">54321</span> </a>
-<a class="sourceLine" id="cb81-29" data-line-number="29">    H2O Connection proxy<span class="op">:</span><span class="st">       </span><span class="ot">NA</span> </a>
-<a class="sourceLine" id="cb81-30" data-line-number="30">    H2O Internal Security<span class="op">:</span><span class="st">      </span><span class="ot">FALSE</span> </a>
-<a class="sourceLine" id="cb81-31" data-line-number="31">    H2O API Extensions<span class="op">:</span><span class="st">         </span>Amazon S3, XGBoost, Algos, AutoML, Core V3, Core V4 </a>
-<a class="sourceLine" id="cb81-32" data-line-number="32">    R Version<span class="op">:</span><span class="st">                  </span>R version <span class="dv">3</span>.<span class="fl">5.3</span> (<span class="dv">2019-03-11</span>) </a>
-<a class="sourceLine" id="cb81-33" data-line-number="33"></a>
-<a class="sourceLine" id="cb81-34" data-line-number="34">Your H2O cluster version is too <span class="kw">old</span> (<span class="dv">5</span> months and <span class="dv">5</span> days)<span class="op">!</span></a>
-<a class="sourceLine" id="cb81-35" data-line-number="35">Please download and install the latest version from http<span class="op">:</span><span class="er">//</span>h2o.ai<span class="op">/</span>download<span class="op">/</span></a>
-<a class="sourceLine" id="cb81-36" data-line-number="36">Show <span class="cf">in</span> New WindowClear OutputExpand<span class="op">/</span>Collapse Output</a>
-<a class="sourceLine" id="cb81-37" data-line-number="37">  <span class="op">|</span><span class="er">===========================================================|</span><span class="st"> </span><span class="dv">100</span>%</a>
-<a class="sourceLine" id="cb81-38" data-line-number="38">Console<span class="op">~</span><span class="er">/</span>Dropbox<span class="op">/</span>ML<span class="op">/</span>bookdown<span class="op">-</span>minimal<span class="op">/</span></a>
-<a class="sourceLine" id="cb81-39" data-line-number="39">Console</a>
-<a class="sourceLine" id="cb81-40" data-line-number="40">Terminal</a>
-<a class="sourceLine" id="cb81-41" data-line-number="41"></a>
-<a class="sourceLine" id="cb81-42" data-line-number="42">R Markdown</a>
-<a class="sourceLine" id="cb81-43" data-line-number="43"></a>
-<a class="sourceLine" id="cb81-44" data-line-number="44"><span class="op">~</span><span class="er">/</span>Dropbox<span class="op">/</span>ML<span class="op">/</span>bookdown<span class="op">-</span>minimal<span class="op">/</span><span class="st">  </span></a></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="using-exeternal-ml-frameworks.html#cb87-1"></a><span class="kw">h2o.init</span>()</span>
+<span id="cb87-2"><a href="using-exeternal-ml-frameworks.html#cb87-2"></a></span>
+<span id="cb87-3"><a href="using-exeternal-ml-frameworks.html#cb87-3"></a>H2O is not running yet, starting it now...</span>
+<span id="cb87-4"><a href="using-exeternal-ml-frameworks.html#cb87-4"></a></span>
+<span id="cb87-5"><a href="using-exeternal-ml-frameworks.html#cb87-5"></a>Note<span class="op">:</span><span class="st">  </span>In case of errors look at the following log files<span class="op">:</span></span>
+<span id="cb87-6"><a href="using-exeternal-ml-frameworks.html#cb87-6"></a><span class="st">    </span><span class="er">/</span>var<span class="op">/</span>folders<span class="op">/</span>wh<span class="op">/</span>z0v5hqgx3dzdfgz47lnbr_3w0000gn<span class="op">/</span>T<span class="op">/</span><span class="er">/</span>RtmpRehHby<span class="op">/</span>h2o_esteban_started_from_r.out</span>
+<span id="cb87-7"><a href="using-exeternal-ml-frameworks.html#cb87-7"></a>    <span class="op">/</span>var<span class="op">/</span>folders<span class="op">/</span>wh<span class="op">/</span>z0v5hqgx3dzdfgz47lnbr_3w0000gn<span class="op">/</span>T<span class="op">/</span><span class="er">/</span>RtmpRehHby<span class="op">/</span>h2o_esteban_started_from_r.err</span>
+<span id="cb87-8"><a href="using-exeternal-ml-frameworks.html#cb87-8"></a></span>
+<span id="cb87-9"><a href="using-exeternal-ml-frameworks.html#cb87-9"></a>java version <span class="st">&quot;1.8.0_131&quot;</span></span>
+<span id="cb87-10"><a href="using-exeternal-ml-frameworks.html#cb87-10"></a><span class="kw">Java</span>(TM) SE Runtime <span class="kw">Environment</span> (build <span class="dv">1</span>.<span class="fl">8.0</span>_<span class="dv">131</span><span class="op">-</span>b11)</span>
+<span id="cb87-11"><a href="using-exeternal-ml-frameworks.html#cb87-11"></a>Java <span class="kw">HotSpot</span>(TM) <span class="dv">64</span><span class="op">-</span>Bit Server <span class="kw">VM</span> (build <span class="fl">25.131</span><span class="op">-</span>b11, mixed mode)</span>
+<span id="cb87-12"><a href="using-exeternal-ml-frameworks.html#cb87-12"></a></span>
+<span id="cb87-13"><a href="using-exeternal-ml-frameworks.html#cb87-13"></a>Starting H2O JVM and connecting<span class="op">:</span><span class="st"> </span>.. Connection successful<span class="op">!</span></span>
+<span id="cb87-14"><a href="using-exeternal-ml-frameworks.html#cb87-14"></a></span>
+<span id="cb87-15"><a href="using-exeternal-ml-frameworks.html#cb87-15"></a>R is connected to the H2O cluster<span class="op">:</span><span class="st"> </span></span>
+<span id="cb87-16"><a href="using-exeternal-ml-frameworks.html#cb87-16"></a><span class="st">    </span>H2O cluster uptime<span class="op">:</span><span class="st">         </span><span class="dv">2</span> seconds <span class="dv">577</span> milliseconds </span>
+<span id="cb87-17"><a href="using-exeternal-ml-frameworks.html#cb87-17"></a>    H2O cluster timezone<span class="op">:</span><span class="st">       </span>America<span class="op">/</span>New_York </span>
+<span id="cb87-18"><a href="using-exeternal-ml-frameworks.html#cb87-18"></a>    H2O data parsing timezone<span class="op">:</span><span class="st">  </span>UTC </span>
+<span id="cb87-19"><a href="using-exeternal-ml-frameworks.html#cb87-19"></a>    H2O cluster version<span class="op">:</span><span class="st">        </span><span class="dv">3</span>.<span class="dv">26</span>.<span class="fl">0.2</span> </span>
+<span id="cb87-20"><a href="using-exeternal-ml-frameworks.html#cb87-20"></a>    H2O cluster version age<span class="op">:</span><span class="st">    </span><span class="dv">5</span> months and <span class="dv">5</span> days <span class="op">!!!</span><span class="st"> </span></span>
+<span id="cb87-21"><a href="using-exeternal-ml-frameworks.html#cb87-21"></a><span class="st">    </span>H2O cluster name<span class="op">:</span><span class="st">           </span>H2O_started_from_R_esteban_pgj795 </span>
+<span id="cb87-22"><a href="using-exeternal-ml-frameworks.html#cb87-22"></a>    H2O cluster total nodes<span class="op">:</span><span class="st">    </span><span class="dv">1</span> </span>
+<span id="cb87-23"><a href="using-exeternal-ml-frameworks.html#cb87-23"></a>    H2O cluster total memory<span class="op">:</span><span class="st">   </span><span class="fl">1.78</span> GB </span>
+<span id="cb87-24"><a href="using-exeternal-ml-frameworks.html#cb87-24"></a>    H2O cluster total cores<span class="op">:</span><span class="st">    </span><span class="dv">4</span> </span>
+<span id="cb87-25"><a href="using-exeternal-ml-frameworks.html#cb87-25"></a>    H2O cluster allowed cores<span class="op">:</span><span class="st">  </span><span class="dv">4</span> </span>
+<span id="cb87-26"><a href="using-exeternal-ml-frameworks.html#cb87-26"></a>    H2O cluster healthy<span class="op">:</span><span class="st">        </span><span class="ot">TRUE</span> </span>
+<span id="cb87-27"><a href="using-exeternal-ml-frameworks.html#cb87-27"></a>    H2O Connection ip<span class="op">:</span><span class="st">          </span>localhost </span>
+<span id="cb87-28"><a href="using-exeternal-ml-frameworks.html#cb87-28"></a>    H2O Connection port<span class="op">:</span><span class="st">        </span><span class="dv">54321</span> </span>
+<span id="cb87-29"><a href="using-exeternal-ml-frameworks.html#cb87-29"></a>    H2O Connection proxy<span class="op">:</span><span class="st">       </span><span class="ot">NA</span> </span>
+<span id="cb87-30"><a href="using-exeternal-ml-frameworks.html#cb87-30"></a>    H2O Internal Security<span class="op">:</span><span class="st">      </span><span class="ot">FALSE</span> </span>
+<span id="cb87-31"><a href="using-exeternal-ml-frameworks.html#cb87-31"></a>    H2O API Extensions<span class="op">:</span><span class="st">         </span>Amazon S3, XGBoost, Algos, AutoML, Core V3, Core V4 </span>
+<span id="cb87-32"><a href="using-exeternal-ml-frameworks.html#cb87-32"></a>    R Version<span class="op">:</span><span class="st">                  </span>R version <span class="dv">3</span>.<span class="fl">5.3</span> (<span class="dv">2019-03-11</span>) </span>
+<span id="cb87-33"><a href="using-exeternal-ml-frameworks.html#cb87-33"></a></span>
+<span id="cb87-34"><a href="using-exeternal-ml-frameworks.html#cb87-34"></a>Your H2O cluster version is too <span class="kw">old</span> (<span class="dv">5</span> months and <span class="dv">5</span> days)<span class="op">!</span></span>
+<span id="cb87-35"><a href="using-exeternal-ml-frameworks.html#cb87-35"></a>Please download and install the latest version from http<span class="op">:</span><span class="er">//</span>h2o.ai<span class="op">/</span>download<span class="op">/</span></span>
+<span id="cb87-36"><a href="using-exeternal-ml-frameworks.html#cb87-36"></a>Show <span class="cf">in</span> New WindowClear OutputExpand<span class="op">/</span>Collapse Output</span>
+<span id="cb87-37"><a href="using-exeternal-ml-frameworks.html#cb87-37"></a>  <span class="op">|</span><span class="er">===========================================================|</span><span class="st"> </span><span class="dv">100</span>%</span>
+<span id="cb87-38"><a href="using-exeternal-ml-frameworks.html#cb87-38"></a>Console<span class="op">~</span><span class="er">/</span>Dropbox<span class="op">/</span>ML<span class="op">/</span>bookdown<span class="op">-</span>minimal<span class="op">/</span></span>
+<span id="cb87-39"><a href="using-exeternal-ml-frameworks.html#cb87-39"></a>Console</span>
+<span id="cb87-40"><a href="using-exeternal-ml-frameworks.html#cb87-40"></a>Terminal</span>
+<span id="cb87-41"><a href="using-exeternal-ml-frameworks.html#cb87-41"></a></span>
+<span id="cb87-42"><a href="using-exeternal-ml-frameworks.html#cb87-42"></a>R Markdown</span>
+<span id="cb87-43"><a href="using-exeternal-ml-frameworks.html#cb87-43"></a></span>
+<span id="cb87-44"><a href="using-exeternal-ml-frameworks.html#cb87-44"></a><span class="op">~</span><span class="er">/</span>Dropbox<span class="op">/</span>ML<span class="op">/</span>bookdown<span class="op">-</span>minimal<span class="op">/</span><span class="st">  </span></span></code></pre></div>
 <p>Once the h2o environment has been initialized then work can begin. This will take the form of using R functions provided by the h2o package to read in data and prepare it for use with various methods. Let’s repeat the regression on mtcars using h2o functions. Since mtcars is already available in the the R environment we can easily import it into h2o.</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1"><span class="co"># Import mtcars</span></a>
-<a class="sourceLine" id="cb82-2" data-line-number="2">mtcars_h2o_df &lt;-<span class="st"> </span><span class="kw">as.h2o</span>(mtcars)</a>
-<a class="sourceLine" id="cb82-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb82-4" data-line-number="4"><span class="co"># Idenitfy the variable to be predicted</span></a>
-<a class="sourceLine" id="cb82-5" data-line-number="5">y &lt;-<span class="st"> &quot;mpg&quot;</span></a>
-<a class="sourceLine" id="cb82-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb82-7" data-line-number="7"><span class="co"># Put the predictor names into a vector</span></a>
-<a class="sourceLine" id="cb82-8" data-line-number="8">x &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">colnames</span>(mtcars_h2o_df),y)</a></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="using-exeternal-ml-frameworks.html#cb88-1"></a><span class="co"># Import mtcars</span></span>
+<span id="cb88-2"><a href="using-exeternal-ml-frameworks.html#cb88-2"></a>mtcars_h2o_df &lt;-<span class="st"> </span><span class="kw">as.h2o</span>(mtcars)</span>
+<span id="cb88-3"><a href="using-exeternal-ml-frameworks.html#cb88-3"></a></span>
+<span id="cb88-4"><a href="using-exeternal-ml-frameworks.html#cb88-4"></a><span class="co"># Idenitfy the variable to be predicted</span></span>
+<span id="cb88-5"><a href="using-exeternal-ml-frameworks.html#cb88-5"></a>y &lt;-<span class="st"> &quot;mpg&quot;</span></span>
+<span id="cb88-6"><a href="using-exeternal-ml-frameworks.html#cb88-6"></a></span>
+<span id="cb88-7"><a href="using-exeternal-ml-frameworks.html#cb88-7"></a><span class="co"># Put the predictor names into a vector</span></span>
+<span id="cb88-8"><a href="using-exeternal-ml-frameworks.html#cb88-8"></a>x &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">colnames</span>(mtcars_h2o_df),y)</span></code></pre></div>
 </div>
 <div id="create-some-models" class="section level2">
 <h2><span class="header-section-number">8.2</span> Create Some Models</h2>
 <p>Now let’s create some training and test data sets. We could do this ourselves using conventional R commands or helper functions from the caret package. However, the h2o package provides its own set of helpers.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1"><span class="kw">data</span>(mtcars)</a>
-<a class="sourceLine" id="cb83-2" data-line-number="2">splits &lt;-<span class="st"> </span><span class="kw">h2o.splitFrame</span>(mtcars_h2o_df, <span class="dt">ratios=</span><span class="fl">0.8</span>,<span class="dt">seed=</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb83-3" data-line-number="3">train_h2o &lt;-<span class="st"> </span>splits[[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb83-4" data-line-number="4">test_h2o  &lt;-<span class="st"> </span>splits[[<span class="dv">2</span>]]</a>
-<a class="sourceLine" id="cb83-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb83-6" data-line-number="6">train</a>
-<a class="sourceLine" id="cb83-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb83-8" data-line-number="8">mpg cyl disp  hp drat    wt  qsec vs am gear carb</a>
-<a class="sourceLine" id="cb83-9" data-line-number="9"><span class="dv">1</span> <span class="fl">21.0</span>   <span class="dv">6</span>  <span class="dv">160</span> <span class="dv">110</span> <span class="fl">3.90</span> <span class="fl">2.620</span> <span class="fl">16.46</span>  <span class="dv">0</span>  <span class="dv">1</span>    <span class="dv">4</span>    <span class="dv">4</span></a>
-<a class="sourceLine" id="cb83-10" data-line-number="10"><span class="dv">2</span> <span class="fl">21.0</span>   <span class="dv">6</span>  <span class="dv">160</span> <span class="dv">110</span> <span class="fl">3.90</span> <span class="fl">2.875</span> <span class="fl">17.02</span>  <span class="dv">0</span>  <span class="dv">1</span>    <span class="dv">4</span>    <span class="dv">4</span></a>
-<a class="sourceLine" id="cb83-11" data-line-number="11"><span class="dv">3</span> <span class="fl">21.4</span>   <span class="dv">6</span>  <span class="dv">258</span> <span class="dv">110</span> <span class="fl">3.08</span> <span class="fl">3.215</span> <span class="fl">19.44</span>  <span class="dv">1</span>  <span class="dv">0</span>    <span class="dv">3</span>    <span class="dv">1</span></a>
-<a class="sourceLine" id="cb83-12" data-line-number="12"><span class="dv">4</span> <span class="fl">18.7</span>   <span class="dv">8</span>  <span class="dv">360</span> <span class="dv">175</span> <span class="fl">3.15</span> <span class="fl">3.440</span> <span class="fl">17.02</span>  <span class="dv">0</span>  <span class="dv">0</span>    <span class="dv">3</span>    <span class="dv">2</span></a>
-<a class="sourceLine" id="cb83-13" data-line-number="13"><span class="dv">5</span> <span class="fl">18.1</span>   <span class="dv">6</span>  <span class="dv">225</span> <span class="dv">105</span> <span class="fl">2.76</span> <span class="fl">3.460</span> <span class="fl">20.22</span>  <span class="dv">1</span>  <span class="dv">0</span>    <span class="dv">3</span>    <span class="dv">1</span></a>
-<a class="sourceLine" id="cb83-14" data-line-number="14"><span class="dv">6</span> <span class="fl">14.3</span>   <span class="dv">8</span>  <span class="dv">360</span> <span class="dv">245</span> <span class="fl">3.21</span> <span class="fl">3.570</span> <span class="fl">15.84</span>  <span class="dv">0</span>  <span class="dv">0</span>    <span class="dv">3</span>    <span class="dv">4</span></a>
-<a class="sourceLine" id="cb83-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb83-16" data-line-number="16">[<span class="dv">29</span> rows x <span class="dv">11</span> columns] </a></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="using-exeternal-ml-frameworks.html#cb89-1"></a><span class="kw">data</span>(mtcars)</span>
+<span id="cb89-2"><a href="using-exeternal-ml-frameworks.html#cb89-2"></a>splits &lt;-<span class="st"> </span><span class="kw">h2o.splitFrame</span>(mtcars_h2o_df, <span class="dt">ratios=</span><span class="fl">0.8</span>,<span class="dt">seed=</span><span class="dv">1</span>)</span>
+<span id="cb89-3"><a href="using-exeternal-ml-frameworks.html#cb89-3"></a>train_h2o &lt;-<span class="st"> </span>splits[[<span class="dv">1</span>]]</span>
+<span id="cb89-4"><a href="using-exeternal-ml-frameworks.html#cb89-4"></a>test_h2o  &lt;-<span class="st"> </span>splits[[<span class="dv">2</span>]]</span>
+<span id="cb89-5"><a href="using-exeternal-ml-frameworks.html#cb89-5"></a></span>
+<span id="cb89-6"><a href="using-exeternal-ml-frameworks.html#cb89-6"></a>train</span>
+<span id="cb89-7"><a href="using-exeternal-ml-frameworks.html#cb89-7"></a></span>
+<span id="cb89-8"><a href="using-exeternal-ml-frameworks.html#cb89-8"></a>mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
+<span id="cb89-9"><a href="using-exeternal-ml-frameworks.html#cb89-9"></a><span class="dv">1</span> <span class="fl">21.0</span>   <span class="dv">6</span>  <span class="dv">160</span> <span class="dv">110</span> <span class="fl">3.90</span> <span class="fl">2.620</span> <span class="fl">16.46</span>  <span class="dv">0</span>  <span class="dv">1</span>    <span class="dv">4</span>    <span class="dv">4</span></span>
+<span id="cb89-10"><a href="using-exeternal-ml-frameworks.html#cb89-10"></a><span class="dv">2</span> <span class="fl">21.0</span>   <span class="dv">6</span>  <span class="dv">160</span> <span class="dv">110</span> <span class="fl">3.90</span> <span class="fl">2.875</span> <span class="fl">17.02</span>  <span class="dv">0</span>  <span class="dv">1</span>    <span class="dv">4</span>    <span class="dv">4</span></span>
+<span id="cb89-11"><a href="using-exeternal-ml-frameworks.html#cb89-11"></a><span class="dv">3</span> <span class="fl">21.4</span>   <span class="dv">6</span>  <span class="dv">258</span> <span class="dv">110</span> <span class="fl">3.08</span> <span class="fl">3.215</span> <span class="fl">19.44</span>  <span class="dv">1</span>  <span class="dv">0</span>    <span class="dv">3</span>    <span class="dv">1</span></span>
+<span id="cb89-12"><a href="using-exeternal-ml-frameworks.html#cb89-12"></a><span class="dv">4</span> <span class="fl">18.7</span>   <span class="dv">8</span>  <span class="dv">360</span> <span class="dv">175</span> <span class="fl">3.15</span> <span class="fl">3.440</span> <span class="fl">17.02</span>  <span class="dv">0</span>  <span class="dv">0</span>    <span class="dv">3</span>    <span class="dv">2</span></span>
+<span id="cb89-13"><a href="using-exeternal-ml-frameworks.html#cb89-13"></a><span class="dv">5</span> <span class="fl">18.1</span>   <span class="dv">6</span>  <span class="dv">225</span> <span class="dv">105</span> <span class="fl">2.76</span> <span class="fl">3.460</span> <span class="fl">20.22</span>  <span class="dv">1</span>  <span class="dv">0</span>    <span class="dv">3</span>    <span class="dv">1</span></span>
+<span id="cb89-14"><a href="using-exeternal-ml-frameworks.html#cb89-14"></a><span class="dv">6</span> <span class="fl">14.3</span>   <span class="dv">8</span>  <span class="dv">360</span> <span class="dv">245</span> <span class="fl">3.21</span> <span class="fl">3.570</span> <span class="fl">15.84</span>  <span class="dv">0</span>  <span class="dv">0</span>    <span class="dv">3</span>    <span class="dv">4</span></span>
+<span id="cb89-15"><a href="using-exeternal-ml-frameworks.html#cb89-15"></a></span>
+<span id="cb89-16"><a href="using-exeternal-ml-frameworks.html#cb89-16"></a>[<span class="dv">29</span> rows x <span class="dv">11</span> columns] </span></code></pre></div>
 <p>Now let’s create a model. We’ll use the Generalized Linear Model function from h2o. It is important to note that this function is implemented from within h2o. That is, we are not in anyway using any existing R packages to do this nor are we using anything from the care package. Here we’ll request a 4-Fold, Cross Validation step as part of the model assembly.</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1">h2o_glm_model &lt;-<span class="st"> </span><span class="kw">h2o.glm</span>(<span class="dt">y=</span>y,<span class="dt">x=</span>x,train_h2o,<span class="dt">nfolds=</span><span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb84-2" data-line-number="2"><span class="kw">summary</span>(h2o_glm_model)</a>
-<a class="sourceLine" id="cb84-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb84-4" data-line-number="4"><span class="co">#</span></a>
-<a class="sourceLine" id="cb84-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb84-6" data-line-number="6"> <span class="op">|</span><span class="er">===========================================================|</span><span class="st"> </span><span class="dv">100</span>%</a>
-<a class="sourceLine" id="cb84-7" data-line-number="7">Model Details<span class="op">:</span></a>
-<a class="sourceLine" id="cb84-8" data-line-number="8"><span class="er">==============</span></a>
-<a class="sourceLine" id="cb84-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb84-10" data-line-number="10">H2ORegressionModel<span class="op">:</span><span class="st"> </span>glm</a>
-<a class="sourceLine" id="cb84-11" data-line-number="11">Model Key<span class="op">:</span><span class="st">  </span>GLM_model_R_<span class="dv">1577927955348</span>_<span class="dv">1</span> </a>
-<a class="sourceLine" id="cb84-12" data-line-number="12">GLM Model<span class="op">:</span><span class="st"> </span>summary</a>
-<a class="sourceLine" id="cb84-13" data-line-number="13">    family     link                              regularization</a>
-<a class="sourceLine" id="cb84-14" data-line-number="14"><span class="dv">1</span> gaussian identity Elastic <span class="kw">Net</span> (<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">lambda =</span> <span class="fl">1.0664</span> )</a>
-<a class="sourceLine" id="cb84-15" data-line-number="15">  number_of_predictors_total number_of_active_predictors</a>
-<a class="sourceLine" id="cb84-16" data-line-number="16"><span class="dv">1</span>                         <span class="dv">10</span>                           <span class="dv">9</span></a>
-<a class="sourceLine" id="cb84-17" data-line-number="17">  number_of_iterations    training_frame</a>
-<a class="sourceLine" id="cb84-18" data-line-number="18"><span class="dv">1</span>                    <span class="dv">1</span> RTMP_sid_bf87_<span class="dv">673</span></a>
-<a class="sourceLine" id="cb84-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb84-20" data-line-number="20">H2ORegressionMetrics<span class="op">:</span><span class="st"> </span>glm</a>
-<a class="sourceLine" id="cb84-21" data-line-number="21"><span class="op">**</span><span class="st"> </span>Reported on training data. <span class="op">**</span></a>
-<a class="sourceLine" id="cb84-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb84-23" data-line-number="23">MSE<span class="op">:</span><span class="st">  </span><span class="fl">6.185253</span></a>
-<a class="sourceLine" id="cb84-24" data-line-number="24">RMSE<span class="op">:</span><span class="st">  </span><span class="fl">2.487017</span></a>
-<a class="sourceLine" id="cb84-25" data-line-number="25">MAE<span class="op">:</span><span class="st">  </span><span class="fl">1.940791</span></a>
-<a class="sourceLine" id="cb84-26" data-line-number="26">RMSLE<span class="op">:</span><span class="st">  </span><span class="fl">0.1135999</span></a>
-<a class="sourceLine" id="cb84-27" data-line-number="27">Mean Residual Deviance <span class="op">:</span><span class="st">  </span><span class="fl">6.185253</span></a>
-<a class="sourceLine" id="cb84-28" data-line-number="28">R<span class="op">^</span><span class="dv">2</span> <span class="op">:</span><span class="st">  </span><span class="fl">0.8392098</span></a>
-<a class="sourceLine" id="cb84-29" data-line-number="29">Null Deviance <span class="op">:</span><span class="fl">1115.568</span></a>
-<a class="sourceLine" id="cb84-30" data-line-number="30">Null D.o.F. <span class="op">:</span><span class="dv">28</span></a>
-<a class="sourceLine" id="cb84-31" data-line-number="31">Residual Deviance <span class="op">:</span><span class="fl">179.3723</span></a>
-<a class="sourceLine" id="cb84-32" data-line-number="32">Residual D.o.F. <span class="op">:</span><span class="dv">19</span></a>
-<a class="sourceLine" id="cb84-33" data-line-number="33">AIC <span class="op">:</span><span class="fl">157.1413</span></a>
-<a class="sourceLine" id="cb84-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb84-35" data-line-number="35"></a>
-<a class="sourceLine" id="cb84-36" data-line-number="36"></a>
-<a class="sourceLine" id="cb84-37" data-line-number="37">H2ORegressionMetrics<span class="op">:</span><span class="st"> </span>glm</a>
-<a class="sourceLine" id="cb84-38" data-line-number="38"><span class="op">**</span><span class="st"> </span>Reported on cross<span class="op">-</span>validation data. <span class="op">**</span></a>
-<a class="sourceLine" id="cb84-39" data-line-number="39"><span class="er">**</span><span class="st"> </span><span class="dv">4</span><span class="op">-</span>fold cross<span class="op">-</span>validation on training <span class="kw">data</span> (Metrics computed <span class="cf">for</span> combined holdout predictions) <span class="op">**</span></a>
-<a class="sourceLine" id="cb84-40" data-line-number="40"></a>
-<a class="sourceLine" id="cb84-41" data-line-number="41">MSE<span class="op">:</span><span class="st">  </span><span class="fl">9.520966</span></a>
-<a class="sourceLine" id="cb84-42" data-line-number="42">RMSE<span class="op">:</span><span class="st">  </span><span class="fl">3.085606</span></a>
-<a class="sourceLine" id="cb84-43" data-line-number="43">MAE<span class="op">:</span><span class="st">  </span><span class="fl">2.478209</span></a>
-<a class="sourceLine" id="cb84-44" data-line-number="44">RMSLE<span class="op">:</span><span class="st">  </span><span class="fl">0.1462186</span></a>
-<a class="sourceLine" id="cb84-45" data-line-number="45">Mean Residual Deviance <span class="op">:</span><span class="st">  </span><span class="fl">9.520966</span></a>
-<a class="sourceLine" id="cb84-46" data-line-number="46">R<span class="op">^</span><span class="dv">2</span> <span class="op">:</span><span class="st">  </span><span class="fl">0.7524955</span></a>
-<a class="sourceLine" id="cb84-47" data-line-number="47">Null Deviance <span class="op">:</span><span class="fl">1194.241</span></a>
-<a class="sourceLine" id="cb84-48" data-line-number="48">Null D.o.F. <span class="op">:</span><span class="dv">28</span></a>
-<a class="sourceLine" id="cb84-49" data-line-number="49">Residual Deviance <span class="op">:</span><span class="fl">276.108</span></a>
-<a class="sourceLine" id="cb84-50" data-line-number="50">Residual D.o.F. <span class="op">:</span><span class="dv">19</span></a>
-<a class="sourceLine" id="cb84-51" data-line-number="51">AIC <span class="op">:</span><span class="fl">169.6498</span></a>
-<a class="sourceLine" id="cb84-52" data-line-number="52"></a>
-<a class="sourceLine" id="cb84-53" data-line-number="53"></a>
-<a class="sourceLine" id="cb84-54" data-line-number="54">Cross<span class="op">-</span>Validation Metrics Summary<span class="op">:</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb84-55" data-line-number="55"><span class="st">                            </span>mean          sd cv_<span class="dv">1</span>_valid cv_<span class="dv">2</span>_valid</a>
-<a class="sourceLine" id="cb84-56" data-line-number="56">mae                    <span class="fl">2.4294133</span>   <span class="fl">0.4533141</span>  <span class="fl">3.3255308</span>  <span class="fl">2.6851656</span></a>
-<a class="sourceLine" id="cb84-57" data-line-number="57">mean_residual_deviance  <span class="fl">9.431254</span>   <span class="fl">2.5729601</span>  <span class="fl">11.924386</span>  <span class="fl">13.098149</span></a>
-<a class="sourceLine" id="cb84-58" data-line-number="58">mse                     <span class="fl">9.431254</span>   <span class="fl">2.5729601</span>  <span class="fl">11.924386</span>  <span class="fl">13.098149</span></a>
-<a class="sourceLine" id="cb84-59" data-line-number="59">null_deviance          <span class="fl">298.56015</span>    <span class="fl">73.43793</span>   <span class="fl">429.7452</span>  <span class="fl">322.68143</span></a>
-<a class="sourceLine" id="cb84-60" data-line-number="60">r2                     <span class="fl">0.7409388</span> <span class="fl">0.041704282</span>  <span class="fl">0.6850852</span> <span class="fl">0.70873845</span></a>
-<a class="sourceLine" id="cb84-61" data-line-number="61">residual_deviance         <span class="fl">69.027</span>   <span class="fl">21.894964</span>  <span class="fl">107.31948</span>  <span class="fl">65.490746</span></a>
-<a class="sourceLine" id="cb84-62" data-line-number="62">rmse                   <span class="fl">2.9984744</span>  <span class="fl">0.46925735</span>  <span class="fl">3.4531705</span>  <span class="fl">3.6191366</span></a>
-<a class="sourceLine" id="cb84-63" data-line-number="63">rmsle                  <span class="fl">0.1363086</span> <span class="fl">0.026307607</span> <span class="fl">0.19733523</span> <span class="fl">0.13199924</span></a>
-<a class="sourceLine" id="cb84-64" data-line-number="64">                       cv_<span class="dv">3</span>_valid cv_<span class="dv">4</span>_valid</a>
-<a class="sourceLine" id="cb84-65" data-line-number="65">mae                     <span class="fl">1.6167169</span>  <span class="fl">2.0902402</span></a>
-<a class="sourceLine" id="cb84-66" data-line-number="66">mean_residual_deviance  <span class="fl">3.6748443</span>   <span class="fl">9.027636</span></a>
-<a class="sourceLine" id="cb84-67" data-line-number="67">mse                     <span class="fl">3.6748443</span>   <span class="fl">9.027636</span></a>
-<a class="sourceLine" id="cb84-68" data-line-number="68">null_deviance           <span class="fl">139.37894</span>  <span class="fl">302.43506</span></a>
-<a class="sourceLine" id="cb84-69" data-line-number="69">r2                     <span class="fl">0.83919096</span> <span class="fl">0.73074067</span></a>
-<a class="sourceLine" id="cb84-70" data-line-number="70">residual_deviance       <span class="fl">22.049067</span>   <span class="fl">81.24872</span></a>
-<a class="sourceLine" id="cb84-71" data-line-number="71">rmse                    <span class="fl">1.9169884</span>  <span class="fl">3.0046024</span></a>
-<a class="sourceLine" id="cb84-72" data-line-number="72">rmsle                   <span class="fl">0.0983199</span> <span class="fl">0.11758001</span></a>
-<a class="sourceLine" id="cb84-73" data-line-number="73"></a>
-<a class="sourceLine" id="cb84-74" data-line-number="74">Scoring History<span class="op">:</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb84-75" data-line-number="75"><span class="st">            </span>timestamp   duration iterations negative_log_likelihood</a>
-<a class="sourceLine" id="cb84-76" data-line-number="76"><span class="dv">1</span> <span class="dv">2020-01-01</span> <span class="dv">20</span><span class="op">:</span><span class="dv">21</span><span class="op">:</span><span class="dv">13</span>  <span class="fl">0.000</span> sec          <span class="dv">0</span>              <span class="fl">1115.56759</span></a>
-<a class="sourceLine" id="cb84-77" data-line-number="77">  objective</a>
-<a class="sourceLine" id="cb84-78" data-line-number="78"><span class="dv">1</span>  <span class="fl">38.46785</span></a>
-<a class="sourceLine" id="cb84-79" data-line-number="79"></a>
-<a class="sourceLine" id="cb84-80" data-line-number="80">Variable Importances<span class="op">:</span><span class="st"> </span>(Extract with <span class="st">`</span><span class="dt">h2o.varimp</span><span class="st">`</span>) </a>
-<a class="sourceLine" id="cb84-81" data-line-number="81"><span class="op">==</span><span class="er">===============================================</span></a>
-<a class="sourceLine" id="cb84-82" data-line-number="82"></a>
-<a class="sourceLine" id="cb84-83" data-line-number="83"><span class="st">   </span>variable relative_importance scaled_importance  percentage</a>
-<a class="sourceLine" id="cb84-84" data-line-number="84"><span class="dv">1</span>        wt          <span class="fl">1.19294625</span>        <span class="fl">1.00000000</span> <span class="fl">0.208632891</span></a>
-<a class="sourceLine" id="cb84-85" data-line-number="85"><span class="dv">2</span>       cyl          <span class="fl">0.92951526</span>        <span class="fl">0.77917615</span> <span class="fl">0.162561772</span></a>
-<a class="sourceLine" id="cb84-86" data-line-number="86"><span class="dv">3</span>      disp          <span class="fl">0.78424629</span>        <span class="fl">0.65740287</span> <span class="fl">0.137155861</span></a>
-<a class="sourceLine" id="cb84-87" data-line-number="87"><span class="dv">4</span>        hp          <span class="fl">0.69294345</span>        <span class="fl">0.58086729</span> <span class="fl">0.121188021</span></a>
-<a class="sourceLine" id="cb84-88" data-line-number="88"><span class="dv">5</span>      carb          <span class="fl">0.62287613</span>        <span class="fl">0.52213261</span> <span class="fl">0.108934035</span></a>
-<a class="sourceLine" id="cb84-89" data-line-number="89"><span class="dv">6</span>        am          <span class="fl">0.55736672</span>        <span class="fl">0.46721864</span> <span class="fl">0.097477175</span></a>
-<a class="sourceLine" id="cb84-90" data-line-number="90"><span class="dv">7</span>        vs          <span class="fl">0.46246830</span>        <span class="fl">0.38766902</span> <span class="fl">0.080880507</span></a>
-<a class="sourceLine" id="cb84-91" data-line-number="91"><span class="dv">8</span>      drat          <span class="fl">0.45447201</span>        <span class="fl">0.38096604</span> <span class="fl">0.079482047</span></a>
-<a class="sourceLine" id="cb84-92" data-line-number="92"><span class="dv">9</span>      gear          <span class="fl">0.02108593</span>        <span class="fl">0.01767551</span> <span class="fl">0.003687692</span></a>
-<a class="sourceLine" id="cb84-93" data-line-number="93"><span class="dv">10</span>     qsec          <span class="fl">0.00000000</span>        <span class="fl">0.00000000</span> <span class="fl">0.000000000</span></a></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="using-exeternal-ml-frameworks.html#cb90-1"></a>h2o_glm_model &lt;-<span class="st"> </span><span class="kw">h2o.glm</span>(<span class="dt">y=</span>y,<span class="dt">x=</span>x,train_h2o,<span class="dt">nfolds=</span><span class="dv">4</span>)</span>
+<span id="cb90-2"><a href="using-exeternal-ml-frameworks.html#cb90-2"></a><span class="kw">summary</span>(h2o_glm_model)</span>
+<span id="cb90-3"><a href="using-exeternal-ml-frameworks.html#cb90-3"></a></span>
+<span id="cb90-4"><a href="using-exeternal-ml-frameworks.html#cb90-4"></a><span class="co">#</span></span>
+<span id="cb90-5"><a href="using-exeternal-ml-frameworks.html#cb90-5"></a></span>
+<span id="cb90-6"><a href="using-exeternal-ml-frameworks.html#cb90-6"></a> <span class="op">|</span><span class="er">===========================================================|</span><span class="st"> </span><span class="dv">100</span>%</span>
+<span id="cb90-7"><a href="using-exeternal-ml-frameworks.html#cb90-7"></a>Model Details<span class="op">:</span></span>
+<span id="cb90-8"><a href="using-exeternal-ml-frameworks.html#cb90-8"></a><span class="er">==============</span></span>
+<span id="cb90-9"><a href="using-exeternal-ml-frameworks.html#cb90-9"></a></span>
+<span id="cb90-10"><a href="using-exeternal-ml-frameworks.html#cb90-10"></a>H2ORegressionModel<span class="op">:</span><span class="st"> </span>glm</span>
+<span id="cb90-11"><a href="using-exeternal-ml-frameworks.html#cb90-11"></a>Model Key<span class="op">:</span><span class="st">  </span>GLM_model_R_<span class="dv">1577927955348</span>_<span class="dv">1</span> </span>
+<span id="cb90-12"><a href="using-exeternal-ml-frameworks.html#cb90-12"></a>GLM Model<span class="op">:</span><span class="st"> </span>summary</span>
+<span id="cb90-13"><a href="using-exeternal-ml-frameworks.html#cb90-13"></a>    family     link                              regularization</span>
+<span id="cb90-14"><a href="using-exeternal-ml-frameworks.html#cb90-14"></a><span class="dv">1</span> gaussian identity Elastic <span class="kw">Net</span> (<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">lambda =</span> <span class="fl">1.0664</span> )</span>
+<span id="cb90-15"><a href="using-exeternal-ml-frameworks.html#cb90-15"></a>  number_of_predictors_total number_of_active_predictors</span>
+<span id="cb90-16"><a href="using-exeternal-ml-frameworks.html#cb90-16"></a><span class="dv">1</span>                         <span class="dv">10</span>                           <span class="dv">9</span></span>
+<span id="cb90-17"><a href="using-exeternal-ml-frameworks.html#cb90-17"></a>  number_of_iterations    training_frame</span>
+<span id="cb90-18"><a href="using-exeternal-ml-frameworks.html#cb90-18"></a><span class="dv">1</span>                    <span class="dv">1</span> RTMP_sid_bf87_<span class="dv">673</span></span>
+<span id="cb90-19"><a href="using-exeternal-ml-frameworks.html#cb90-19"></a></span>
+<span id="cb90-20"><a href="using-exeternal-ml-frameworks.html#cb90-20"></a>H2ORegressionMetrics<span class="op">:</span><span class="st"> </span>glm</span>
+<span id="cb90-21"><a href="using-exeternal-ml-frameworks.html#cb90-21"></a><span class="op">**</span><span class="st"> </span>Reported on training data. <span class="op">**</span></span>
+<span id="cb90-22"><a href="using-exeternal-ml-frameworks.html#cb90-22"></a></span>
+<span id="cb90-23"><a href="using-exeternal-ml-frameworks.html#cb90-23"></a>MSE<span class="op">:</span><span class="st">  </span><span class="fl">6.185253</span></span>
+<span id="cb90-24"><a href="using-exeternal-ml-frameworks.html#cb90-24"></a>RMSE<span class="op">:</span><span class="st">  </span><span class="fl">2.487017</span></span>
+<span id="cb90-25"><a href="using-exeternal-ml-frameworks.html#cb90-25"></a>MAE<span class="op">:</span><span class="st">  </span><span class="fl">1.940791</span></span>
+<span id="cb90-26"><a href="using-exeternal-ml-frameworks.html#cb90-26"></a>RMSLE<span class="op">:</span><span class="st">  </span><span class="fl">0.1135999</span></span>
+<span id="cb90-27"><a href="using-exeternal-ml-frameworks.html#cb90-27"></a>Mean Residual Deviance <span class="op">:</span><span class="st">  </span><span class="fl">6.185253</span></span>
+<span id="cb90-28"><a href="using-exeternal-ml-frameworks.html#cb90-28"></a>R<span class="op">^</span><span class="dv">2</span> <span class="op">:</span><span class="st">  </span><span class="fl">0.8392098</span></span>
+<span id="cb90-29"><a href="using-exeternal-ml-frameworks.html#cb90-29"></a>Null Deviance <span class="op">:</span><span class="fl">1115.568</span></span>
+<span id="cb90-30"><a href="using-exeternal-ml-frameworks.html#cb90-30"></a>Null D.o.F. <span class="op">:</span><span class="dv">28</span></span>
+<span id="cb90-31"><a href="using-exeternal-ml-frameworks.html#cb90-31"></a>Residual Deviance <span class="op">:</span><span class="fl">179.3723</span></span>
+<span id="cb90-32"><a href="using-exeternal-ml-frameworks.html#cb90-32"></a>Residual D.o.F. <span class="op">:</span><span class="dv">19</span></span>
+<span id="cb90-33"><a href="using-exeternal-ml-frameworks.html#cb90-33"></a>AIC <span class="op">:</span><span class="fl">157.1413</span></span>
+<span id="cb90-34"><a href="using-exeternal-ml-frameworks.html#cb90-34"></a></span>
+<span id="cb90-35"><a href="using-exeternal-ml-frameworks.html#cb90-35"></a></span>
+<span id="cb90-36"><a href="using-exeternal-ml-frameworks.html#cb90-36"></a></span>
+<span id="cb90-37"><a href="using-exeternal-ml-frameworks.html#cb90-37"></a>H2ORegressionMetrics<span class="op">:</span><span class="st"> </span>glm</span>
+<span id="cb90-38"><a href="using-exeternal-ml-frameworks.html#cb90-38"></a><span class="op">**</span><span class="st"> </span>Reported on cross<span class="op">-</span>validation data. <span class="op">**</span></span>
+<span id="cb90-39"><a href="using-exeternal-ml-frameworks.html#cb90-39"></a><span class="er">**</span><span class="st"> </span><span class="dv">4</span><span class="op">-</span>fold cross<span class="op">-</span>validation on training <span class="kw">data</span> (Metrics computed <span class="cf">for</span> combined holdout predictions) <span class="op">**</span></span>
+<span id="cb90-40"><a href="using-exeternal-ml-frameworks.html#cb90-40"></a></span>
+<span id="cb90-41"><a href="using-exeternal-ml-frameworks.html#cb90-41"></a>MSE<span class="op">:</span><span class="st">  </span><span class="fl">9.520966</span></span>
+<span id="cb90-42"><a href="using-exeternal-ml-frameworks.html#cb90-42"></a>RMSE<span class="op">:</span><span class="st">  </span><span class="fl">3.085606</span></span>
+<span id="cb90-43"><a href="using-exeternal-ml-frameworks.html#cb90-43"></a>MAE<span class="op">:</span><span class="st">  </span><span class="fl">2.478209</span></span>
+<span id="cb90-44"><a href="using-exeternal-ml-frameworks.html#cb90-44"></a>RMSLE<span class="op">:</span><span class="st">  </span><span class="fl">0.1462186</span></span>
+<span id="cb90-45"><a href="using-exeternal-ml-frameworks.html#cb90-45"></a>Mean Residual Deviance <span class="op">:</span><span class="st">  </span><span class="fl">9.520966</span></span>
+<span id="cb90-46"><a href="using-exeternal-ml-frameworks.html#cb90-46"></a>R<span class="op">^</span><span class="dv">2</span> <span class="op">:</span><span class="st">  </span><span class="fl">0.7524955</span></span>
+<span id="cb90-47"><a href="using-exeternal-ml-frameworks.html#cb90-47"></a>Null Deviance <span class="op">:</span><span class="fl">1194.241</span></span>
+<span id="cb90-48"><a href="using-exeternal-ml-frameworks.html#cb90-48"></a>Null D.o.F. <span class="op">:</span><span class="dv">28</span></span>
+<span id="cb90-49"><a href="using-exeternal-ml-frameworks.html#cb90-49"></a>Residual Deviance <span class="op">:</span><span class="fl">276.108</span></span>
+<span id="cb90-50"><a href="using-exeternal-ml-frameworks.html#cb90-50"></a>Residual D.o.F. <span class="op">:</span><span class="dv">19</span></span>
+<span id="cb90-51"><a href="using-exeternal-ml-frameworks.html#cb90-51"></a>AIC <span class="op">:</span><span class="fl">169.6498</span></span>
+<span id="cb90-52"><a href="using-exeternal-ml-frameworks.html#cb90-52"></a></span>
+<span id="cb90-53"><a href="using-exeternal-ml-frameworks.html#cb90-53"></a></span>
+<span id="cb90-54"><a href="using-exeternal-ml-frameworks.html#cb90-54"></a>Cross<span class="op">-</span>Validation Metrics Summary<span class="op">:</span><span class="st"> </span></span>
+<span id="cb90-55"><a href="using-exeternal-ml-frameworks.html#cb90-55"></a><span class="st">                            </span>mean          sd cv_<span class="dv">1</span>_valid cv_<span class="dv">2</span>_valid</span>
+<span id="cb90-56"><a href="using-exeternal-ml-frameworks.html#cb90-56"></a>mae                    <span class="fl">2.4294133</span>   <span class="fl">0.4533141</span>  <span class="fl">3.3255308</span>  <span class="fl">2.6851656</span></span>
+<span id="cb90-57"><a href="using-exeternal-ml-frameworks.html#cb90-57"></a>mean_residual_deviance  <span class="fl">9.431254</span>   <span class="fl">2.5729601</span>  <span class="fl">11.924386</span>  <span class="fl">13.098149</span></span>
+<span id="cb90-58"><a href="using-exeternal-ml-frameworks.html#cb90-58"></a>mse                     <span class="fl">9.431254</span>   <span class="fl">2.5729601</span>  <span class="fl">11.924386</span>  <span class="fl">13.098149</span></span>
+<span id="cb90-59"><a href="using-exeternal-ml-frameworks.html#cb90-59"></a>null_deviance          <span class="fl">298.56015</span>    <span class="fl">73.43793</span>   <span class="fl">429.7452</span>  <span class="fl">322.68143</span></span>
+<span id="cb90-60"><a href="using-exeternal-ml-frameworks.html#cb90-60"></a>r2                     <span class="fl">0.7409388</span> <span class="fl">0.041704282</span>  <span class="fl">0.6850852</span> <span class="fl">0.70873845</span></span>
+<span id="cb90-61"><a href="using-exeternal-ml-frameworks.html#cb90-61"></a>residual_deviance         <span class="fl">69.027</span>   <span class="fl">21.894964</span>  <span class="fl">107.31948</span>  <span class="fl">65.490746</span></span>
+<span id="cb90-62"><a href="using-exeternal-ml-frameworks.html#cb90-62"></a>rmse                   <span class="fl">2.9984744</span>  <span class="fl">0.46925735</span>  <span class="fl">3.4531705</span>  <span class="fl">3.6191366</span></span>
+<span id="cb90-63"><a href="using-exeternal-ml-frameworks.html#cb90-63"></a>rmsle                  <span class="fl">0.1363086</span> <span class="fl">0.026307607</span> <span class="fl">0.19733523</span> <span class="fl">0.13199924</span></span>
+<span id="cb90-64"><a href="using-exeternal-ml-frameworks.html#cb90-64"></a>                       cv_<span class="dv">3</span>_valid cv_<span class="dv">4</span>_valid</span>
+<span id="cb90-65"><a href="using-exeternal-ml-frameworks.html#cb90-65"></a>mae                     <span class="fl">1.6167169</span>  <span class="fl">2.0902402</span></span>
+<span id="cb90-66"><a href="using-exeternal-ml-frameworks.html#cb90-66"></a>mean_residual_deviance  <span class="fl">3.6748443</span>   <span class="fl">9.027636</span></span>
+<span id="cb90-67"><a href="using-exeternal-ml-frameworks.html#cb90-67"></a>mse                     <span class="fl">3.6748443</span>   <span class="fl">9.027636</span></span>
+<span id="cb90-68"><a href="using-exeternal-ml-frameworks.html#cb90-68"></a>null_deviance           <span class="fl">139.37894</span>  <span class="fl">302.43506</span></span>
+<span id="cb90-69"><a href="using-exeternal-ml-frameworks.html#cb90-69"></a>r2                     <span class="fl">0.83919096</span> <span class="fl">0.73074067</span></span>
+<span id="cb90-70"><a href="using-exeternal-ml-frameworks.html#cb90-70"></a>residual_deviance       <span class="fl">22.049067</span>   <span class="fl">81.24872</span></span>
+<span id="cb90-71"><a href="using-exeternal-ml-frameworks.html#cb90-71"></a>rmse                    <span class="fl">1.9169884</span>  <span class="fl">3.0046024</span></span>
+<span id="cb90-72"><a href="using-exeternal-ml-frameworks.html#cb90-72"></a>rmsle                   <span class="fl">0.0983199</span> <span class="fl">0.11758001</span></span>
+<span id="cb90-73"><a href="using-exeternal-ml-frameworks.html#cb90-73"></a></span>
+<span id="cb90-74"><a href="using-exeternal-ml-frameworks.html#cb90-74"></a>Scoring History<span class="op">:</span><span class="st"> </span></span>
+<span id="cb90-75"><a href="using-exeternal-ml-frameworks.html#cb90-75"></a><span class="st">            </span>timestamp   duration iterations negative_log_likelihood</span>
+<span id="cb90-76"><a href="using-exeternal-ml-frameworks.html#cb90-76"></a><span class="dv">1</span> <span class="dv">2020-01-01</span> <span class="dv">20</span><span class="op">:</span><span class="dv">21</span><span class="op">:</span><span class="dv">13</span>  <span class="fl">0.000</span> sec          <span class="dv">0</span>              <span class="fl">1115.56759</span></span>
+<span id="cb90-77"><a href="using-exeternal-ml-frameworks.html#cb90-77"></a>  objective</span>
+<span id="cb90-78"><a href="using-exeternal-ml-frameworks.html#cb90-78"></a><span class="dv">1</span>  <span class="fl">38.46785</span></span>
+<span id="cb90-79"><a href="using-exeternal-ml-frameworks.html#cb90-79"></a></span>
+<span id="cb90-80"><a href="using-exeternal-ml-frameworks.html#cb90-80"></a>Variable Importances<span class="op">:</span><span class="st"> </span>(Extract with <span class="st">`</span><span class="dt">h2o.varimp</span><span class="st">`</span>) </span>
+<span id="cb90-81"><a href="using-exeternal-ml-frameworks.html#cb90-81"></a><span class="op">==</span><span class="er">===============================================</span></span>
+<span id="cb90-82"><a href="using-exeternal-ml-frameworks.html#cb90-82"></a></span>
+<span id="cb90-83"><a href="using-exeternal-ml-frameworks.html#cb90-83"></a><span class="st">   </span>variable relative_importance scaled_importance  percentage</span>
+<span id="cb90-84"><a href="using-exeternal-ml-frameworks.html#cb90-84"></a><span class="dv">1</span>        wt          <span class="fl">1.19294625</span>        <span class="fl">1.00000000</span> <span class="fl">0.208632891</span></span>
+<span id="cb90-85"><a href="using-exeternal-ml-frameworks.html#cb90-85"></a><span class="dv">2</span>       cyl          <span class="fl">0.92951526</span>        <span class="fl">0.77917615</span> <span class="fl">0.162561772</span></span>
+<span id="cb90-86"><a href="using-exeternal-ml-frameworks.html#cb90-86"></a><span class="dv">3</span>      disp          <span class="fl">0.78424629</span>        <span class="fl">0.65740287</span> <span class="fl">0.137155861</span></span>
+<span id="cb90-87"><a href="using-exeternal-ml-frameworks.html#cb90-87"></a><span class="dv">4</span>        hp          <span class="fl">0.69294345</span>        <span class="fl">0.58086729</span> <span class="fl">0.121188021</span></span>
+<span id="cb90-88"><a href="using-exeternal-ml-frameworks.html#cb90-88"></a><span class="dv">5</span>      carb          <span class="fl">0.62287613</span>        <span class="fl">0.52213261</span> <span class="fl">0.108934035</span></span>
+<span id="cb90-89"><a href="using-exeternal-ml-frameworks.html#cb90-89"></a><span class="dv">6</span>        am          <span class="fl">0.55736672</span>        <span class="fl">0.46721864</span> <span class="fl">0.097477175</span></span>
+<span id="cb90-90"><a href="using-exeternal-ml-frameworks.html#cb90-90"></a><span class="dv">7</span>        vs          <span class="fl">0.46246830</span>        <span class="fl">0.38766902</span> <span class="fl">0.080880507</span></span>
+<span id="cb90-91"><a href="using-exeternal-ml-frameworks.html#cb90-91"></a><span class="dv">8</span>      drat          <span class="fl">0.45447201</span>        <span class="fl">0.38096604</span> <span class="fl">0.079482047</span></span>
+<span id="cb90-92"><a href="using-exeternal-ml-frameworks.html#cb90-92"></a><span class="dv">9</span>      gear          <span class="fl">0.02108593</span>        <span class="fl">0.01767551</span> <span class="fl">0.003687692</span></span>
+<span id="cb90-93"><a href="using-exeternal-ml-frameworks.html#cb90-93"></a><span class="dv">10</span>     qsec          <span class="fl">0.00000000</span>        <span class="fl">0.00000000</span> <span class="fl">0.000000000</span></span></code></pre></div>
 <p>Now we can do a prediction on the object against the test set.</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1">(h2o_glm_preds &lt;-<span class="st"> </span><span class="kw">h2o.predict</span>(h2o_glm_model,test_h2o))</a>
-<a class="sourceLine" id="cb85-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb85-3" data-line-number="3"><span class="co">#</span></a>
-<a class="sourceLine" id="cb85-4" data-line-number="4"><span class="kw">h2o.performance</span>(h2o_glm_model,test_h2o)</a>
-<a class="sourceLine" id="cb85-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb85-6" data-line-number="6"> <span class="op">|</span><span class="er">===========================================================|</span><span class="st"> </span><span class="dv">100</span>%</a>
-<a class="sourceLine" id="cb85-7" data-line-number="7">   predict</a>
-<a class="sourceLine" id="cb85-8" data-line-number="8"><span class="dv">1</span> <span class="fl">25.93186</span></a>
-<a class="sourceLine" id="cb85-9" data-line-number="9"><span class="dv">2</span> <span class="fl">20.67344</span></a>
-<a class="sourceLine" id="cb85-10" data-line-number="10"><span class="dv">3</span> <span class="fl">24.38237</span></a>
-<a class="sourceLine" id="cb85-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb85-12" data-line-number="12">[<span class="dv">3</span> rows x <span class="dv">1</span> column] </a>
-<a class="sourceLine" id="cb85-13" data-line-number="13">H2ORegressionMetrics<span class="op">:</span><span class="st"> </span>glm</a>
-<a class="sourceLine" id="cb85-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb85-15" data-line-number="15">MSE<span class="op">:</span><span class="st">  </span><span class="fl">6.762548</span></a>
-<a class="sourceLine" id="cb85-16" data-line-number="16">RMSE<span class="op">:</span><span class="st">  </span><span class="fl">2.60049</span></a>
-<a class="sourceLine" id="cb85-17" data-line-number="17">MAE<span class="op">:</span><span class="st">  </span><span class="fl">2.495891</span></a>
-<a class="sourceLine" id="cb85-18" data-line-number="18">RMSLE<span class="op">:</span><span class="st">  </span><span class="fl">0.1076563</span></a>
-<a class="sourceLine" id="cb85-19" data-line-number="19">Mean Residual Deviance <span class="op">:</span><span class="st">  </span><span class="fl">6.762548</span></a>
-<a class="sourceLine" id="cb85-20" data-line-number="20">R<span class="op">^</span><span class="dv">2</span> <span class="op">:</span><span class="st">  </span><span class="fl">-2.052306</span></a>
-<a class="sourceLine" id="cb85-21" data-line-number="21">Null Deviance <span class="op">:</span><span class="fl">10.87611</span></a>
-<a class="sourceLine" id="cb85-22" data-line-number="22">Null D.o.F. <span class="op">:</span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb85-23" data-line-number="23">Residual Deviance <span class="op">:</span><span class="fl">20.28765</span></a>
-<a class="sourceLine" id="cb85-24" data-line-number="24">Residual D.o.F. <span class="op">:-</span><span class="dv">7</span></a>
-<a class="sourceLine" id="cb85-25" data-line-number="25">AIC <span class="op">:</span><span class="fl">36.24783</span></a></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="using-exeternal-ml-frameworks.html#cb91-1"></a>(h2o_glm_preds &lt;-<span class="st"> </span><span class="kw">h2o.predict</span>(h2o_glm_model,test_h2o))</span>
+<span id="cb91-2"><a href="using-exeternal-ml-frameworks.html#cb91-2"></a></span>
+<span id="cb91-3"><a href="using-exeternal-ml-frameworks.html#cb91-3"></a><span class="co">#</span></span>
+<span id="cb91-4"><a href="using-exeternal-ml-frameworks.html#cb91-4"></a><span class="kw">h2o.performance</span>(h2o_glm_model,test_h2o)</span>
+<span id="cb91-5"><a href="using-exeternal-ml-frameworks.html#cb91-5"></a></span>
+<span id="cb91-6"><a href="using-exeternal-ml-frameworks.html#cb91-6"></a> <span class="op">|</span><span class="er">===========================================================|</span><span class="st"> </span><span class="dv">100</span>%</span>
+<span id="cb91-7"><a href="using-exeternal-ml-frameworks.html#cb91-7"></a>   predict</span>
+<span id="cb91-8"><a href="using-exeternal-ml-frameworks.html#cb91-8"></a><span class="dv">1</span> <span class="fl">25.93186</span></span>
+<span id="cb91-9"><a href="using-exeternal-ml-frameworks.html#cb91-9"></a><span class="dv">2</span> <span class="fl">20.67344</span></span>
+<span id="cb91-10"><a href="using-exeternal-ml-frameworks.html#cb91-10"></a><span class="dv">3</span> <span class="fl">24.38237</span></span>
+<span id="cb91-11"><a href="using-exeternal-ml-frameworks.html#cb91-11"></a></span>
+<span id="cb91-12"><a href="using-exeternal-ml-frameworks.html#cb91-12"></a>[<span class="dv">3</span> rows x <span class="dv">1</span> column] </span>
+<span id="cb91-13"><a href="using-exeternal-ml-frameworks.html#cb91-13"></a>H2ORegressionMetrics<span class="op">:</span><span class="st"> </span>glm</span>
+<span id="cb91-14"><a href="using-exeternal-ml-frameworks.html#cb91-14"></a></span>
+<span id="cb91-15"><a href="using-exeternal-ml-frameworks.html#cb91-15"></a>MSE<span class="op">:</span><span class="st">  </span><span class="fl">6.762548</span></span>
+<span id="cb91-16"><a href="using-exeternal-ml-frameworks.html#cb91-16"></a>RMSE<span class="op">:</span><span class="st">  </span><span class="fl">2.60049</span></span>
+<span id="cb91-17"><a href="using-exeternal-ml-frameworks.html#cb91-17"></a>MAE<span class="op">:</span><span class="st">  </span><span class="fl">2.495891</span></span>
+<span id="cb91-18"><a href="using-exeternal-ml-frameworks.html#cb91-18"></a>RMSLE<span class="op">:</span><span class="st">  </span><span class="fl">0.1076563</span></span>
+<span id="cb91-19"><a href="using-exeternal-ml-frameworks.html#cb91-19"></a>Mean Residual Deviance <span class="op">:</span><span class="st">  </span><span class="fl">6.762548</span></span>
+<span id="cb91-20"><a href="using-exeternal-ml-frameworks.html#cb91-20"></a>R<span class="op">^</span><span class="dv">2</span> <span class="op">:</span><span class="st">  </span><span class="fl">-2.052306</span></span>
+<span id="cb91-21"><a href="using-exeternal-ml-frameworks.html#cb91-21"></a>Null Deviance <span class="op">:</span><span class="fl">10.87611</span></span>
+<span id="cb91-22"><a href="using-exeternal-ml-frameworks.html#cb91-22"></a>Null D.o.F. <span class="op">:</span><span class="dv">2</span></span>
+<span id="cb91-23"><a href="using-exeternal-ml-frameworks.html#cb91-23"></a>Residual Deviance <span class="op">:</span><span class="fl">20.28765</span></span>
+<span id="cb91-24"><a href="using-exeternal-ml-frameworks.html#cb91-24"></a>Residual D.o.F. <span class="op">:-</span><span class="dv">7</span></span>
+<span id="cb91-25"><a href="using-exeternal-ml-frameworks.html#cb91-25"></a>AIC <span class="op">:</span><span class="fl">36.24783</span></span></code></pre></div>
 <p>Now look at the performance diagnostics:</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="kw">h2o.performance</span>(h2o_glm_model,test_h2o)</a>
-<a class="sourceLine" id="cb86-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb86-3" data-line-number="3">H2ORegressionMetrics<span class="op">:</span><span class="st"> </span>glm</a>
-<a class="sourceLine" id="cb86-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb86-5" data-line-number="5">MSE<span class="op">:</span><span class="st">  </span><span class="fl">6.762548</span></a>
-<a class="sourceLine" id="cb86-6" data-line-number="6">RMSE<span class="op">:</span><span class="st">  </span><span class="fl">2.60049</span></a>
-<a class="sourceLine" id="cb86-7" data-line-number="7">MAE<span class="op">:</span><span class="st">  </span><span class="fl">2.495891</span></a>
-<a class="sourceLine" id="cb86-8" data-line-number="8">RMSLE<span class="op">:</span><span class="st">  </span><span class="fl">0.1076563</span></a>
-<a class="sourceLine" id="cb86-9" data-line-number="9">Mean Residual Deviance <span class="op">:</span><span class="st">  </span><span class="fl">6.762548</span></a>
-<a class="sourceLine" id="cb86-10" data-line-number="10">R<span class="op">^</span><span class="dv">2</span> <span class="op">:</span><span class="st">  </span><span class="fl">-2.052306</span></a>
-<a class="sourceLine" id="cb86-11" data-line-number="11">Null Deviance <span class="op">:</span><span class="fl">10.87611</span></a>
-<a class="sourceLine" id="cb86-12" data-line-number="12">Null D.o.F. <span class="op">:</span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb86-13" data-line-number="13">Residual Deviance <span class="op">:</span><span class="fl">20.28765</span></a>
-<a class="sourceLine" id="cb86-14" data-line-number="14">Residual D.o.F. <span class="op">:-</span><span class="dv">7</span></a>
-<a class="sourceLine" id="cb86-15" data-line-number="15">AIC <span class="op">:</span><span class="fl">36.24783</span></a></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="using-exeternal-ml-frameworks.html#cb92-1"></a><span class="kw">h2o.performance</span>(h2o_glm_model,test_h2o)</span>
+<span id="cb92-2"><a href="using-exeternal-ml-frameworks.html#cb92-2"></a></span>
+<span id="cb92-3"><a href="using-exeternal-ml-frameworks.html#cb92-3"></a>H2ORegressionMetrics<span class="op">:</span><span class="st"> </span>glm</span>
+<span id="cb92-4"><a href="using-exeternal-ml-frameworks.html#cb92-4"></a></span>
+<span id="cb92-5"><a href="using-exeternal-ml-frameworks.html#cb92-5"></a>MSE<span class="op">:</span><span class="st">  </span><span class="fl">6.762548</span></span>
+<span id="cb92-6"><a href="using-exeternal-ml-frameworks.html#cb92-6"></a>RMSE<span class="op">:</span><span class="st">  </span><span class="fl">2.60049</span></span>
+<span id="cb92-7"><a href="using-exeternal-ml-frameworks.html#cb92-7"></a>MAE<span class="op">:</span><span class="st">  </span><span class="fl">2.495891</span></span>
+<span id="cb92-8"><a href="using-exeternal-ml-frameworks.html#cb92-8"></a>RMSLE<span class="op">:</span><span class="st">  </span><span class="fl">0.1076563</span></span>
+<span id="cb92-9"><a href="using-exeternal-ml-frameworks.html#cb92-9"></a>Mean Residual Deviance <span class="op">:</span><span class="st">  </span><span class="fl">6.762548</span></span>
+<span id="cb92-10"><a href="using-exeternal-ml-frameworks.html#cb92-10"></a>R<span class="op">^</span><span class="dv">2</span> <span class="op">:</span><span class="st">  </span><span class="fl">-2.052306</span></span>
+<span id="cb92-11"><a href="using-exeternal-ml-frameworks.html#cb92-11"></a>Null Deviance <span class="op">:</span><span class="fl">10.87611</span></span>
+<span id="cb92-12"><a href="using-exeternal-ml-frameworks.html#cb92-12"></a>Null D.o.F. <span class="op">:</span><span class="dv">2</span></span>
+<span id="cb92-13"><a href="using-exeternal-ml-frameworks.html#cb92-13"></a>Residual Deviance <span class="op">:</span><span class="fl">20.28765</span></span>
+<span id="cb92-14"><a href="using-exeternal-ml-frameworks.html#cb92-14"></a>Residual D.o.F. <span class="op">:-</span><span class="dv">7</span></span>
+<span id="cb92-15"><a href="using-exeternal-ml-frameworks.html#cb92-15"></a>AIC <span class="op">:</span><span class="fl">36.24783</span></span></code></pre></div>
 </div>
 <div id="saving-a-model" class="section level2">
 <h2><span class="header-section-number">8.3</span> Saving A Model</h2>
 <p>You can save the contents of any h2o generated model by using the h2o.saveModel() function. You could extract pieces of information from the S4 object but saving the model is easy to do - as is reading it back in.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1">model_path &lt;-<span class="st"> </span><span class="kw">h2o.saveModel</span>(h2o_glm_model,<span class="dt">path=</span><span class="kw">getwd</span>(),<span class="dt">force=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb87-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb87-3" data-line-number="3"><span class="co"># If you need to load a previously saved model</span></a>
-<a class="sourceLine" id="cb87-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb87-5" data-line-number="5">saved_model &lt;-<span class="st"> </span><span class="kw">h2o.loadModel</span>(model_path)</a></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="using-exeternal-ml-frameworks.html#cb93-1"></a>model_path &lt;-<span class="st"> </span><span class="kw">h2o.saveModel</span>(h2o_glm_model,<span class="dt">path=</span><span class="kw">getwd</span>(),<span class="dt">force=</span><span class="ot">TRUE</span>)</span>
+<span id="cb93-2"><a href="using-exeternal-ml-frameworks.html#cb93-2"></a></span>
+<span id="cb93-3"><a href="using-exeternal-ml-frameworks.html#cb93-3"></a><span class="co"># If you need to load a previously saved model</span></span>
+<span id="cb93-4"><a href="using-exeternal-ml-frameworks.html#cb93-4"></a></span>
+<span id="cb93-5"><a href="using-exeternal-ml-frameworks.html#cb93-5"></a>saved_model &lt;-<span class="st"> </span><span class="kw">h2o.loadModel</span>(model_path)</span></code></pre></div>
 </div>
 <div id="using-the-auto-ml-feature" class="section level2">
 <h2><span class="header-section-number">8.4</span> Using the Auto ML Feature</h2>
@@ -460,37 +462,37 @@ algorithm (AutoML).</p>
 <div id="launching-a-job" class="section level2">
 <h2><span class="header-section-number">8.5</span> Launching A Job</h2>
 <p>Of course, it all begins with the idea of specifying a performance metric such as RMSE or the area under a ROC curve. The idea here is that we specify some input, apply transformations, create a test/train pair, and then call the h2o auto function.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1">h2o_auto_mtcars &lt;-<span class="st"> </span><span class="kw">h2o.automl</span>(<span class="dt">y =</span> y, <span class="dt">x =</span> x,</a>
-<a class="sourceLine" id="cb89-2" data-line-number="2">                              <span class="dt">training_frame =</span> train_h2o,</a>
-<a class="sourceLine" id="cb89-3" data-line-number="3">                              <span class="dt">leaderboard_frame =</span> test_h2o,</a>
-<a class="sourceLine" id="cb89-4" data-line-number="4">                              <span class="dt">max_runtime_secs =</span> <span class="dv">60</span>,</a>
-<a class="sourceLine" id="cb89-5" data-line-number="5">                              <span class="dt">seed =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb89-6" data-line-number="6">                              <span class="dt">sort_metric =</span> <span class="st">&quot;RMSE&quot;</span>,</a>
-<a class="sourceLine" id="cb89-7" data-line-number="7">                              <span class="dt">project_name =</span> <span class="st">&quot;mtcars&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="using-exeternal-ml-frameworks.html#cb95-1"></a>h2o_auto_mtcars &lt;-<span class="st"> </span><span class="kw">h2o.automl</span>(<span class="dt">y =</span> y, <span class="dt">x =</span> x,</span>
+<span id="cb95-2"><a href="using-exeternal-ml-frameworks.html#cb95-2"></a>                              <span class="dt">training_frame =</span> train_h2o,</span>
+<span id="cb95-3"><a href="using-exeternal-ml-frameworks.html#cb95-3"></a>                              <span class="dt">leaderboard_frame =</span> test_h2o,</span>
+<span id="cb95-4"><a href="using-exeternal-ml-frameworks.html#cb95-4"></a>                              <span class="dt">max_runtime_secs =</span> <span class="dv">60</span>,</span>
+<span id="cb95-5"><a href="using-exeternal-ml-frameworks.html#cb95-5"></a>                              <span class="dt">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb95-6"><a href="using-exeternal-ml-frameworks.html#cb95-6"></a>                              <span class="dt">sort_metric =</span> <span class="st">&quot;RMSE&quot;</span>,</span>
+<span id="cb95-7"><a href="using-exeternal-ml-frameworks.html#cb95-7"></a>                              <span class="dt">project_name =</span> <span class="st">&quot;mtcars&quot;</span>)</span></code></pre></div>
 <p>Let’s check out the object that is returned. It is an S4 object in R which means that it has “slots” which can be accessed via the “@” operator.</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1"><span class="kw">slotNames</span>(h2o_auto_mtcars)</a>
-<a class="sourceLine" id="cb90-2" data-line-number="2">h2o_auto_mtcars<span class="op">@</span>leaderboard</a>
-<a class="sourceLine" id="cb90-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb90-4" data-line-number="4">[<span class="dv">1</span>] <span class="st">&quot;project_name&quot;</span>  <span class="st">&quot;leader&quot;</span>        <span class="st">&quot;leaderboard&quot;</span>   <span class="st">&quot;event_log&quot;</span>    </a>
-<a class="sourceLine" id="cb90-5" data-line-number="5">[<span class="dv">5</span>] <span class="st">&quot;training_info&quot;</span></a>
-<a class="sourceLine" id="cb90-6" data-line-number="6">                                        model_id</a>
-<a class="sourceLine" id="cb90-7" data-line-number="7"><span class="dv">1</span>     GBM_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">53</span></a>
-<a class="sourceLine" id="cb90-8" data-line-number="8"><span class="dv">2</span>          DeepLearning_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span></a>
-<a class="sourceLine" id="cb90-9" data-line-number="9"><span class="dv">3</span> XGBoost_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">14</span></a>
-<a class="sourceLine" id="cb90-10" data-line-number="10"><span class="dv">4</span>  XGBoost_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">5</span></a>
-<a class="sourceLine" id="cb90-11" data-line-number="11"><span class="dv">5</span>     GBM_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">52</span></a>
-<a class="sourceLine" id="cb90-12" data-line-number="12"><span class="dv">6</span>     GBM_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">16</span></a>
-<a class="sourceLine" id="cb90-13" data-line-number="13">  mean_residual_deviance      rmse       mse       mae      rmsle</a>
-<a class="sourceLine" id="cb90-14" data-line-number="14"><span class="dv">1</span>              <span class="fl">0.2147231</span> <span class="fl">0.4633822</span> <span class="fl">0.2147231</span> <span class="fl">0.4138704</span> <span class="fl">0.02128094</span></a>
-<a class="sourceLine" id="cb90-15" data-line-number="15"><span class="dv">2</span>              <span class="fl">0.3734735</span> <span class="fl">0.6111248</span> <span class="fl">0.3734735</span> <span class="fl">0.5076945</span> <span class="fl">0.02559229</span></a>
-<a class="sourceLine" id="cb90-16" data-line-number="16"><span class="dv">3</span>              <span class="fl">0.4586288</span> <span class="fl">0.6772213</span> <span class="fl">0.4586288</span> <span class="fl">0.6318582</span> <span class="fl">0.03060372</span></a>
-<a class="sourceLine" id="cb90-17" data-line-number="17"><span class="dv">4</span>              <span class="fl">0.4787276</span> <span class="fl">0.6919014</span> <span class="fl">0.4787276</span> <span class="fl">0.5760670</span> <span class="fl">0.03091116</span></a>
-<a class="sourceLine" id="cb90-18" data-line-number="18"><span class="dv">5</span>              <span class="fl">0.7571985</span> <span class="fl">0.8701716</span> <span class="fl">0.7571985</span> <span class="fl">0.7831136</span> <span class="fl">0.03729489</span></a>
-<a class="sourceLine" id="cb90-19" data-line-number="19"><span class="dv">6</span>              <span class="fl">0.7772694</span> <span class="fl">0.8816289</span> <span class="fl">0.7772694</span> <span class="fl">0.8020415</span> <span class="fl">0.03896093</span></a>
-<a class="sourceLine" id="cb90-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb90-21" data-line-number="21">[<span class="dv">89</span> rows x <span class="dv">6</span> columns] </a></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="using-exeternal-ml-frameworks.html#cb96-1"></a><span class="kw">slotNames</span>(h2o_auto_mtcars)</span>
+<span id="cb96-2"><a href="using-exeternal-ml-frameworks.html#cb96-2"></a>h2o_auto_mtcars<span class="op">@</span>leaderboard</span>
+<span id="cb96-3"><a href="using-exeternal-ml-frameworks.html#cb96-3"></a></span>
+<span id="cb96-4"><a href="using-exeternal-ml-frameworks.html#cb96-4"></a>[<span class="dv">1</span>] <span class="st">&quot;project_name&quot;</span>  <span class="st">&quot;leader&quot;</span>        <span class="st">&quot;leaderboard&quot;</span>   <span class="st">&quot;event_log&quot;</span>    </span>
+<span id="cb96-5"><a href="using-exeternal-ml-frameworks.html#cb96-5"></a>[<span class="dv">5</span>] <span class="st">&quot;training_info&quot;</span></span>
+<span id="cb96-6"><a href="using-exeternal-ml-frameworks.html#cb96-6"></a>                                        model_id</span>
+<span id="cb96-7"><a href="using-exeternal-ml-frameworks.html#cb96-7"></a><span class="dv">1</span>     GBM_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">53</span></span>
+<span id="cb96-8"><a href="using-exeternal-ml-frameworks.html#cb96-8"></a><span class="dv">2</span>          DeepLearning_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span></span>
+<span id="cb96-9"><a href="using-exeternal-ml-frameworks.html#cb96-9"></a><span class="dv">3</span> XGBoost_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">14</span></span>
+<span id="cb96-10"><a href="using-exeternal-ml-frameworks.html#cb96-10"></a><span class="dv">4</span>  XGBoost_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">5</span></span>
+<span id="cb96-11"><a href="using-exeternal-ml-frameworks.html#cb96-11"></a><span class="dv">5</span>     GBM_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">52</span></span>
+<span id="cb96-12"><a href="using-exeternal-ml-frameworks.html#cb96-12"></a><span class="dv">6</span>     GBM_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">16</span></span>
+<span id="cb96-13"><a href="using-exeternal-ml-frameworks.html#cb96-13"></a>  mean_residual_deviance      rmse       mse       mae      rmsle</span>
+<span id="cb96-14"><a href="using-exeternal-ml-frameworks.html#cb96-14"></a><span class="dv">1</span>              <span class="fl">0.2147231</span> <span class="fl">0.4633822</span> <span class="fl">0.2147231</span> <span class="fl">0.4138704</span> <span class="fl">0.02128094</span></span>
+<span id="cb96-15"><a href="using-exeternal-ml-frameworks.html#cb96-15"></a><span class="dv">2</span>              <span class="fl">0.3734735</span> <span class="fl">0.6111248</span> <span class="fl">0.3734735</span> <span class="fl">0.5076945</span> <span class="fl">0.02559229</span></span>
+<span id="cb96-16"><a href="using-exeternal-ml-frameworks.html#cb96-16"></a><span class="dv">3</span>              <span class="fl">0.4586288</span> <span class="fl">0.6772213</span> <span class="fl">0.4586288</span> <span class="fl">0.6318582</span> <span class="fl">0.03060372</span></span>
+<span id="cb96-17"><a href="using-exeternal-ml-frameworks.html#cb96-17"></a><span class="dv">4</span>              <span class="fl">0.4787276</span> <span class="fl">0.6919014</span> <span class="fl">0.4787276</span> <span class="fl">0.5760670</span> <span class="fl">0.03091116</span></span>
+<span id="cb96-18"><a href="using-exeternal-ml-frameworks.html#cb96-18"></a><span class="dv">5</span>              <span class="fl">0.7571985</span> <span class="fl">0.8701716</span> <span class="fl">0.7571985</span> <span class="fl">0.7831136</span> <span class="fl">0.03729489</span></span>
+<span id="cb96-19"><a href="using-exeternal-ml-frameworks.html#cb96-19"></a><span class="dv">6</span>              <span class="fl">0.7772694</span> <span class="fl">0.8816289</span> <span class="fl">0.7772694</span> <span class="fl">0.8020415</span> <span class="fl">0.03896093</span></span>
+<span id="cb96-20"><a href="using-exeternal-ml-frameworks.html#cb96-20"></a></span>
+<span id="cb96-21"><a href="using-exeternal-ml-frameworks.html#cb96-21"></a>[<span class="dv">89</span> rows x <span class="dv">6</span> columns] </span></code></pre></div>
 <p>Stop the H2O instance</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">h2o.shutdown</span>(<span class="dt">prompt=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="using-exeternal-ml-frameworks.html#cb97-1"></a><span class="kw">h2o.shutdown</span>(<span class="dt">prompt=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 
 </div>
 </div>

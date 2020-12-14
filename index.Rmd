@@ -588,6 +588,14 @@ myrpart_caret <- train(diabetes ~ .,
 myrpart_caret
 ```
 
+So we also need to do some predictions on the Test data set to see how well the model works on unseen data. This model has good specifity but not so good with the sensitivity. 
+
+```{r}
+confusionMatrix(myrpart_caret_preds,Test$diabetes,positive="pos")
+```
+
+
+
 This method employs a Decision Tree approach which also involves use of "hyper parameters". However, at this point we don't really need to know much about those (although we should) when selecting the method. The larger point is that all we need to know is the name of the alternative method and we can reuse the previous **control** object.  
 
 ## Different Performance Measures
@@ -611,7 +619,19 @@ myglm_caret_roc <- train(diabetes ~ .,
 myglm_caret_roc
 ```
 
-This is a true convenience and we don't have to use a separate R package to compute the AUC. It becomes a by product of the modeling process.  
+This is a true convenience and we don't have to use a separate R package to compute the AUC. It becomes a by product of the modeling process. One subtlety with the above is the way caret looks at the levels of the diabetes column. It looks at them as "neg" and "pos" which leads to a switch between the sensitivity and specificity. An example will make this clear. Let's do predictions on the training data:
+
+```{r}
+train_myglm_preds <- predict(myglm_caret_roc,Train)
+caret::confusionMatrix(train_myglm_preds,Train$diabetes,positive="pos")
+```
+
+Let's see how it performs on the Test data
+
+```{r}
+test_myglm_preds <- predict(myglm_caret_roc,Test)
+caret::confusionMatrix(test_myglm_preds,Test$diabetes,positive="pos")
+```
 
 Specifically, the control object can remain the same across different methods assuming that we wish to continue with classification. Here, we'll use Random Forests which are a generalization beyond a single Decision Tree. 
 
