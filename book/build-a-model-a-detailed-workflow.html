@@ -206,7 +206,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="splitting-the-data" class="section level2">
 <h2><span class="header-section-number">3.1</span> Splitting The Data</h2>
 <p>A fundamental approach used in ML is to segment data into a “training” set which is some percentage of the original data - say 80%. The remaining 20% would be assigned to a “test” data set. Then we build a model on our training data set after which we use that model to predict outcomes for the test data set. This looks like the following.</p>
-<p><img src="PICS/crossvalid.png" width="500" /></p>
+<p><img src="PICS/train_test.png" width="500" /></p>
 <p>Note that some scenarios will split the data into three data sets: 1) training, 2) validation, and 3) test. This scenario is used when tuning so called hyper parameters for methods that have “tuning” parameters that could influence the resulting model. We’ll stick with the basic “train / test” approach for now.</p>
 <p>Splitting the data is not particularly challenging. We can use the built in <strong>sample</strong> function in R to do this. We aren’t sampling with replacement here which guarantees that no record can exist in both sets. That is, if a record from the data set is assigned to the training set, it will not be in the test data set.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="build-a-model-a-detailed-workflow.html#cb8-1"></a><span class="co"># Make this example reproducible</span></span>

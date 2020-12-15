@@ -166,7 +166,7 @@ The following graphic depicts the detailed steps involved in the typical Modelin
 
 A fundamental approach used in ML is to segment data into a "training" set which is some percentage of the original data - say 80%. The remaining 20% would be assigned to a "test" data set. Then we build a model on our training data set after which we use that model to predict outcomes for the test data set. This looks like the following. 
 
-![](./PICS/crossvalid.png){width=500}
+![](./PICS/train_test.png){width=500}
 
 Note that some scenarios will split the data into three data sets: 1) training, 2) validation, and 3) test. This scenario is used when tuning so called hyper parameters for methods that have "tuning" parameters that could influence the resulting model. We'll stick with the basic "train / test" approach for now. 
 
