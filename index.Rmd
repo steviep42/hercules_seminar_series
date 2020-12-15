@@ -49,7 +49,7 @@ clustering, mixture models, DBSCAN, Association Rules, Neural Networks
 
 ## Predictive Modeling
 
-This lecture is concerned primarily with Predictive Modeling. Some examples of Predictive Modeling include:
+This lecture is concerned primarily with Predictive Modeling and Supervised approaches in particular. Some examples of Predictive Modeling include:
 
   * Predict current CD4 cell count of an HIV-positive patient using genome sequences
 
@@ -393,7 +393,7 @@ This is a method that gives us multiple estimates of out-of-sample error, rather
   
 Each fold is simply a portion of the data. We'll generate a list called "folds" that contains 3 elements each of which are 256 index elements corresponding to rows in pm. The way we did the sample insures that each row shows up only in one fold. 
 
-![](./PICS/crossk.png)
+![](./PICS/kf3.png)
 
 Here is our function to implement the K-Fold validation. It's pretty straightforward to define in terms of coding though it winds up being  somewhat specific to the particular method we are using. Still, we could give it an argument to accept different methods. 
 
