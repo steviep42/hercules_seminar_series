@@ -215,21 +215,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="data-splitting-using-caret" class="section level2">
 <h2><span class="header-section-number">5.1</span> Data Splitting Using Caret</h2>
 <p>Let’s split the data into a training / test pair. The caret package provides some useful functions for this one of which is the <strong>CreateDataPartition</strong> function.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="is-there-a-better-way.html#cb39-1"></a>idx &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(pm<span class="op">$</span>diabetes,</span>
-<span id="cb39-2"><a href="is-there-a-better-way.html#cb39-2"></a>                           <span class="dt">p=</span>.<span class="dv">80</span>,</span>
-<span id="cb39-3"><a href="is-there-a-better-way.html#cb39-3"></a>                           <span class="dt">list=</span><span class="ot">FALSE</span>)</span>
-<span id="cb39-4"><a href="is-there-a-better-way.html#cb39-4"></a></span>
-<span id="cb39-5"><a href="is-there-a-better-way.html#cb39-5"></a>Train &lt;-<span class="st"> </span>pm[idx,]</span>
-<span id="cb39-6"><a href="is-there-a-better-way.html#cb39-6"></a>Test  &lt;-<span class="st"> </span>pm[<span class="op">-</span>idx,]</span>
-<span id="cb39-7"><a href="is-there-a-better-way.html#cb39-7"></a></span>
-<span id="cb39-8"><a href="is-there-a-better-way.html#cb39-8"></a><span class="kw">nrow</span>(Train)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="is-there-a-better-way.html#cb40-1"></a>idx &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(pm<span class="op">$</span>diabetes,</span>
+<span id="cb40-2"><a href="is-there-a-better-way.html#cb40-2"></a>                           <span class="dt">p=</span>.<span class="dv">80</span>,</span>
+<span id="cb40-3"><a href="is-there-a-better-way.html#cb40-3"></a>                           <span class="dt">list=</span><span class="ot">FALSE</span>)</span>
+<span id="cb40-4"><a href="is-there-a-better-way.html#cb40-4"></a></span>
+<span id="cb40-5"><a href="is-there-a-better-way.html#cb40-5"></a>Train &lt;-<span class="st"> </span>pm[idx,]</span>
+<span id="cb40-6"><a href="is-there-a-better-way.html#cb40-6"></a>Test  &lt;-<span class="st"> </span>pm[<span class="op">-</span>idx,]</span>
+<span id="cb40-7"><a href="is-there-a-better-way.html#cb40-7"></a></span>
+<span id="cb40-8"><a href="is-there-a-better-way.html#cb40-8"></a><span class="kw">nrow</span>(Train)</span></code></pre></div>
 <pre><code>## [1] 615</code></pre>
 <p>Now we can use this to create a training object with caret. We’ll create a GLM model similar to the one we’ve already created. The primary, and most frequently used, function in <strong>caret</strong> is the <strong>train</strong> function. In this example we’ll use it build a model using the <strong>glm</strong> method. We will also specify that “Accuracy” will be the preferred performance measure.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="is-there-a-better-way.html#cb41-1"></a>myglm_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
-<span id="cb41-2"><a href="is-there-a-better-way.html#cb41-2"></a>                     <span class="dt">data =</span> Train,</span>
-<span id="cb41-3"><a href="is-there-a-better-way.html#cb41-3"></a>                     <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,</span>
-<span id="cb41-4"><a href="is-there-a-better-way.html#cb41-4"></a>                     <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>)</span>
-<span id="cb41-5"><a href="is-there-a-better-way.html#cb41-5"></a>myglm_caret</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="is-there-a-better-way.html#cb42-1"></a>myglm_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
+<span id="cb42-2"><a href="is-there-a-better-way.html#cb42-2"></a>                     <span class="dt">data =</span> Train,</span>
+<span id="cb42-3"><a href="is-there-a-better-way.html#cb42-3"></a>                     <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb42-4"><a href="is-there-a-better-way.html#cb42-4"></a>                     <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>)</span>
+<span id="cb42-5"><a href="is-there-a-better-way.html#cb42-5"></a>myglm_caret</span></code></pre></div>
 <pre><code>## Generalized Linear Model 
 ## 
 ## 615 samples
@@ -243,19 +243,59 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##   Accuracy   Kappa    
 ##   0.7590927  0.4449503</code></pre>
+<p>We get a lot for our money. Look at all the stuff we get in the returned object:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="is-there-a-better-way.html#cb44-1"></a><span class="kw">str</span>(myglm_caret,<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## List of 23
+##  $ method      : chr &quot;glm&quot;
+##  $ modelInfo   :List of 15
+##  $ modelType   : chr &quot;Classification&quot;
+##  $ results     :&#39;data.frame&#39;:    1 obs. of  5 variables:
+##  $ pred        : NULL
+##  $ bestTune    :&#39;data.frame&#39;:    1 obs. of  1 variable:
+##  $ call        : language train.formula(form = diabetes ~ ., data = Train, method = &quot;glm&quot;, metric = &quot;Accuracy&quot;)
+##  $ dots        : list()
+##  $ metric      : chr &quot;Accuracy&quot;
+##  $ control     :List of 27
+##  $ finalModel  :List of 34
+##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;glm&quot; &quot;lm&quot;
+##  $ preProcess  : NULL
+##  $ trainingData:&#39;data.frame&#39;:    615 obs. of  9 variables:
+##  $ resample    :&#39;data.frame&#39;:    25 obs. of  3 variables:
+##  $ resampledCM :&#39;data.frame&#39;:    25 obs. of  6 variables:
+##  $ perfNames   : chr [1:2] &quot;Accuracy&quot; &quot;Kappa&quot;
+##  $ maximize    : logi TRUE
+##  $ yLimits     : NULL
+##  $ times       :List of 3
+##  $ levels      : chr [1:2] &quot;neg&quot; &quot;pos&quot;
+##   ..- attr(*, &quot;ordered&quot;)= logi FALSE
+##  $ terms       :Classes &#39;terms&#39;, &#39;formula&#39;  language diabetes ~ pregnant + glucose + pressure + triceps + insulin + mass + pedigree +      age
+##   .. ..- attr(*, &quot;variables&quot;)= language list(diabetes, pregnant, glucose, pressure, triceps, insulin, mass, pedigree,      age)
+##   .. ..- attr(*, &quot;factors&quot;)= int [1:9, 1:8] 0 1 0 0 0 0 0 0 0 0 ...
+##   .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. ..- attr(*, &quot;term.labels&quot;)= chr [1:8] &quot;pregnant&quot; &quot;glucose&quot; &quot;pressure&quot; &quot;triceps&quot; ...
+##   .. ..- attr(*, &quot;order&quot;)= int [1:8] 1 1 1 1 1 1 1 1
+##   .. ..- attr(*, &quot;intercept&quot;)= int 1
+##   .. ..- attr(*, &quot;response&quot;)= int 1
+##   .. ..- attr(*, &quot;.Environment&quot;)=&lt;environment: R_GlobalEnv&gt; 
+##   .. ..- attr(*, &quot;predvars&quot;)= language list(diabetes, pregnant, glucose, pressure, triceps, insulin, mass, pedigree,      age)
+##   .. ..- attr(*, &quot;dataClasses&quot;)= Named chr [1:9] &quot;factor&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; ...
+##   .. .. ..- attr(*, &quot;names&quot;)= chr [1:9] &quot;diabetes&quot; &quot;pregnant&quot; &quot;glucose&quot; &quot;pressure&quot; ...
+##  $ coefnames   : chr [1:8] &quot;pregnant&quot; &quot;glucose&quot; &quot;pressure&quot; &quot;triceps&quot; ...
+##  $ xlevels     : Named list()
+##  - attr(*, &quot;class&quot;)= chr [1:2] &quot;train&quot; &quot;train.formula&quot;</code></pre>
 </div>
 <div id="specifying-control-options" class="section level2">
 <h2><span class="header-section-number">5.2</span> Specifying Control Options</h2>
 <p>We can even request cross fold validation without having to write our own function to do this. To do this requires the specification of a “control” object which contains information that we would like for the <strong>train</strong> function to consider as it does its work.</p>
 <p>Not every invocation of <strong>train</strong> requires an associated <strong>trainControl</strong> object although as you become more experienced building models, you will frequently use this approach.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="is-there-a-better-way.html#cb43-1"></a>control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">5</span>)</span>
-<span id="cb43-2"><a href="is-there-a-better-way.html#cb43-2"></a></span>
-<span id="cb43-3"><a href="is-there-a-better-way.html#cb43-3"></a>myglm_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
-<span id="cb43-4"><a href="is-there-a-better-way.html#cb43-4"></a>                     <span class="dt">data =</span> Train,</span>
-<span id="cb43-5"><a href="is-there-a-better-way.html#cb43-5"></a>                     <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,</span>
-<span id="cb43-6"><a href="is-there-a-better-way.html#cb43-6"></a>                     <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,</span>
-<span id="cb43-7"><a href="is-there-a-better-way.html#cb43-7"></a>                     <span class="dt">trControl =</span> control)</span>
-<span id="cb43-8"><a href="is-there-a-better-way.html#cb43-8"></a>myglm_caret</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="is-there-a-better-way.html#cb46-1"></a>control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">5</span>)</span>
+<span id="cb46-2"><a href="is-there-a-better-way.html#cb46-2"></a></span>
+<span id="cb46-3"><a href="is-there-a-better-way.html#cb46-3"></a>myglm_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
+<span id="cb46-4"><a href="is-there-a-better-way.html#cb46-4"></a>                     <span class="dt">data =</span> Train,</span>
+<span id="cb46-5"><a href="is-there-a-better-way.html#cb46-5"></a>                     <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb46-6"><a href="is-there-a-better-way.html#cb46-6"></a>                     <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,</span>
+<span id="cb46-7"><a href="is-there-a-better-way.html#cb46-7"></a>                     <span class="dt">trControl =</span> control)</span>
+<span id="cb46-8"><a href="is-there-a-better-way.html#cb46-8"></a>myglm_caret</span></code></pre></div>
 <pre><code>## Generalized Linear Model 
 ## 
 ## 615 samples
@@ -273,24 +313,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="inspecting-the-model" class="section level2">
 <h2><span class="header-section-number">5.3</span> Inspecting The Model</h2>
 <p>The object returned by caret has a great deal of information packed into it much of which is there to support reproducibility. Some key aspects of the object include, in this case, the Accuracy computation for each fold.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="is-there-a-better-way.html#cb45-1"></a>myglm_caret<span class="op">$</span>resample</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="is-there-a-better-way.html#cb48-1"></a>myglm_caret<span class="op">$</span>resample</span></code></pre></div>
 <pre><code>##    Accuracy     Kappa Resample
 ## 1 0.7967480 0.5249498    Fold1
 ## 2 0.7154472 0.3424469    Fold2
 ## 3 0.7642276 0.4551703    Fold3
 ## 4 0.7723577 0.4884135    Fold4
 ## 5 0.7723577 0.4827275    Fold5</code></pre>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="is-there-a-better-way.html#cb47-1"></a>myglm_caret<span class="op">$</span>results</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="is-there-a-better-way.html#cb50-1"></a>myglm_caret<span class="op">$</span>results</span></code></pre></div>
 <pre><code>##   parameter  Accuracy     Kappa AccuracySD    KappaSD
 ## 1      none 0.7642276 0.4587416 0.02987183 0.06959971</code></pre>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="is-there-a-better-way.html#cb49-1"></a><span class="co"># Note that the final reported Accuracy metric is simply the average of </span></span>
-<span id="cb49-2"><a href="is-there-a-better-way.html#cb49-2"></a><span class="co"># the reported Accuracy values for each fold</span></span>
-<span id="cb49-3"><a href="is-there-a-better-way.html#cb49-3"></a></span>
-<span id="cb49-4"><a href="is-there-a-better-way.html#cb49-4"></a>myglm_caret<span class="op">$</span>results[<span class="dv">2</span>] <span class="op">==</span><span class="st"> </span><span class="kw">mean</span>(myglm_caret<span class="op">$</span>resample<span class="op">$</span>Accuracy)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="is-there-a-better-way.html#cb52-1"></a><span class="co"># Note that the final reported Accuracy metric is simply the average of </span></span>
+<span id="cb52-2"><a href="is-there-a-better-way.html#cb52-2"></a><span class="co"># the reported Accuracy values for each fold</span></span>
+<span id="cb52-3"><a href="is-there-a-better-way.html#cb52-3"></a></span>
+<span id="cb52-4"><a href="is-there-a-better-way.html#cb52-4"></a>myglm_caret<span class="op">$</span>results[<span class="dv">2</span>] <span class="op">==</span><span class="st"> </span><span class="kw">mean</span>(myglm_caret<span class="op">$</span>resample<span class="op">$</span>Accuracy)</span></code></pre></div>
 <pre><code>##   Accuracy
 ## 1     TRUE</code></pre>
 <p>Of course, you can always look at the model itself to get summary information just as you could if you were not using the <strong>train</strong> function. That is, the <strong>caret</strong> package does not try to conceal or replace what could be done using standard approaches. It overlays the model with information in a way that is transparent.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="is-there-a-better-way.html#cb51-1"></a><span class="kw">summary</span>(myglm_caret)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="is-there-a-better-way.html#cb54-1"></a><span class="kw">summary</span>(myglm_caret)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## NULL
@@ -324,7 +364,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="how-well-did-it-perform" class="section level2">
 <h2><span class="header-section-number">5.4</span> How Well Did It Perform ?</h2>
 <p>Remember that one of the features of using caret is that it can help us estimate the out of sample error we will experience when applying our model to new or unseen data. The above model provides an estimate of out of band accuracy as .77</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="is-there-a-better-way.html#cb53-1"></a>myglm_caret</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="is-there-a-better-way.html#cb56-1"></a>myglm_caret</span></code></pre></div>
 <pre><code>## Generalized Linear Model 
 ## 
 ## 615 samples
@@ -339,26 +379,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   Accuracy   Kappa    
 ##   0.7642276  0.4587416</code></pre>
 <p>Let’s create a prediction object using the Test data to see how close we came to this estimate. It’s a little worse than caret’s estimate which is to be expected. Also, this is just an estimate using a single threshold when using the predict function. There are more sophisticated ways to estimate the accuracy.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="is-there-a-better-way.html#cb55-1"></a>mypreds_glm &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm_caret, Test)</span>
-<span id="cb55-2"><a href="is-there-a-better-way.html#cb55-2"></a></span>
-<span id="cb55-3"><a href="is-there-a-better-way.html#cb55-3"></a><span class="co"># Create a Table of known outcomes vs the predicted outcomes</span></span>
-<span id="cb55-4"><a href="is-there-a-better-way.html#cb55-4"></a>outcome &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="dt">preds=</span>mypreds_glm,<span class="dt">actual=</span>Test<span class="op">$</span>diabetes)</span>
-<span id="cb55-5"><a href="is-there-a-better-way.html#cb55-5"></a></span>
-<span id="cb55-6"><a href="is-there-a-better-way.html#cb55-6"></a>(acc_outcome &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">diag</span>(outcome))<span class="op">/</span><span class="kw">sum</span>(outcome))</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="is-there-a-better-way.html#cb58-1"></a>mypreds_glm &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm_caret, Test)</span>
+<span id="cb58-2"><a href="is-there-a-better-way.html#cb58-2"></a></span>
+<span id="cb58-3"><a href="is-there-a-better-way.html#cb58-3"></a><span class="co"># Create a Table of known outcomes vs the predicted outcomes</span></span>
+<span id="cb58-4"><a href="is-there-a-better-way.html#cb58-4"></a>outcome &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="dt">preds=</span>mypreds_glm,<span class="dt">actual=</span>Test<span class="op">$</span>diabetes)</span>
+<span id="cb58-5"><a href="is-there-a-better-way.html#cb58-5"></a></span>
+<span id="cb58-6"><a href="is-there-a-better-way.html#cb58-6"></a>(acc_outcome &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">diag</span>(outcome))<span class="op">/</span><span class="kw">sum</span>(outcome))</span></code></pre></div>
 <pre><code>## [1] 0.7973856</code></pre>
 </div>
 <div id="comparing-performance-across-other-methods" class="section level2">
 <h2><span class="header-section-number">5.5</span> Comparing Performance Across Other Methods</h2>
 <p>The advantage of the <strong>train</strong> function is that we can use the same control objects across a number of modeling techniques which then makes it easier to compare performance across various methods.</p>
 <p>As an example, instead of using the “glm” method we could pick another one such as Decision Tree. All we need to know is the name of the method we want. A complete list of supported models listed by category can be found <a href="https://topepo.github.io/caret/available-models.html">here</a></p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="is-there-a-better-way.html#cb57-1"></a>control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">5</span>)</span>
-<span id="cb57-2"><a href="is-there-a-better-way.html#cb57-2"></a></span>
-<span id="cb57-3"><a href="is-there-a-better-way.html#cb57-3"></a>myrpart_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
-<span id="cb57-4"><a href="is-there-a-better-way.html#cb57-4"></a>                     <span class="dt">data =</span> Train,</span>
-<span id="cb57-5"><a href="is-there-a-better-way.html#cb57-5"></a>                     <span class="dt">method =</span> <span class="st">&quot;rpart&quot;</span>,</span>
-<span id="cb57-6"><a href="is-there-a-better-way.html#cb57-6"></a>                     <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,</span>
-<span id="cb57-7"><a href="is-there-a-better-way.html#cb57-7"></a>                     <span class="dt">trControl =</span> control)</span>
-<span id="cb57-8"><a href="is-there-a-better-way.html#cb57-8"></a>myrpart_caret</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="is-there-a-better-way.html#cb60-1"></a>control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">5</span>)</span>
+<span id="cb60-2"><a href="is-there-a-better-way.html#cb60-2"></a></span>
+<span id="cb60-3"><a href="is-there-a-better-way.html#cb60-3"></a>myrpart_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
+<span id="cb60-4"><a href="is-there-a-better-way.html#cb60-4"></a>                     <span class="dt">data =</span> Train,</span>
+<span id="cb60-5"><a href="is-there-a-better-way.html#cb60-5"></a>                     <span class="dt">method =</span> <span class="st">&quot;rpart&quot;</span>,</span>
+<span id="cb60-6"><a href="is-there-a-better-way.html#cb60-6"></a>                     <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,</span>
+<span id="cb60-7"><a href="is-there-a-better-way.html#cb60-7"></a>                     <span class="dt">trControl =</span> control)</span>
+<span id="cb60-8"><a href="is-there-a-better-way.html#cb60-8"></a>myrpart_caret</span></code></pre></div>
 <pre><code>## CART 
 ## 
 ## 615 samples
@@ -377,8 +417,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Accuracy was used to select the optimal model using the largest value.
 ## The final value used for the model was cp = 0.02093023.</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="is-there-a-better-way.html#cb62-1"></a>myrpart_caret_preds =<span class="st"> </span><span class="kw">predict</span>(myrpart_caret,Test)</span></code></pre></div>
 <p>So we also need to do some predictions on the Test data set to see how well the model works on unseen data. This model has good specifity but not so good with the sensitivity.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="is-there-a-better-way.html#cb59-1"></a><span class="kw">confusionMatrix</span>(myrpart_caret_preds,Test<span class="op">$</span>diabetes,<span class="dt">positive=</span><span class="st">&quot;pos&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="is-there-a-better-way.html#cb63-1"></a><span class="kw">confusionMatrix</span>(myrpart_caret_preds,Test<span class="op">$</span>diabetes,<span class="dt">positive=</span><span class="st">&quot;pos&quot;</span>)</span></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -412,18 +453,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">5.6</span> Different Performance Measures</h2>
 <p>Not only can we easily select different methods we can also select different performance measures. It does require changes to the control object and arguments to the <strong>train</strong> function though we do not need to read the underlying help pages for a given method to do this. This is a true convenience and time saver that makes reproducing these experiments much easier.</p>
 <p>In this example we want to use the “Area Under Curve” (AUC) metric that comes from an associated ROC curve. To do this will require the model to generate class probabilities from which to build the ROC curve so this information needs to be specified in the control object.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="is-there-a-better-way.html#cb61-1"></a>control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">classProbs =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb61-2"><a href="is-there-a-better-way.html#cb61-2"></a>                        <span class="dt">summaryFunction =</span> twoClassSummary,</span>
-<span id="cb61-3"><a href="is-there-a-better-way.html#cb61-3"></a>                        <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>,</span>
-<span id="cb61-4"><a href="is-there-a-better-way.html#cb61-4"></a>                        <span class="dt">number =</span> <span class="dv">8</span>)</span>
-<span id="cb61-5"><a href="is-there-a-better-way.html#cb61-5"></a></span>
-<span id="cb61-6"><a href="is-there-a-better-way.html#cb61-6"></a>myglm_caret_roc &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
-<span id="cb61-7"><a href="is-there-a-better-way.html#cb61-7"></a>                         <span class="dt">data =</span> Train,</span>
-<span id="cb61-8"><a href="is-there-a-better-way.html#cb61-8"></a>                         <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,</span>
-<span id="cb61-9"><a href="is-there-a-better-way.html#cb61-9"></a>                         <span class="dt">metric =</span> <span class="st">&quot;ROC&quot;</span>,</span>
-<span id="cb61-10"><a href="is-there-a-better-way.html#cb61-10"></a>                         <span class="dt">trControl =</span> control)</span>
-<span id="cb61-11"><a href="is-there-a-better-way.html#cb61-11"></a></span>
-<span id="cb61-12"><a href="is-there-a-better-way.html#cb61-12"></a>myglm_caret_roc</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="is-there-a-better-way.html#cb65-1"></a>control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">classProbs =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb65-2"><a href="is-there-a-better-way.html#cb65-2"></a>                        <span class="dt">summaryFunction =</span> twoClassSummary,</span>
+<span id="cb65-3"><a href="is-there-a-better-way.html#cb65-3"></a>                        <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>,</span>
+<span id="cb65-4"><a href="is-there-a-better-way.html#cb65-4"></a>                        <span class="dt">number =</span> <span class="dv">8</span>)</span>
+<span id="cb65-5"><a href="is-there-a-better-way.html#cb65-5"></a></span>
+<span id="cb65-6"><a href="is-there-a-better-way.html#cb65-6"></a>myglm_caret_roc &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
+<span id="cb65-7"><a href="is-there-a-better-way.html#cb65-7"></a>                         <span class="dt">data =</span> Train,</span>
+<span id="cb65-8"><a href="is-there-a-better-way.html#cb65-8"></a>                         <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb65-9"><a href="is-there-a-better-way.html#cb65-9"></a>                         <span class="dt">metric =</span> <span class="st">&quot;ROC&quot;</span>,</span>
+<span id="cb65-10"><a href="is-there-a-better-way.html#cb65-10"></a>                         <span class="dt">trControl =</span> control)</span>
+<span id="cb65-11"><a href="is-there-a-better-way.html#cb65-11"></a></span>
+<span id="cb65-12"><a href="is-there-a-better-way.html#cb65-12"></a>myglm_caret_roc</span></code></pre></div>
 <pre><code>## Generalized Linear Model 
 ## 
 ## 615 samples
@@ -438,8 +479,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   ROC        Sens  Spec     
 ##   0.8293661  0.88  0.5532407</code></pre>
 <p>This is a true convenience and we don’t have to use a separate R package to compute the AUC. It becomes a by product of the modeling process. One subtlety with the above is the way caret looks at the levels of the diabetes column. It looks at them as “neg” and “pos” which leads to a switch between the sensitivity and specificity. An example will make this clear. Let’s do predictions on the training data:</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="is-there-a-better-way.html#cb63-1"></a>train_myglm_preds &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm_caret_roc,Train)</span>
-<span id="cb63-2"><a href="is-there-a-better-way.html#cb63-2"></a>caret<span class="op">::</span><span class="kw">confusionMatrix</span>(train_myglm_preds,Train<span class="op">$</span>diabetes,<span class="dt">positive=</span><span class="st">&quot;pos&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="is-there-a-better-way.html#cb67-1"></a>train_myglm_preds &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm_caret_roc,Train)</span>
+<span id="cb67-2"><a href="is-there-a-better-way.html#cb67-2"></a>caret<span class="op">::</span><span class="kw">confusionMatrix</span>(train_myglm_preds,Train<span class="op">$</span>diabetes,<span class="dt">positive=</span><span class="st">&quot;pos&quot;</span>)</span></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -468,8 +509,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##        &#39;Positive&#39; Class : pos             
 ## </code></pre>
 <p>Let’s see how it performs on the Test data</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="is-there-a-better-way.html#cb65-1"></a>test_myglm_preds &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm_caret_roc,Test)</span>
-<span id="cb65-2"><a href="is-there-a-better-way.html#cb65-2"></a>caret<span class="op">::</span><span class="kw">confusionMatrix</span>(test_myglm_preds,Test<span class="op">$</span>diabetes,<span class="dt">positive=</span><span class="st">&quot;pos&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="is-there-a-better-way.html#cb69-1"></a>test_myglm_preds &lt;-<span class="st"> </span><span class="kw">predict</span>(myglm_caret_roc,Test)</span>
+<span id="cb69-2"><a href="is-there-a-better-way.html#cb69-2"></a>caret<span class="op">::</span><span class="kw">confusionMatrix</span>(test_myglm_preds,Test<span class="op">$</span>diabetes,<span class="dt">positive=</span><span class="st">&quot;pos&quot;</span>)</span></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -498,20 +539,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##        &#39;Positive&#39; Class : pos            
 ## </code></pre>
 <p>Specifically, the control object can remain the same across different methods assuming that we wish to continue with classification. Here, we’ll use Random Forests which are a generalization beyond a single Decision Tree.</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="is-there-a-better-way.html#cb67-1"></a><span class="co"># The following is the same control object from before</span></span>
-<span id="cb67-2"><a href="is-there-a-better-way.html#cb67-2"></a>control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">classProbs =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb67-3"><a href="is-there-a-better-way.html#cb67-3"></a>                        <span class="dt">summaryFunction =</span> twoClassSummary,</span>
-<span id="cb67-4"><a href="is-there-a-better-way.html#cb67-4"></a>                        <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>,</span>
-<span id="cb67-5"><a href="is-there-a-better-way.html#cb67-5"></a>                        <span class="dt">number =</span> <span class="dv">8</span>)</span>
-<span id="cb67-6"><a href="is-there-a-better-way.html#cb67-6"></a><span class="co"># We&#39;ll </span></span>
-<span id="cb67-7"><a href="is-there-a-better-way.html#cb67-7"></a>myrf_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
-<span id="cb67-8"><a href="is-there-a-better-way.html#cb67-8"></a>               <span class="dt">data =</span> Train,</span>
-<span id="cb67-9"><a href="is-there-a-better-way.html#cb67-9"></a> <span class="co">#              method = &quot;svmLinear&quot;,</span></span>
-<span id="cb67-10"><a href="is-there-a-better-way.html#cb67-10"></a>               <span class="dt">method =</span> <span class="st">&quot;rf&quot;</span>,</span>
-<span id="cb67-11"><a href="is-there-a-better-way.html#cb67-11"></a>               <span class="dt">metric =</span> <span class="st">&quot;ROC&quot;</span>,</span>
-<span id="cb67-12"><a href="is-there-a-better-way.html#cb67-12"></a>               <span class="dt">trControl =</span> control)</span>
-<span id="cb67-13"><a href="is-there-a-better-way.html#cb67-13"></a></span>
-<span id="cb67-14"><a href="is-there-a-better-way.html#cb67-14"></a>myrf_caret</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="is-there-a-better-way.html#cb71-1"></a><span class="co"># The following is the same control object from before</span></span>
+<span id="cb71-2"><a href="is-there-a-better-way.html#cb71-2"></a>control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">classProbs =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb71-3"><a href="is-there-a-better-way.html#cb71-3"></a>                        <span class="dt">summaryFunction =</span> twoClassSummary,</span>
+<span id="cb71-4"><a href="is-there-a-better-way.html#cb71-4"></a>                        <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>,</span>
+<span id="cb71-5"><a href="is-there-a-better-way.html#cb71-5"></a>                        <span class="dt">number =</span> <span class="dv">8</span>)</span>
+<span id="cb71-6"><a href="is-there-a-better-way.html#cb71-6"></a><span class="co"># We&#39;ll </span></span>
+<span id="cb71-7"><a href="is-there-a-better-way.html#cb71-7"></a>myrf_caret &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
+<span id="cb71-8"><a href="is-there-a-better-way.html#cb71-8"></a>               <span class="dt">data =</span> Train,</span>
+<span id="cb71-9"><a href="is-there-a-better-way.html#cb71-9"></a> <span class="co">#              method = &quot;svmLinear&quot;,</span></span>
+<span id="cb71-10"><a href="is-there-a-better-way.html#cb71-10"></a>               <span class="dt">method =</span> <span class="st">&quot;rf&quot;</span>,</span>
+<span id="cb71-11"><a href="is-there-a-better-way.html#cb71-11"></a>               <span class="dt">metric =</span> <span class="st">&quot;ROC&quot;</span>,</span>
+<span id="cb71-12"><a href="is-there-a-better-way.html#cb71-12"></a>               <span class="dt">trControl =</span> control)</span>
+<span id="cb71-13"><a href="is-there-a-better-way.html#cb71-13"></a></span>
+<span id="cb71-14"><a href="is-there-a-better-way.html#cb71-14"></a>myrf_caret</span></code></pre></div>
 <pre><code>## Random Forest 
 ## 
 ## 615 samples
@@ -530,8 +571,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## ROC was used to select the optimal model using the largest value.
 ## The final value used for the model was mtry = 2.</code></pre>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="is-there-a-better-way.html#cb69-1"></a><span class="kw">plot</span>(myrf_caret)</span></code></pre></div>
-<p><img src="SEMINAR_SERIES_files/figure-html/plotrf-1.png" width="672" /></p>
 </div>
 </div>
             </section>

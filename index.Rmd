@@ -1,9 +1,9 @@
 --- 
 title: "Predictive Modeling"
 author: "Steve Pittard"
-email: wsp@emory.edu
-affiliation: Department of Biostatistics and Bioinformatics
 date: "`r Sys.Date()`"
+affiliation: Department of Biostatistics and Bioinformatics
+email: wsp@emory.edu
 bibliography:
 - book.bib
 - packages.bib
@@ -112,6 +112,8 @@ To get the ball rolling with a practical case, let's consider the Pima Indians D
 ```{r loadpima}
 url <- "https://raw.githubusercontent.com/steviep42/bios534_spring_2020/master/data/pima.csv"
 pm <- read.csv(url)
+
+head(pm)
 ```
 
 The description of the data set is as follows:
@@ -393,7 +395,7 @@ Each fold is simply a portion of the data. We'll generate a list called "folds" 
 
 ![](./PICS/crossk.png)
 
-Here is our function to implement the K-Fold validation. It's pretty straightforward to define in terms of coding though it winds up being  somewhat specific to the particular method we are using. 
+Here is our function to implement the K-Fold validation. It's pretty straightforward to define in terms of coding though it winds up being  somewhat specific to the particular method we are using. Still, we could give it an argument to accept different methods. 
 
 ```{r crossfoldfunc}
 cross_fold <- function(numofolds = 3) {
@@ -478,6 +480,8 @@ stripplot(cross_fold(8),
 
 ```
 
+So, there are functions in R that will implement K-fold cross-validation for you but they involve their own specific interface. There is the "cv.glm" function which does cross validation on GLM models. There is also the "bagging.cv" function tht does the same with Bagging. 
+
 
 # Is There a Better Way ?
 
@@ -520,6 +524,13 @@ myglm_caret <- train(diabetes ~ .,
                      metric = "Accuracy")
 myglm_caret
 ```
+
+We get a lot for our money. Look at all the stuff we get in the returned object:
+
+```{r}
+str(myglm_caret,1)
+```
+
 
 ## Specifying Control Options
 
@@ -598,6 +609,8 @@ myrpart_caret <- train(diabetes ~ .,
                      metric = "Accuracy",
                      trControl = control)
 myrpart_caret
+
+myrpart_caret_preds = predict(myrpart_caret,Test)
 ```
 
 So we also need to do some predictions on the Test data set to see how well the model works on unseen data. This model has good specifity but not so good with the sensitivity. 
@@ -645,9 +658,9 @@ test_myglm_preds <- predict(myglm_caret_roc,Test)
 caret::confusionMatrix(test_myglm_preds,Test$diabetes,positive="pos")
 ```
 
-Specifically, the control object can remain the same across different methods assuming that we wish to continue with classification. Here, we'll use Random Forests which are a generalization beyond a single Decision Tree. 
+Specifically, the control object can remain the same across different methods assuming that we wish to continue with classification. Here, we’ll use Random Forests which are a generalization beyond a single Decision Tree.
 
-```{r rf1}
+```{r}
 # The following is the same control object from before
 control <- trainControl(classProbs = TRUE,
                         summaryFunction = twoClassSummary,
@@ -664,9 +677,7 @@ myrf_caret <- train(diabetes ~ .,
 myrf_caret
 ```
 
-```{r plotrf}
-plot(myrf_caret)
-```
+
 
 # Feature Importance
 

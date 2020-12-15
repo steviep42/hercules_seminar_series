@@ -215,7 +215,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="PICS/flowwork1.png" /></p>
 <p>To get the ball rolling with a practical case, let’s consider the Pima Indians Data Frame. Read in a copy.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="getting-hands-on.html#cb2-1"></a>url &lt;-<span class="st"> &quot;https://raw.githubusercontent.com/steviep42/bios534_spring_2020/master/data/pima.csv&quot;</span></span>
-<span id="cb2-2"><a href="getting-hands-on.html#cb2-2"></a>pm &lt;-<span class="st"> </span><span class="kw">read.csv</span>(url)</span></code></pre></div>
+<span id="cb2-2"><a href="getting-hands-on.html#cb2-2"></a>pm &lt;-<span class="st"> </span><span class="kw">read.csv</span>(url)</span>
+<span id="cb2-3"><a href="getting-hands-on.html#cb2-3"></a></span>
+<span id="cb2-4"><a href="getting-hands-on.html#cb2-4"></a><span class="kw">head</span>(pm)</span></code></pre></div>
+<pre><code>##   pregnant glucose pressure triceps insulin mass pedigree age diabetes
+## 1        6     148       72      35       0 33.6    0.627  50      pos
+## 2        1      85       66      29       0 26.6    0.351  31      neg
+## 3        8     183       64       0       0 23.3    0.672  32      pos
+## 4        1      89       66      23      94 28.1    0.167  21      neg
+## 5        0     137       40      35     168 43.1    2.288  33      pos
+## 6        5     116       74       0       0 25.6    0.201  30      neg</code></pre>
 <p>The description of the data set is as follows:</p>
 <p><img src="PICS/pima_desc.png" width="475" /></p>
 <p>So we now have some data on which we can build a model. Our defining question or driving motivation might be how to predict whether someone will be postitive for diabetes based on other variables within the data. Is glucose, for example, an important variable to consider ?</p>
@@ -228,13 +237,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="exploratory-plots" class="section level2">
 <h2><span class="header-section-number">2.2</span> Exploratory Plots</h2>
 <p>We’ll look use some stock plots from the <a href="https://github.com/elastacloud/automatic-data-explorer"><strong>DataExplorer</strong></a> package to get a feel for the data. Look at correlations between the variables to see if any are strongly correlated with the variable we wish to predict or any other variables.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="getting-hands-on.html#cb3-1"></a><span class="kw">plot_correlation</span>(pm, <span class="dt">type=</span><span class="st">&quot;continuous&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="getting-hands-on.html#cb4-1"></a><span class="kw">plot_correlation</span>(pm, <span class="dt">type=</span><span class="st">&quot;continuous&quot;</span>)</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/decorr-1.png" width="672" /></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="getting-hands-on.html#cb4-1"></a><span class="kw">plot_bar</span>(pm)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="getting-hands-on.html#cb5-1"></a><span class="kw">plot_bar</span>(pm)</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/debar-1.png" width="672" /></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="getting-hands-on.html#cb5-1"></a><span class="kw">plot_histogram</span>(pm)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="getting-hands-on.html#cb6-1"></a><span class="kw">plot_histogram</span>(pm)</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/phist-1.png" width="672" /></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="getting-hands-on.html#cb6-1"></a><span class="kw">plot_boxplot</span>(pm,<span class="dt">by=</span><span class="st">&quot;diabetes&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="getting-hands-on.html#cb7-1"></a><span class="kw">plot_boxplot</span>(pm,<span class="dt">by=</span><span class="st">&quot;diabetes&quot;</span>)</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/pbox-1.png" width="672" /></p>
 </div>
 </div>
