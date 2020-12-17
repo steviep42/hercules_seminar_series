@@ -908,13 +908,13 @@ Once the h2o environment has been initialized then work can begin. This will tak
 
 ```{r h2oimport, eval=FALSE}
 # Import mtcars
-mtcars_h2o_df <- as.h2o(mtcars)
+pm_h2o_df <- as.h2o(pm)
 
 # Idenitfy the variable to be predicted
-y <- "mpg"
+y <- "diabetes"
 
 # Put the predictor names into a vector
-x <- setdiff(colnames(mtcars_h2o_df),y)
+x <- setdiff(colnames(pm_h2o_df),y)
 ```
 
 
@@ -923,174 +923,163 @@ x <- setdiff(colnames(mtcars_h2o_df),y)
 Now let’s create some training and test data sets. We could do this ourselves using conventional R commands or helper functions from the caret package. However, the h2o package provides its own set of helpers.
 
 ```{r h2osplit, eval=FALSE}
-data(mtcars)
-splits <- h2o.splitFrame(mtcars_h2o_df, ratios=0.8,seed=1)
+splits <- h2o.splitFrame(pm_h2o_df, ratios=0.8,seed=1)
 train_h2o <- splits[[1]]
 test_h2o  <- splits[[2]]
 
-train
+head(train)
 
-mpg cyl disp  hp drat    wt  qsec vs am gear carb
-1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
-2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
-3 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
-4 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
-5 18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
-6 14.3   8  360 245 3.21 3.570 15.84  0  0    3    4
-
-[29 rows x 11 columns] 
+pregnant glucose pressure triceps insulin mass pedigree age diabetes
+415        0     138       60      35     167 34.6    0.534  21      pos
+463        8      74       70      40      49 35.3    0.705  39      neg
+179        5     143       78       0       0 45.0    0.190  47      neg
+526        3      87       60      18       0 21.8    0.444  21      neg
+195        8      85       55      20       0 24.4    0.136  42      neg
+118        5      78       48       0       0 33.7    0.654  25      neg
 ```
 
 
 Now let’s create a model. We’ll use the Generalized Linear Model function from h2o. It is important to note that this function is implemented from within h2o. That is, we are not in anyway using any existing R packages to do this nor are we using anything from the care package. Here we’ll request a 4-Fold, Cross Validation step as part of the model assembly.
 
 ```{r h2oglmod, eval=FALSE}
-h2o_glm_model <- h2o.glm(y=x,x=x,train_h2o,nfolds=4)
+h2o_glm_model <- h2o.glm(y=y,x=x,train_h2o,nfolds=4,family="binomial")
 summary(h2o_glm_model)
 
-#
 
- |===========================================================| 100%
 Model Details:
 ==============
 
-H2ORegressionModel: glm
-Model Key:  GLM_model_R_1577927955348_1 
+H2OBinomialModel: glm
+Model Key:  GLM_model_R_1608222700875_6444 
 GLM Model: summary
-    family     link                              regularization
-1 gaussian identity Elastic Net (alpha = 0.5, lambda = 1.0664 )
-  number_of_predictors_total number_of_active_predictors
-1                         10                           9
-  number_of_iterations    training_frame
-1                    1 RTMP_sid_bf87_673
+    family  link                                regularization number_of_predictors_total
+1 binomial logit Elastic Net (alpha = 0.5, lambda = 4.842E-4 )                          8
+  number_of_active_predictors number_of_iterations     training_frame
+1                           8                    4 RTMP_sid_9938_1608
 
-H2ORegressionMetrics: glm
+H2OBinomialMetrics: glm
 ** Reported on training data. **
 
-MSE:  6.185253
-RMSE:  2.487017
-MAE:  1.940791
-RMSLE:  0.1135999
-Mean Residual Deviance :  6.185253
-R^2 :  0.8392098
-Null Deviance :1115.568
-Null D.o.F. :28
-Residual Deviance :179.3723
-Residual D.o.F. :19
-AIC :157.1413
+MSE:  0.1445039
+RMSE:  0.3801367
+LogLoss:  0.4460641
+Mean Per-Class Error:  0.221113
+AUC:  0.8553703
+AUCPR:  0.7687956
+Gini:  0.7107406
+R^2:  0.365502
+Residual Deviance:  544.1982
+AIC:  562.1982
 
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+       neg pos    Error      Rate
+neg    306  90 0.227273   =90/396
+pos     46 168 0.214953   =46/214
+Totals 352 258 0.222951  =136/610
 
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.322003   0.711864 198
+2                       max f2  0.156607   0.809944 282
+3                 max f0point5  0.557849   0.730858 129
+4                 max accuracy  0.557849   0.796721 129
+5                max precision  0.995359   1.000000   0
+6                   max recall  0.008453   1.000000 394
+7              max specificity  0.995359   1.000000   0
+8             max absolute_mcc  0.322003   0.538805 198
+9   max min_per_class_accuracy  0.324477   0.772727 196
+10 max mean_per_class_accuracy  0.322003   0.778887 198
+11                     max tns  0.995359 396.000000   0
+12                     max fns  0.995359 213.000000   0
+13                     max fps  0.001187 396.000000 399
+14                     max tps  0.008453 214.000000 394
+15                     max tnr  0.995359   1.000000   0
+16                     max fnr  0.995359   0.995327   0
+17                     max fpr  0.001187   1.000000 399
+18                     max tpr  0.008453   1.000000 394
 
-H2ORegressionMetrics: glm
+Gains/Lift Table: Extract with `h2o.gainsLift(<model>, <data>)` or `h2o.gainsLift(<model>, valid=<T/F>, xval=<T/F>)`
+
+H2OBinomialMetrics: glm
 ** Reported on cross-validation data. **
 ** 4-fold cross-validation on training data (Metrics computed for combined holdout predictions) **
 
-MSE:  9.520966
-RMSE:  3.085606
-MAE:  2.478209
-RMSLE:  0.1462186
-Mean Residual Deviance :  9.520966
-R^2 :  0.7524955
-Null Deviance :1194.241
-Null D.o.F. :28
-Residual Deviance :276.108
-Residual D.o.F. :19
-AIC :169.6498
+MSE:  0.1482055
+RMSE:  0.3849747
+LogLoss:  0.4565372
+Mean Per-Class Error:  0.2281813
+AUC:  0.8476765
+AUCPR:  0.7575767
+Gini:  0.6953531
+R^2:  0.3492487
+Residual Deviance:  556.9754
+AIC:  572.9754
 
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+       neg pos    Error      Rate
+neg    293 103 0.260101  =103/396
+pos     42 172 0.196262   =42/214
+Totals 335 275 0.237705  =145/610
 
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.300194   0.703476 214
+2                       max f2  0.149506   0.807478 295
+3                 max f0point5  0.567272   0.725995 126
+4                 max accuracy  0.567272   0.793443 126
+5                max precision  0.995091   1.000000   0
+6                   max recall  0.006949   1.000000 395
+7              max specificity  0.995091   1.000000   0
+8             max absolute_mcc  0.422845   0.533300 166
+9   max min_per_class_accuracy  0.334315   0.767677 199
+10 max mean_per_class_accuracy  0.300194   0.771819 214
+11                     max tns  0.995091 396.000000   0
+12                     max fns  0.995091 213.000000   0
+13                     max fps  0.001183 396.000000 399
+14                     max tps  0.006949 214.000000 395
+15                     max tnr  0.995091   1.000000   0
+16                     max fnr  0.995091   0.995327   0
+17                     max fpr  0.001183   1.000000 399
+18                     max tpr  0.006949   1.000000 395
+
+Gains/Lift Table: Extract with `h2o.gainsLift(<model>, <data>)` or `h2o.gainsLift(<model>, valid=<T/F>, xval=<T/F>)`
 Cross-Validation Metrics Summary: 
-                            mean          sd cv_1_valid cv_2_valid
-mae                    2.4294133   0.4533141  3.3255308  2.6851656
-mean_residual_deviance  9.431254   2.5729601  11.924386  13.098149
-mse                     9.431254   2.5729601  11.924386  13.098149
-null_deviance          298.56015    73.43793   429.7452  322.68143
-r2                     0.7409388 0.041704282  0.6850852 0.70873845
-residual_deviance         69.027   21.894964  107.31948  65.490746
-rmse                   2.9984744  0.46925735  3.4531705  3.6191366
-rmsle                  0.1363086 0.026307607 0.19733523 0.13199924
-                       cv_3_valid cv_4_valid
-mae                     1.6167169  2.0902402
-mean_residual_deviance  3.6748443   9.027636
-mse                     3.6748443   9.027636
-null_deviance           139.37894  302.43506
-r2                     0.83919096 0.73074067
-residual_deviance       22.049067   81.24872
-rmse                    1.9169884  3.0046024
-rmsle                   0.0983199 0.11758001
+                mean          sd cv_1_valid cv_2_valid cv_3_valid cv_4_valid
+accuracy   0.7910583 0.033798862  0.7621951  0.8396947  0.7852349 0.77710843
+auc        0.8504793 0.029461967  0.8479798 0.89006025  0.8450461 0.81883115
+aucpr      0.7592555  0.06003577  0.6966476  0.8367924  0.7714088  0.7321732
+err       0.20894173 0.033798862 0.23780487 0.16030534  0.2147651 0.22289157
+err_count      32.25    8.057088       39.0       21.0       32.0       37.0
+
+---
+                        mean          sd cv_1_valid cv_2_valid cv_3_valid cv_4_valid
+precision         0.67893696  0.07371945  0.5974026  0.7755102  0.6818182 0.66101694
+r2                0.35242754 0.066888936 0.32669345 0.45028827  0.3334273 0.29930115
+recall             0.7858796  0.06506488  0.8518519  0.7916667  0.8035714  0.6964286
+residual_deviance  139.24385    24.11607  149.79475  105.70603   139.6818  161.79282
+rmse              0.38351524  0.01814124 0.38561666 0.35723653 0.39543307 0.39577466
+specificity        0.7945068  0.06356689  0.7181818  0.8674699  0.7741935  0.8181818
 
 Scoring History: 
-            timestamp   duration iterations negative_log_likelihood
-1 2020-01-01 20:21:13  0.000 sec          0              1115.56759
-  objective
-1  38.46785
+            timestamp   duration iterations negative_log_likelihood objective
+1 2020-12-17 16:32:16  0.000 sec          0               395.25107   0.64795
+2 2020-12-17 16:32:16  0.002 sec          1               282.03640   0.46308
+3 2020-12-17 16:32:16  0.002 sec          2               272.59940   0.44793
+4 2020-12-17 16:32:16  0.003 sec          3               272.10447   0.44722
+5 2020-12-17 16:32:16  0.004 sec          4               272.09909   0.44722
 
 Variable Importances: (Extract with `h2o.varimp`) 
 =================================================
 
-   variable relative_importance scaled_importance  percentage
-1        wt          1.19294625        1.00000000 0.208632891
-2       cyl          0.92951526        0.77917615 0.162561772
-3      disp          0.78424629        0.65740287 0.137155861
-4        hp          0.69294345        0.58086729 0.121188021
-5      carb          0.62287613        0.52213261 0.108934035
-6        am          0.55736672        0.46721864 0.097477175
-7        vs          0.46246830        0.38766902 0.080880507
-8      drat          0.45447201        0.38096604 0.079482047
-9      gear          0.02108593        0.01767551 0.003687692
-10     qsec          0.00000000        0.00000000 0.000000000
-```
-
-
-Now we can do a prediction on the object against the test set.
-
-```{r h20glmpreds, eval=FALSE}
-(h2o_glm_preds <- h2o.predict(h2o_glm_model,test_h2o))
-
-#
-h2o.performance(h2o_glm_model,test_h2o)
-
- |===========================================================| 100%
-   predict
-1 25.93186
-2 20.67344
-3 24.38237
-
-[3 rows x 1 column] 
-H2ORegressionMetrics: glm
-
-MSE:  6.762548
-RMSE:  2.60049
-MAE:  2.495891
-RMSLE:  0.1076563
-Mean Residual Deviance :  6.762548
-R^2 :  -2.052306
-Null Deviance :10.87611
-Null D.o.F. :2
-Residual Deviance :20.28765
-Residual D.o.F. :-7
-AIC :36.24783
-
-```
-
-
-Now look at the performance diagnostics:
-
-```{r h2operf,eval=FALSE}
-h2o.performance(h2o_glm_model,test_h2o)
-
-H2ORegressionMetrics: glm
-
-MSE:  6.762548
-RMSE:  2.60049
-MAE:  2.495891
-RMSLE:  0.1076563
-Mean Residual Deviance :  6.762548
-R^2 :  -2.052306
-Null Deviance :10.87611
-Null D.o.F. :2
-Residual Deviance :20.28765
-Residual D.o.F. :-7
-AIC :36.24783
+  variable relative_importance scaled_importance percentage
+1  glucose          1.25985125        1.00000000 0.36643670
+2     mass          0.78580357        0.62372726 0.22855656
+3 pregnant          0.48159698        0.38226496 0.14007591
+4 pressure          0.35020240        0.27797123 0.10185886
+5 pedigree          0.29432303        0.23361729 0.08560595
+6  insulin          0.11722238        0.09304462 0.03409496
+7  triceps          0.08235523        0.06536901 0.02395361
+8      age          0.06675943        0.05298993 0.01941746
 ```
 
 ## Saving A Model
@@ -1108,7 +1097,7 @@ saved_model <- h2o.loadModel(model_path)
 
 ## Using the Auto ML Feature
 
-Are you curious as to what model might be the "best" for your data ? This is a very fertile field of research that keeps growing and some feel will one be the dominant technology in ML - where a model picks a model. Sounds odd but that is where it is heading. Check the current h2o Auto ML documentation for more details. For now, most of the Auto ML services use a set of heuristics to examine data and then find the most appropriate method to build a model. The currently supported method implementations in the opensource version include:
+Are you curious as to what model might be the "best" for your data ? This is a very fertile field of research that keeps growing and some feel will one be the dominant technology in ML - where a model picks a model. Sounds odd but that is where it is heading. Check the current h2o Auto ML documentation for more details. For now, most of the Auto ML services use a set of heuristics to examine data and then find the most appropriate method to build a model. The currently supported method implementations in the open source version include:
 
 
     - three pre-specified XGBoost GBM (Gradient Boosting Machine) models
@@ -1125,41 +1114,42 @@ Are you curious as to what model might be the "best" for your data ? This is a v
 Of course, it all begins with the idea of specifying a performance metric such as RMSE or the area under a ROC curve. The idea here is that we specify some input, apply transformations, create a test/train pair, and then call the h2o auto function.
 
 ```{r genautomt, eval=FALSE}
-x = names(mtcars)[-1]
-h2o.automl(y = 'mpg', x = x,
+h20_pm_model <- h2o.automl(y = y, x = x,
                       training_frame = train_h2o,
                       leaderboard_frame = test_h2o,
                       max_runtime_secs = 60,
                       seed = 1,
-                      sort_metric = "RMSE",
-                      project_name = "mtcars")
+                      sort_metric = "AUC",
+                      project_name = "pm2")
 ```
 
 Let’s check out the object that is returned. It is an S4 object in R which means that it has “slots” which can be accessed via the “@” operator.
 
 
 ```{r accesssutomt, eval=FALSE}
-slotNames(h2o_auto_mtcars)
-h2o_auto_mtcars@leaderboard
+slotNames(h2o_auto_pm)
+[1] "project_name"   "leader"         "leaderboard"    "event_log"      "modeling_steps"
+[6] "training_info" 
 
-[1] "project_name"  "leader"        "leaderboard"   "event_log"    
-[5] "training_info"
-                                        model_id
-1     GBM_grid_1_AutoML_20200101_202413_model_53
-2          DeepLearning_1_AutoML_20200101_202413
-3 XGBoost_grid_1_AutoML_20200101_202413_model_14
-4  XGBoost_grid_1_AutoML_20200101_202413_model_5
-5     GBM_grid_1_AutoML_20200101_202413_model_52
-6     GBM_grid_1_AutoML_20200101_202413_model_16
-  mean_residual_deviance      rmse       mse       mae      rmsle
-1              0.2147231 0.4633822 0.2147231 0.4138704 0.02128094
-2              0.3734735 0.6111248 0.3734735 0.5076945 0.02559229
-3              0.4586288 0.6772213 0.4586288 0.6318582 0.03060372
-4              0.4787276 0.6919014 0.4787276 0.5760670 0.03091116
-5              0.7571985 0.8701716 0.7571985 0.7831136 0.03729489
-6              0.7772694 0.8816289 0.7772694 0.8020415 0.03896093
+h2o_auto_pm@leaderboard
 
-[89 rows x 6 columns] 
+                                             model_id       auc   logloss     aucpr
+1          GBM_grid__1_AutoML_20201217_162611_model_4 0.8043091 0.5049815 0.6544545
+2          GBM_grid__1_AutoML_20201217_162823_model_4 0.8043091 0.5049815 0.6544545
+3                        XRT_1_AutoML_20201217_162611 0.7987892 0.5119855 0.6036122
+4                        XRT_1_AutoML_20201217_162823 0.7987892 0.5119855 0.6036122
+5 DeepLearning_grid__3_AutoML_20201217_162823_model_1 0.7964744 0.5162976 0.6133439
+6          GBM_grid__1_AutoML_20201217_162611_model_7 0.7962963 0.5119919 0.6594433
+  mean_per_class_error      rmse       mse
+1            0.2546296 0.4137757 0.1712103
+2            0.2546296 0.4137757 0.1712103
+3            0.2560541 0.4174395 0.1742558
+4            0.2560541 0.4174395 0.1742558
+5            0.2508903 0.4162580 0.1732707
+6            0.2457265 0.4140577 0.1714438
+
+[80 rows x 7 columns] 
+> 
 ```
 
 Stop the H2O instance
