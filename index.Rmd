@@ -2,7 +2,10 @@
 title: "Predictive Modeling"
 author: "Steve Pittard"
 date: "`r Sys.Date()`"
-affiliation: Department of Biostatistics and Bioinformatics
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
 email: wsp@emory.edu
 bibliography:
 - book.bib
@@ -12,6 +15,7 @@ documentclass: book
 link-citations: yes
 site: bookdown::bookdown_site
 biblio-style: apalike
+affiliation: Department of Biostatistics and Bioinformatics
 ---
 
 # Introduction {#intro}
@@ -756,7 +760,7 @@ control <- trainControl(method="cv",
 # Train the glm model
 set.seed(7)
 model_glm <- train(diabetes ~ ., 
-                   data=pm, 
+                   data=Train, 
                    method="glm", 
                    metric="ROC",
                    trControl=control)
@@ -764,7 +768,7 @@ model_glm <- train(diabetes ~ .,
 # Train the Decision Tree <odel
 set.seed(7)
 model_rpart <- train(diabetes~., 
-                  data=pm, 
+                  data=Train, 
                   method="rpart", 
                   metric="ROC",
                   trControl=control)
@@ -772,7 +776,7 @@ model_rpart <- train(diabetes~.,
 # Train the Random Forest model
 set.seed(7)
 model_rf <- train(diabetes~., 
-                  data=pm, 
+                  data=Train, 
                   method="rf", 
                   metric="ROC",
                   trControl=control)
@@ -780,7 +784,7 @@ model_rf <- train(diabetes~.,
 # Train the knn model
 set.seed(7)
 model_knn <- train(diabetes~., 
-                  data=pm, 
+                  data=Train, 
                   method="knn", 
                   metric="ROC",
                   trControl=control)
@@ -804,8 +808,20 @@ bwplot(results)
 dotplot(results)
 ```
 
+Note that the capabilities of caret are considerable. We can do pre processing of data
+that insulates us from having to do it ourselves. 
 
-# Using Exeternal ML Frameworks
+```{r}
+set.seed(7)
+model_glm <- train(diabetes ~ ., 
+                   data=Train, 
+                   method="glm", 
+                   metric="ROC",
+                   preProc = c("center", "scale","pca"),      
+                   trControl=control)
+```
+
+# Using External ML Frameworks
 
 There are a number of companies that provide easy access to Machine Learning services including Google, Amazon, Data Robot, and H2o. In particular, the company H20.ai provides frameworks for accessible Machine Learning by experts and non-experts. They promote the idea of “citizen data science” which seeks to lower barriers to participation in the world of AI. While they have a commercial product, they also provide an open source tool:
 
@@ -821,7 +837,7 @@ Moreover, H2O provides access to an “Auto ML” service that selects methods a
 > The H2O platform is used by over 18,000 organizations globally and is extremely popular 
 > in both the R & Python communities.
 
-Better yet, there is an R package called, somewhat unimaginatively, “h2o” “which provides:
+Better yet, there is an R package called, somewhat unimaginatively, "h2o" “which provides:
 
 > R interface for ‘H2O’, the scalable open source machine learning platform that offers 
 > parallelized implementations of many supervised and unsupervised machine learning algorithms 
@@ -929,7 +945,7 @@ mpg cyl disp  hp drat    wt  qsec vs am gear carb
 Now let’s create a model. We’ll use the Generalized Linear Model function from h2o. It is important to note that this function is implemented from within h2o. That is, we are not in anyway using any existing R packages to do this nor are we using anything from the care package. Here we’ll request a 4-Fold, Cross Validation step as part of the model assembly.
 
 ```{r h2oglmod, eval=FALSE}
-h2o_glm_model <- h2o.glm(y='mpg',x=names(mtcars)[-1],train_h2o,nfolds=4)
+h2o_glm_model <- h2o.glm(y=x,x=x,train_h2o,nfolds=4)
 summary(h2o_glm_model)
 
 #
@@ -1092,7 +1108,7 @@ saved_model <- h2o.loadModel(model_path)
 
 ## Using the Auto ML Feature
 
-Are you curious as to what model might be the “best” for your data ? This is a very fertile field of research that keeps growing and some feel will one be the dominant technology in ML - where a model picks a model. Sounds odd but that is where it is heading. Check the current h2o Auto ML documentation for more details. For now, most of the Auto ML services use a set of heuristics to examine data and then find the most appropriate method to build a model. The currently supported method implementations in the opensource version include:
+Are you curious as to what model might be the "best" for your data ? This is a very fertile field of research that keeps growing and some feel will one be the dominant technology in ML - where a model picks a model. Sounds odd but that is where it is heading. Check the current h2o Auto ML documentation for more details. For now, most of the Auto ML services use a set of heuristics to examine data and then find the most appropriate method to build a model. The currently supported method implementations in the opensource version include:
 
 
     - three pre-specified XGBoost GBM (Gradient Boosting Machine) models

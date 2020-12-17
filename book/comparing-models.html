@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-12-16" />
+<meta name="date" content="2020-12-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="feature-importance.html"/>
-<link rel="next" href="using-exeternal-ml-frameworks.html"/>
+<link rel="next" href="using-external-ml-frameworks.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -172,12 +172,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.0.2" data-path="feature-importance.html"><a href="feature-importance.html#the-rfe-function"><i class="fa fa-check"></i><b>6.0.2</b> The rfe Function</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="comparing-models.html"><a href="comparing-models.html"><i class="fa fa-check"></i><b>7</b> Comparing Models</a></li>
-<li class="chapter" data-level="8" data-path="using-exeternal-ml-frameworks.html"><a href="using-exeternal-ml-frameworks.html"><i class="fa fa-check"></i><b>8</b> Using Exeternal ML Frameworks</a><ul>
-<li class="chapter" data-level="8.1" data-path="using-exeternal-ml-frameworks.html"><a href="using-exeternal-ml-frameworks.html#h2o-in-action"><i class="fa fa-check"></i><b>8.1</b> H2O In Action</a></li>
-<li class="chapter" data-level="8.2" data-path="using-exeternal-ml-frameworks.html"><a href="using-exeternal-ml-frameworks.html#create-some-models"><i class="fa fa-check"></i><b>8.2</b> Create Some Models</a></li>
-<li class="chapter" data-level="8.3" data-path="using-exeternal-ml-frameworks.html"><a href="using-exeternal-ml-frameworks.html#saving-a-model"><i class="fa fa-check"></i><b>8.3</b> Saving A Model</a></li>
-<li class="chapter" data-level="8.4" data-path="using-exeternal-ml-frameworks.html"><a href="using-exeternal-ml-frameworks.html#using-the-auto-ml-feature"><i class="fa fa-check"></i><b>8.4</b> Using the Auto ML Feature</a></li>
-<li class="chapter" data-level="8.5" data-path="using-exeternal-ml-frameworks.html"><a href="using-exeternal-ml-frameworks.html#launching-a-job"><i class="fa fa-check"></i><b>8.5</b> Launching A Job</a></li>
+<li class="chapter" data-level="8" data-path="using-external-ml-frameworks.html"><a href="using-external-ml-frameworks.html"><i class="fa fa-check"></i><b>8</b> Using External ML Frameworks</a><ul>
+<li class="chapter" data-level="8.1" data-path="using-external-ml-frameworks.html"><a href="using-external-ml-frameworks.html#h2o-in-action"><i class="fa fa-check"></i><b>8.1</b> H2O In Action</a></li>
+<li class="chapter" data-level="8.2" data-path="using-external-ml-frameworks.html"><a href="using-external-ml-frameworks.html#create-some-models"><i class="fa fa-check"></i><b>8.2</b> Create Some Models</a></li>
+<li class="chapter" data-level="8.3" data-path="using-external-ml-frameworks.html"><a href="using-external-ml-frameworks.html#saving-a-model"><i class="fa fa-check"></i><b>8.3</b> Saving A Model</a></li>
+<li class="chapter" data-level="8.4" data-path="using-external-ml-frameworks.html"><a href="using-external-ml-frameworks.html#using-the-auto-ml-feature"><i class="fa fa-check"></i><b>8.4</b> Using the Auto ML Feature</a></li>
+<li class="chapter" data-level="8.5" data-path="using-external-ml-frameworks.html"><a href="using-external-ml-frameworks.html#launching-a-job"><i class="fa fa-check"></i><b>8.5</b> Launching A Job</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -210,7 +210,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb84-6"><a href="comparing-models.html#cb84-6"></a><span class="co"># Train the glm model</span></span>
 <span id="cb84-7"><a href="comparing-models.html#cb84-7"></a><span class="kw">set.seed</span>(<span class="dv">7</span>)</span>
 <span id="cb84-8"><a href="comparing-models.html#cb84-8"></a>model_glm &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>., </span>
-<span id="cb84-9"><a href="comparing-models.html#cb84-9"></a>                   <span class="dt">data=</span>pm, </span>
+<span id="cb84-9"><a href="comparing-models.html#cb84-9"></a>                   <span class="dt">data=</span>Train, </span>
 <span id="cb84-10"><a href="comparing-models.html#cb84-10"></a>                   <span class="dt">method=</span><span class="st">&quot;glm&quot;</span>, </span>
 <span id="cb84-11"><a href="comparing-models.html#cb84-11"></a>                   <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,</span>
 <span id="cb84-12"><a href="comparing-models.html#cb84-12"></a>                   <span class="dt">trControl=</span>control)</span>
@@ -218,7 +218,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb84-14"><a href="comparing-models.html#cb84-14"></a><span class="co"># Train the Decision Tree &lt;odel</span></span>
 <span id="cb84-15"><a href="comparing-models.html#cb84-15"></a><span class="kw">set.seed</span>(<span class="dv">7</span>)</span>
 <span id="cb84-16"><a href="comparing-models.html#cb84-16"></a>model_rpart &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes<span class="op">~</span>., </span>
-<span id="cb84-17"><a href="comparing-models.html#cb84-17"></a>                  <span class="dt">data=</span>pm, </span>
+<span id="cb84-17"><a href="comparing-models.html#cb84-17"></a>                  <span class="dt">data=</span>Train, </span>
 <span id="cb84-18"><a href="comparing-models.html#cb84-18"></a>                  <span class="dt">method=</span><span class="st">&quot;rpart&quot;</span>, </span>
 <span id="cb84-19"><a href="comparing-models.html#cb84-19"></a>                  <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,</span>
 <span id="cb84-20"><a href="comparing-models.html#cb84-20"></a>                  <span class="dt">trControl=</span>control)</span>
@@ -226,7 +226,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb84-22"><a href="comparing-models.html#cb84-22"></a><span class="co"># Train the Random Forest model</span></span>
 <span id="cb84-23"><a href="comparing-models.html#cb84-23"></a><span class="kw">set.seed</span>(<span class="dv">7</span>)</span>
 <span id="cb84-24"><a href="comparing-models.html#cb84-24"></a>model_rf &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes<span class="op">~</span>., </span>
-<span id="cb84-25"><a href="comparing-models.html#cb84-25"></a>                  <span class="dt">data=</span>pm, </span>
+<span id="cb84-25"><a href="comparing-models.html#cb84-25"></a>                  <span class="dt">data=</span>Train, </span>
 <span id="cb84-26"><a href="comparing-models.html#cb84-26"></a>                  <span class="dt">method=</span><span class="st">&quot;rf&quot;</span>, </span>
 <span id="cb84-27"><a href="comparing-models.html#cb84-27"></a>                  <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,</span>
 <span id="cb84-28"><a href="comparing-models.html#cb84-28"></a>                  <span class="dt">trControl=</span>control)</span>
@@ -234,7 +234,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb84-30"><a href="comparing-models.html#cb84-30"></a><span class="co"># Train the knn model</span></span>
 <span id="cb84-31"><a href="comparing-models.html#cb84-31"></a><span class="kw">set.seed</span>(<span class="dv">7</span>)</span>
 <span id="cb84-32"><a href="comparing-models.html#cb84-32"></a>model_knn &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes<span class="op">~</span>., </span>
-<span id="cb84-33"><a href="comparing-models.html#cb84-33"></a>                  <span class="dt">data=</span>pm, </span>
+<span id="cb84-33"><a href="comparing-models.html#cb84-33"></a>                  <span class="dt">data=</span>Train, </span>
 <span id="cb84-34"><a href="comparing-models.html#cb84-34"></a>                  <span class="dt">method=</span><span class="st">&quot;knn&quot;</span>, </span>
 <span id="cb84-35"><a href="comparing-models.html#cb84-35"></a>                  <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,</span>
 <span id="cb84-36"><a href="comparing-models.html#cb84-36"></a>                  <span class="dt">trControl=</span>control)</span>
@@ -256,30 +256,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## ROC 
 ##            Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA&#39;s
-## GLM   0.7903774 0.8116981 0.8251852 0.8297484 0.8479630 0.8735185    0
-## RPART 0.7018868 0.7136111 0.7229245 0.7455549 0.7684259 0.8209259    0
-## RF    0.8068868 0.8082075 0.8111111 0.8295744 0.8565741 0.8650926    0
-## KNN   0.7108491 0.7571698 0.7794444 0.7858260 0.8311111 0.8505556    0
+## GLM   0.7805233 0.7892442 0.8188953 0.8267442 0.8514535 0.8936047    0
+## RPART 0.6809593 0.7011628 0.7017442 0.7260756 0.7720930 0.7744186    0
+## RF    0.7792151 0.7918605 0.8107558 0.8197674 0.8396802 0.8773256    0
+## KNN   0.7088663 0.7329942 0.7729651 0.7706686 0.7889535 0.8495640    0
 ## 
 ## Sens 
-##       Min. 1st Qu. Median  Mean 3rd Qu. Max. NA&#39;s
-## GLM   0.84    0.86   0.89 0.888    0.92 0.93    0
-## RPART 0.74    0.76   0.79 0.818    0.88 0.92    0
-## RF    0.84    0.84   0.84 0.852    0.87 0.87    0
-## KNN   0.79    0.80   0.86 0.844    0.87 0.90    0
+##         Min. 1st Qu. Median   Mean 3rd Qu.   Max. NA&#39;s
+## GLM   0.8250   0.875 0.8875 0.8800  0.9000 0.9125    0
+## RPART 0.8500   0.850 0.8500 0.8625  0.8625 0.9000    0
+## RF    0.8250   0.825 0.8375 0.8450  0.8625 0.8750    0
+## KNN   0.7875   0.800 0.8375 0.8350  0.8500 0.9000    0
 ## 
 ## Spec 
 ##            Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA&#39;s
-## GLM   0.5283019 0.5471698 0.5925926 0.5780573 0.6111111 0.6111111    0
-## RPART 0.4716981 0.5740741 0.5849057 0.5928022 0.5925926 0.7407407    0
-## RF    0.5555556 0.5660377 0.5849057 0.6005590 0.6481481 0.6481481    0
-## KNN   0.4629630 0.5283019 0.5471698 0.5410203 0.5555556 0.6111111    0</code></pre>
+## GLM   0.4418605 0.5348837 0.5813953 0.5674419 0.6279070 0.6511628    0
+## RPART 0.4186047 0.5116279 0.5348837 0.5302326 0.5581395 0.6279070    0
+## RF    0.4883721 0.5581395 0.5581395 0.5720930 0.5813953 0.6744186    0
+## KNN   0.3953488 0.4651163 0.5581395 0.5255814 0.5581395 0.6511628    0</code></pre>
 <div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="comparing-models.html#cb87-1"></a><span class="co"># boxplots of results</span></span>
 <span id="cb87-2"><a href="comparing-models.html#cb87-2"></a><span class="kw">bwplot</span>(results)</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/summcomp-1.png" width="672" /></p>
 <div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="comparing-models.html#cb88-1"></a><span class="co"># dot plots of results</span></span>
 <span id="cb88-2"><a href="comparing-models.html#cb88-2"></a><span class="kw">dotplot</span>(results)</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/summcomp-2.png" width="672" /></p>
+<p>Note that the capabilities of caret are considerable. We can do pre processing of data
+that insulates us from having to do it ourselves.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="comparing-models.html#cb89-1"></a><span class="kw">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb89-2"><a href="comparing-models.html#cb89-2"></a>model_glm &lt;-<span class="st"> </span><span class="kw">train</span>(diabetes <span class="op">~</span><span class="st"> </span>., </span>
+<span id="cb89-3"><a href="comparing-models.html#cb89-3"></a>                   <span class="dt">data=</span>Train, </span>
+<span id="cb89-4"><a href="comparing-models.html#cb89-4"></a>                   <span class="dt">method=</span><span class="st">&quot;glm&quot;</span>, </span>
+<span id="cb89-5"><a href="comparing-models.html#cb89-5"></a>                   <span class="dt">metric=</span><span class="st">&quot;ROC&quot;</span>,</span>
+<span id="cb89-6"><a href="comparing-models.html#cb89-6"></a>                   <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>,<span class="st">&quot;pca&quot;</span>),      </span>
+<span id="cb89-7"><a href="comparing-models.html#cb89-7"></a>                   <span class="dt">trControl=</span>control)</span></code></pre></div>
 </div>
             </section>
 
@@ -287,7 +296,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="feature-importance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="using-exeternal-ml-frameworks.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="using-external-ml-frameworks.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

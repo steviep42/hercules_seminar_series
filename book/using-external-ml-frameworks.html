@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Using External ML Frameworks | Predictive Modeling</title>
+  <meta name="description" content="This is in support of the HERCULES Lecture Series." />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Using External ML Frameworks | Predictive Modeling" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is in support of the HERCULES Lecture Series." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Using External ML Frameworks | Predictive Modeling" />
+  
+  <meta name="twitter:description" content="This is in support of the HERCULES Lecture Series." />
+  
+
+<meta name="author" content="Steve Pittard" />
+
+
+<meta name="date" content="2020-12-17" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="comparing-models.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Preditive Modeling For Imposters</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#machine-learning"><i class="fa fa-check"></i><b>1.1</b> Machine Learning</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#predictive-modeling"><i class="fa fa-check"></i><b>1.2</b> Predictive Modeling</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#in-sample-vs-out-of-sample-error"><i class="fa fa-check"></i><b>1.3</b> In-Sample vs Out-Of-Sample Error</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#performance-metrics"><i class="fa fa-check"></i><b>1.4</b> Performance Metrics</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#black-box"><i class="fa fa-check"></i><b>1.5</b> Black Box</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="getting-hands-on.html"><a href="getting-hands-on.html"><i class="fa fa-check"></i><b>2</b> Getting Hands On</a><ul>
+<li class="chapter" data-level="2.1" data-path="getting-hands-on.html"><a href="getting-hands-on.html#important-terminology"><i class="fa fa-check"></i><b>2.1</b> Important Terminology</a></li>
+<li class="chapter" data-level="2.2" data-path="getting-hands-on.html"><a href="getting-hands-on.html#exploratory-plots"><i class="fa fa-check"></i><b>2.2</b> Exploratory Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html"><i class="fa fa-check"></i><b>3</b> Build A Model - A Detailed Workflow</a><ul>
+<li class="chapter" data-level="3.1" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#splitting-the-data"><i class="fa fa-check"></i><b>3.1</b> Splitting The Data</a></li>
+<li class="chapter" data-level="3.2" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#first-model"><i class="fa fa-check"></i><b>3.2</b> First Model</a></li>
+<li class="chapter" data-level="3.3" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#first-prediction"><i class="fa fa-check"></i><b>3.3</b> First Prediction</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#a-stumbling-block-for-new-comers"><i class="fa fa-check"></i><b>3.3.1</b> A Stumbling Block For New Comers</a></li>
+<li class="chapter" data-level="3.3.2" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#selecting-the-correct-alpha"><i class="fa fa-check"></i><b>3.3.2</b> Selecting The Correct Alpha</a></li>
+<li class="chapter" data-level="3.3.3" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#confusion-matrices"><i class="fa fa-check"></i><b>3.3.3</b> Confusion Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#performance-measures-revisited"><i class="fa fa-check"></i><b>3.4</b> Performance Measures Revisited</a></li>
+<li class="chapter" data-level="3.5" data-path="build-a-model-a-detailed-workflow.html"><a href="build-a-model-a-detailed-workflow.html#the-roc-curve"><i class="fa fa-check"></i><b>3.5</b> The ROC curve</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="other-methods.html"><a href="other-methods.html"><i class="fa fa-check"></i><b>4</b> Other Methods ?</a><ul>
+<li class="chapter" data-level="4.1" data-path="other-methods.html"><a href="other-methods.html#improving-the-models"><i class="fa fa-check"></i><b>4.1</b> Improving The Model(s)</a></li>
+<li class="chapter" data-level="4.2" data-path="other-methods.html"><a href="other-methods.html#cross-fold-validation"><i class="fa fa-check"></i><b>4.2</b> Cross Fold Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html"><i class="fa fa-check"></i><b>5</b> Is There a Better Way ?</a><ul>
+<li class="chapter" data-level="5.1" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#data-splitting-using-caret"><i class="fa fa-check"></i><b>5.1</b> Data Splitting Using Caret</a></li>
+<li class="chapter" data-level="5.2" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#specifying-control-options"><i class="fa fa-check"></i><b>5.2</b> Specifying Control Options</a></li>
+<li class="chapter" data-level="5.3" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#inspecting-the-model"><i class="fa fa-check"></i><b>5.3</b> Inspecting The Model</a></li>
+<li class="chapter" data-level="5.4" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#how-well-did-it-perform"><i class="fa fa-check"></i><b>5.4</b> How Well Did It Perform ?</a></li>
+<li class="chapter" data-level="5.5" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#comparing-performance-across-other-methods"><i class="fa fa-check"></i><b>5.5</b> Comparing Performance Across Other Methods</a></li>
+<li class="chapter" data-level="5.6" data-path="is-there-a-better-way.html"><a href="is-there-a-better-way.html#different-performance-measures"><i class="fa fa-check"></i><b>5.6</b> Different Performance Measures</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="feature-importance.html"><a href="feature-importance.html"><i class="fa fa-check"></i><b>6</b> Feature Importance</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="feature-importance.html"><a href="feature-importance.html#feature-elimination"><i class="fa fa-check"></i><b>6.0.1</b> Feature Elimination</a></li>
+<li class="chapter" data-level="6.0.2" data-path="feature-importance.html"><a href="feature-importance.html#the-rfe-function"><i class="fa fa-check"></i><b>6.0.2</b> The rfe Function</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="comparing-models.html"><a href="comparing-models.html"><i class="fa fa-check"></i><b>7</b> Comparing Models</a></li>
+<li class="chapter" data-level="8" data-path="using-external-ml-frameworks.html"><a href="using-external-ml-frameworks.html"><i class="fa fa-check"></i><b>8</b> Using External ML Frameworks</a><ul>
+<li class="chapter" data-level="8.1" data-path="using-external-ml-frameworks.html"><a href="using-external-ml-frameworks.html#h2o-in-action"><i class="fa fa-check"></i><b>8.1</b> H2O In Action</a></li>
+<li class="chapter" data-level="8.2" data-path="using-external-ml-frameworks.html"><a href="using-external-ml-frameworks.html#create-some-models"><i class="fa fa-check"></i><b>8.2</b> Create Some Models</a></li>
+<li class="chapter" data-level="8.3" data-path="using-external-ml-frameworks.html"><a href="using-external-ml-frameworks.html#saving-a-model"><i class="fa fa-check"></i><b>8.3</b> Saving A Model</a></li>
+<li class="chapter" data-level="8.4" data-path="using-external-ml-frameworks.html"><a href="using-external-ml-frameworks.html#using-the-auto-ml-feature"><i class="fa fa-check"></i><b>8.4</b> Using the Auto ML Feature</a></li>
+<li class="chapter" data-level="8.5" data-path="using-external-ml-frameworks.html"><a href="using-external-ml-frameworks.html#launching-a-job"><i class="fa fa-check"></i><b>8.5</b> Launching A Job</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Predictive Modeling</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="using-external-ml-frameworks" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Using External ML Frameworks</h1>
+<p>There are a number of companies that provide easy access to Machine Learning services including Google, Amazon, Data Robot, and H2o. In particular, the company H20.ai provides frameworks for accessible Machine Learning by experts and non-experts. They promote the idea of “citizen data science” which seeks to lower barriers to participation in the world of AI. While they have a commercial product, they also provide an open source tool:</p>
+<blockquote>
+<p>H2O is a fully open source, distributed in-memory machine learning platform with linear
+scalability. H2O supports the most widely used statistical &amp; machine learning algorithms
+including gradient boosted machines, generalized linear models, deep learning and more.</p>
+</blockquote>
+<p>Moreover, H2O provides access to an “Auto ML” service that selects methods appropriate to a given data set. This is useful to help jump start ideas.</p>
+<blockquote>
+<p>H2O also has an industry leading AutoML functionality that automatically runs through
+all the algorithms and their hyperparameters to produce a leaderboard of the best models.
+The H2O platform is used by over 18,000 organizations globally and is extremely popular
+in both the R &amp; Python communities.</p>
+</blockquote>
+<p>Better yet, there is an R package called, somewhat unimaginatively, “h2o” “which provides:</p>
+<blockquote>
+<p>R interface for ‘H2O’, the scalable open source machine learning platform that offers
+parallelized implementations of many supervised and unsupervised machine learning algorithms
+such as Generalized Linear Models, Gradient Boosting Machines (including XGBoost), Random
+Forests, Deep Neural Networks (Deep Learning), Stacked Ensembles, Naive Bayes, Cox
+Proportional Hazards, K-Means, PCA, Word2Vec, as well as a fully automatic machine learning
+algorithm (AutoML).</p>
+</blockquote>
+<div id="h2o-in-action" class="section level2">
+<h2><span class="header-section-number">8.1</span> H2O In Action</h2>
+<p>The package must first be installed which can done using the install.packages function (or the menu in R Studio). Loading the library is done just as you would any other library.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="using-external-ml-frameworks.html#cb90-1"></a><span class="kw">library</span>(h2o)</span></code></pre></div>
+<p>The goal of using this library is not to replace the methods available to you in R but, just like the caret package, seeks to provide a uniform interface for a variety of underlying methods. This includes common methods including an “Auto ML” service that picks methods for you. Let’s apply h2o to our work. The underlying h2o architecture uses a “running instance” concept that can be initialized and accessed from R. You initialize it once per interactive session.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="using-external-ml-frameworks.html#cb91-1"></a><span class="kw">h2o.init</span>()</span>
+<span id="cb91-2"><a href="using-external-ml-frameworks.html#cb91-2"></a></span>
+<span id="cb91-3"><a href="using-external-ml-frameworks.html#cb91-3"></a>H2O is not running yet, starting it now...</span>
+<span id="cb91-4"><a href="using-external-ml-frameworks.html#cb91-4"></a></span>
+<span id="cb91-5"><a href="using-external-ml-frameworks.html#cb91-5"></a>Note<span class="op">:</span><span class="st">  </span>In case of errors look at the following log files<span class="op">:</span></span>
+<span id="cb91-6"><a href="using-external-ml-frameworks.html#cb91-6"></a><span class="st">    </span><span class="er">/</span>var<span class="op">/</span>folders<span class="op">/</span>wh<span class="op">/</span>z0v5hqgx3dzdfgz47lnbr_3w0000gn<span class="op">/</span>T<span class="op">/</span><span class="er">/</span>RtmpRehHby<span class="op">/</span>h2o_esteban_started_from_r.out</span>
+<span id="cb91-7"><a href="using-external-ml-frameworks.html#cb91-7"></a>    <span class="op">/</span>var<span class="op">/</span>folders<span class="op">/</span>wh<span class="op">/</span>z0v5hqgx3dzdfgz47lnbr_3w0000gn<span class="op">/</span>T<span class="op">/</span><span class="er">/</span>RtmpRehHby<span class="op">/</span>h2o_esteban_started_from_r.err</span>
+<span id="cb91-8"><a href="using-external-ml-frameworks.html#cb91-8"></a></span>
+<span id="cb91-9"><a href="using-external-ml-frameworks.html#cb91-9"></a>java version <span class="st">&quot;1.8.0_131&quot;</span></span>
+<span id="cb91-10"><a href="using-external-ml-frameworks.html#cb91-10"></a><span class="kw">Java</span>(TM) SE Runtime <span class="kw">Environment</span> (build <span class="dv">1</span>.<span class="fl">8.0</span>_<span class="dv">131</span><span class="op">-</span>b11)</span>
+<span id="cb91-11"><a href="using-external-ml-frameworks.html#cb91-11"></a>Java <span class="kw">HotSpot</span>(TM) <span class="dv">64</span><span class="op">-</span>Bit Server <span class="kw">VM</span> (build <span class="fl">25.131</span><span class="op">-</span>b11, mixed mode)</span>
+<span id="cb91-12"><a href="using-external-ml-frameworks.html#cb91-12"></a></span>
+<span id="cb91-13"><a href="using-external-ml-frameworks.html#cb91-13"></a>Starting H2O JVM and connecting<span class="op">:</span><span class="st"> </span>.. Connection successful<span class="op">!</span></span>
+<span id="cb91-14"><a href="using-external-ml-frameworks.html#cb91-14"></a></span>
+<span id="cb91-15"><a href="using-external-ml-frameworks.html#cb91-15"></a>R is connected to the H2O cluster<span class="op">:</span><span class="st"> </span></span>
+<span id="cb91-16"><a href="using-external-ml-frameworks.html#cb91-16"></a><span class="st">    </span>H2O cluster uptime<span class="op">:</span><span class="st">         </span><span class="dv">2</span> seconds <span class="dv">577</span> milliseconds </span>
+<span id="cb91-17"><a href="using-external-ml-frameworks.html#cb91-17"></a>    H2O cluster timezone<span class="op">:</span><span class="st">       </span>America<span class="op">/</span>New_York </span>
+<span id="cb91-18"><a href="using-external-ml-frameworks.html#cb91-18"></a>    H2O data parsing timezone<span class="op">:</span><span class="st">  </span>UTC </span>
+<span id="cb91-19"><a href="using-external-ml-frameworks.html#cb91-19"></a>    H2O cluster version<span class="op">:</span><span class="st">        </span><span class="dv">3</span>.<span class="dv">26</span>.<span class="fl">0.2</span> </span>
+<span id="cb91-20"><a href="using-external-ml-frameworks.html#cb91-20"></a>    H2O cluster version age<span class="op">:</span><span class="st">    </span><span class="dv">5</span> months and <span class="dv">5</span> days <span class="op">!!!</span><span class="st"> </span></span>
+<span id="cb91-21"><a href="using-external-ml-frameworks.html#cb91-21"></a><span class="st">    </span>H2O cluster name<span class="op">:</span><span class="st">           </span>H2O_started_from_R_esteban_pgj795 </span>
+<span id="cb91-22"><a href="using-external-ml-frameworks.html#cb91-22"></a>    H2O cluster total nodes<span class="op">:</span><span class="st">    </span><span class="dv">1</span> </span>
+<span id="cb91-23"><a href="using-external-ml-frameworks.html#cb91-23"></a>    H2O cluster total memory<span class="op">:</span><span class="st">   </span><span class="fl">1.78</span> GB </span>
+<span id="cb91-24"><a href="using-external-ml-frameworks.html#cb91-24"></a>    H2O cluster total cores<span class="op">:</span><span class="st">    </span><span class="dv">4</span> </span>
+<span id="cb91-25"><a href="using-external-ml-frameworks.html#cb91-25"></a>    H2O cluster allowed cores<span class="op">:</span><span class="st">  </span><span class="dv">4</span> </span>
+<span id="cb91-26"><a href="using-external-ml-frameworks.html#cb91-26"></a>    H2O cluster healthy<span class="op">:</span><span class="st">        </span><span class="ot">TRUE</span> </span>
+<span id="cb91-27"><a href="using-external-ml-frameworks.html#cb91-27"></a>    H2O Connection ip<span class="op">:</span><span class="st">          </span>localhost </span>
+<span id="cb91-28"><a href="using-external-ml-frameworks.html#cb91-28"></a>    H2O Connection port<span class="op">:</span><span class="st">        </span><span class="dv">54321</span> </span>
+<span id="cb91-29"><a href="using-external-ml-frameworks.html#cb91-29"></a>    H2O Connection proxy<span class="op">:</span><span class="st">       </span><span class="ot">NA</span> </span>
+<span id="cb91-30"><a href="using-external-ml-frameworks.html#cb91-30"></a>    H2O Internal Security<span class="op">:</span><span class="st">      </span><span class="ot">FALSE</span> </span>
+<span id="cb91-31"><a href="using-external-ml-frameworks.html#cb91-31"></a>    H2O API Extensions<span class="op">:</span><span class="st">         </span>Amazon S3, XGBoost, Algos, AutoML, Core V3, Core V4 </span>
+<span id="cb91-32"><a href="using-external-ml-frameworks.html#cb91-32"></a>    R Version<span class="op">:</span><span class="st">                  </span>R version <span class="dv">3</span>.<span class="fl">5.3</span> (<span class="dv">2019-03-11</span>) </span>
+<span id="cb91-33"><a href="using-external-ml-frameworks.html#cb91-33"></a></span>
+<span id="cb91-34"><a href="using-external-ml-frameworks.html#cb91-34"></a>Your H2O cluster version is too <span class="kw">old</span> (<span class="dv">5</span> months and <span class="dv">5</span> days)<span class="op">!</span></span>
+<span id="cb91-35"><a href="using-external-ml-frameworks.html#cb91-35"></a>Please download and install the latest version from http<span class="op">:</span><span class="er">//</span>h2o.ai<span class="op">/</span>download<span class="op">/</span></span>
+<span id="cb91-36"><a href="using-external-ml-frameworks.html#cb91-36"></a>Show <span class="cf">in</span> New WindowClear OutputExpand<span class="op">/</span>Collapse Output</span>
+<span id="cb91-37"><a href="using-external-ml-frameworks.html#cb91-37"></a>  <span class="op">|</span><span class="er">===========================================================|</span><span class="st"> </span><span class="dv">100</span>%</span>
+<span id="cb91-38"><a href="using-external-ml-frameworks.html#cb91-38"></a>Console<span class="op">~</span><span class="er">/</span>Dropbox<span class="op">/</span>ML<span class="op">/</span>bookdown<span class="op">-</span>minimal<span class="op">/</span></span>
+<span id="cb91-39"><a href="using-external-ml-frameworks.html#cb91-39"></a>Console</span>
+<span id="cb91-40"><a href="using-external-ml-frameworks.html#cb91-40"></a>Terminal</span>
+<span id="cb91-41"><a href="using-external-ml-frameworks.html#cb91-41"></a></span>
+<span id="cb91-42"><a href="using-external-ml-frameworks.html#cb91-42"></a>R Markdown</span>
+<span id="cb91-43"><a href="using-external-ml-frameworks.html#cb91-43"></a></span>
+<span id="cb91-44"><a href="using-external-ml-frameworks.html#cb91-44"></a><span class="op">~</span><span class="er">/</span>Dropbox<span class="op">/</span>ML<span class="op">/</span>bookdown<span class="op">-</span>minimal<span class="op">/</span><span class="st">  </span></span></code></pre></div>
+<p>Once the h2o environment has been initialized then work can begin. This will take the form of using R functions provided by the h2o package to read in data and prepare it for use with various methods. Let’s repeat the regression on mtcars using h2o functions. Since mtcars is already available in the the R environment we can easily import it into h2o.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="using-external-ml-frameworks.html#cb92-1"></a><span class="co"># Import mtcars</span></span>
+<span id="cb92-2"><a href="using-external-ml-frameworks.html#cb92-2"></a>mtcars_h2o_df &lt;-<span class="st"> </span><span class="kw">as.h2o</span>(mtcars)</span>
+<span id="cb92-3"><a href="using-external-ml-frameworks.html#cb92-3"></a></span>
+<span id="cb92-4"><a href="using-external-ml-frameworks.html#cb92-4"></a><span class="co"># Idenitfy the variable to be predicted</span></span>
+<span id="cb92-5"><a href="using-external-ml-frameworks.html#cb92-5"></a>y &lt;-<span class="st"> &quot;mpg&quot;</span></span>
+<span id="cb92-6"><a href="using-external-ml-frameworks.html#cb92-6"></a></span>
+<span id="cb92-7"><a href="using-external-ml-frameworks.html#cb92-7"></a><span class="co"># Put the predictor names into a vector</span></span>
+<span id="cb92-8"><a href="using-external-ml-frameworks.html#cb92-8"></a>x &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">colnames</span>(mtcars_h2o_df),y)</span></code></pre></div>
+</div>
+<div id="create-some-models" class="section level2">
+<h2><span class="header-section-number">8.2</span> Create Some Models</h2>
+<p>Now let’s create some training and test data sets. We could do this ourselves using conventional R commands or helper functions from the caret package. However, the h2o package provides its own set of helpers.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="using-external-ml-frameworks.html#cb93-1"></a><span class="kw">data</span>(mtcars)</span>
+<span id="cb93-2"><a href="using-external-ml-frameworks.html#cb93-2"></a>splits &lt;-<span class="st"> </span><span class="kw">h2o.splitFrame</span>(mtcars_h2o_df, <span class="dt">ratios=</span><span class="fl">0.8</span>,<span class="dt">seed=</span><span class="dv">1</span>)</span>
+<span id="cb93-3"><a href="using-external-ml-frameworks.html#cb93-3"></a>train_h2o &lt;-<span class="st"> </span>splits[[<span class="dv">1</span>]]</span>
+<span id="cb93-4"><a href="using-external-ml-frameworks.html#cb93-4"></a>test_h2o  &lt;-<span class="st"> </span>splits[[<span class="dv">2</span>]]</span>
+<span id="cb93-5"><a href="using-external-ml-frameworks.html#cb93-5"></a></span>
+<span id="cb93-6"><a href="using-external-ml-frameworks.html#cb93-6"></a>train</span>
+<span id="cb93-7"><a href="using-external-ml-frameworks.html#cb93-7"></a></span>
+<span id="cb93-8"><a href="using-external-ml-frameworks.html#cb93-8"></a>mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
+<span id="cb93-9"><a href="using-external-ml-frameworks.html#cb93-9"></a><span class="dv">1</span> <span class="fl">21.0</span>   <span class="dv">6</span>  <span class="dv">160</span> <span class="dv">110</span> <span class="fl">3.90</span> <span class="fl">2.620</span> <span class="fl">16.46</span>  <span class="dv">0</span>  <span class="dv">1</span>    <span class="dv">4</span>    <span class="dv">4</span></span>
+<span id="cb93-10"><a href="using-external-ml-frameworks.html#cb93-10"></a><span class="dv">2</span> <span class="fl">21.0</span>   <span class="dv">6</span>  <span class="dv">160</span> <span class="dv">110</span> <span class="fl">3.90</span> <span class="fl">2.875</span> <span class="fl">17.02</span>  <span class="dv">0</span>  <span class="dv">1</span>    <span class="dv">4</span>    <span class="dv">4</span></span>
+<span id="cb93-11"><a href="using-external-ml-frameworks.html#cb93-11"></a><span class="dv">3</span> <span class="fl">21.4</span>   <span class="dv">6</span>  <span class="dv">258</span> <span class="dv">110</span> <span class="fl">3.08</span> <span class="fl">3.215</span> <span class="fl">19.44</span>  <span class="dv">1</span>  <span class="dv">0</span>    <span class="dv">3</span>    <span class="dv">1</span></span>
+<span id="cb93-12"><a href="using-external-ml-frameworks.html#cb93-12"></a><span class="dv">4</span> <span class="fl">18.7</span>   <span class="dv">8</span>  <span class="dv">360</span> <span class="dv">175</span> <span class="fl">3.15</span> <span class="fl">3.440</span> <span class="fl">17.02</span>  <span class="dv">0</span>  <span class="dv">0</span>    <span class="dv">3</span>    <span class="dv">2</span></span>
+<span id="cb93-13"><a href="using-external-ml-frameworks.html#cb93-13"></a><span class="dv">5</span> <span class="fl">18.1</span>   <span class="dv">6</span>  <span class="dv">225</span> <span class="dv">105</span> <span class="fl">2.76</span> <span class="fl">3.460</span> <span class="fl">20.22</span>  <span class="dv">1</span>  <span class="dv">0</span>    <span class="dv">3</span>    <span class="dv">1</span></span>
+<span id="cb93-14"><a href="using-external-ml-frameworks.html#cb93-14"></a><span class="dv">6</span> <span class="fl">14.3</span>   <span class="dv">8</span>  <span class="dv">360</span> <span class="dv">245</span> <span class="fl">3.21</span> <span class="fl">3.570</span> <span class="fl">15.84</span>  <span class="dv">0</span>  <span class="dv">0</span>    <span class="dv">3</span>    <span class="dv">4</span></span>
+<span id="cb93-15"><a href="using-external-ml-frameworks.html#cb93-15"></a></span>
+<span id="cb93-16"><a href="using-external-ml-frameworks.html#cb93-16"></a>[<span class="dv">29</span> rows x <span class="dv">11</span> columns] </span></code></pre></div>
+<p>Now let’s create a model. We’ll use the Generalized Linear Model function from h2o. It is important to note that this function is implemented from within h2o. That is, we are not in anyway using any existing R packages to do this nor are we using anything from the care package. Here we’ll request a 4-Fold, Cross Validation step as part of the model assembly.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="using-external-ml-frameworks.html#cb94-1"></a>h2o_glm_model &lt;-<span class="st"> </span><span class="kw">h2o.glm</span>(<span class="dt">y=</span>x,<span class="dt">x=</span>x,train_h2o,<span class="dt">nfolds=</span><span class="dv">4</span>)</span>
+<span id="cb94-2"><a href="using-external-ml-frameworks.html#cb94-2"></a><span class="kw">summary</span>(h2o_glm_model)</span>
+<span id="cb94-3"><a href="using-external-ml-frameworks.html#cb94-3"></a></span>
+<span id="cb94-4"><a href="using-external-ml-frameworks.html#cb94-4"></a><span class="co">#</span></span>
+<span id="cb94-5"><a href="using-external-ml-frameworks.html#cb94-5"></a></span>
+<span id="cb94-6"><a href="using-external-ml-frameworks.html#cb94-6"></a> <span class="op">|</span><span class="er">===========================================================|</span><span class="st"> </span><span class="dv">100</span>%</span>
+<span id="cb94-7"><a href="using-external-ml-frameworks.html#cb94-7"></a>Model Details<span class="op">:</span></span>
+<span id="cb94-8"><a href="using-external-ml-frameworks.html#cb94-8"></a><span class="er">==============</span></span>
+<span id="cb94-9"><a href="using-external-ml-frameworks.html#cb94-9"></a></span>
+<span id="cb94-10"><a href="using-external-ml-frameworks.html#cb94-10"></a>H2ORegressionModel<span class="op">:</span><span class="st"> </span>glm</span>
+<span id="cb94-11"><a href="using-external-ml-frameworks.html#cb94-11"></a>Model Key<span class="op">:</span><span class="st">  </span>GLM_model_R_<span class="dv">1577927955348</span>_<span class="dv">1</span> </span>
+<span id="cb94-12"><a href="using-external-ml-frameworks.html#cb94-12"></a>GLM Model<span class="op">:</span><span class="st"> </span>summary</span>
+<span id="cb94-13"><a href="using-external-ml-frameworks.html#cb94-13"></a>    family     link                              regularization</span>
+<span id="cb94-14"><a href="using-external-ml-frameworks.html#cb94-14"></a><span class="dv">1</span> gaussian identity Elastic <span class="kw">Net</span> (<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">lambda =</span> <span class="fl">1.0664</span> )</span>
+<span id="cb94-15"><a href="using-external-ml-frameworks.html#cb94-15"></a>  number_of_predictors_total number_of_active_predictors</span>
+<span id="cb94-16"><a href="using-external-ml-frameworks.html#cb94-16"></a><span class="dv">1</span>                         <span class="dv">10</span>                           <span class="dv">9</span></span>
+<span id="cb94-17"><a href="using-external-ml-frameworks.html#cb94-17"></a>  number_of_iterations    training_frame</span>
+<span id="cb94-18"><a href="using-external-ml-frameworks.html#cb94-18"></a><span class="dv">1</span>                    <span class="dv">1</span> RTMP_sid_bf87_<span class="dv">673</span></span>
+<span id="cb94-19"><a href="using-external-ml-frameworks.html#cb94-19"></a></span>
+<span id="cb94-20"><a href="using-external-ml-frameworks.html#cb94-20"></a>H2ORegressionMetrics<span class="op">:</span><span class="st"> </span>glm</span>
+<span id="cb94-21"><a href="using-external-ml-frameworks.html#cb94-21"></a><span class="op">**</span><span class="st"> </span>Reported on training data. <span class="op">**</span></span>
+<span id="cb94-22"><a href="using-external-ml-frameworks.html#cb94-22"></a></span>
+<span id="cb94-23"><a href="using-external-ml-frameworks.html#cb94-23"></a>MSE<span class="op">:</span><span class="st">  </span><span class="fl">6.185253</span></span>
+<span id="cb94-24"><a href="using-external-ml-frameworks.html#cb94-24"></a>RMSE<span class="op">:</span><span class="st">  </span><span class="fl">2.487017</span></span>
+<span id="cb94-25"><a href="using-external-ml-frameworks.html#cb94-25"></a>MAE<span class="op">:</span><span class="st">  </span><span class="fl">1.940791</span></span>
+<span id="cb94-26"><a href="using-external-ml-frameworks.html#cb94-26"></a>RMSLE<span class="op">:</span><span class="st">  </span><span class="fl">0.1135999</span></span>
+<span id="cb94-27"><a href="using-external-ml-frameworks.html#cb94-27"></a>Mean Residual Deviance <span class="op">:</span><span class="st">  </span><span class="fl">6.185253</span></span>
+<span id="cb94-28"><a href="using-external-ml-frameworks.html#cb94-28"></a>R<span class="op">^</span><span class="dv">2</span> <span class="op">:</span><span class="st">  </span><span class="fl">0.8392098</span></span>
+<span id="cb94-29"><a href="using-external-ml-frameworks.html#cb94-29"></a>Null Deviance <span class="op">:</span><span class="fl">1115.568</span></span>
+<span id="cb94-30"><a href="using-external-ml-frameworks.html#cb94-30"></a>Null D.o.F. <span class="op">:</span><span class="dv">28</span></span>
+<span id="cb94-31"><a href="using-external-ml-frameworks.html#cb94-31"></a>Residual Deviance <span class="op">:</span><span class="fl">179.3723</span></span>
+<span id="cb94-32"><a href="using-external-ml-frameworks.html#cb94-32"></a>Residual D.o.F. <span class="op">:</span><span class="dv">19</span></span>
+<span id="cb94-33"><a href="using-external-ml-frameworks.html#cb94-33"></a>AIC <span class="op">:</span><span class="fl">157.1413</span></span>
+<span id="cb94-34"><a href="using-external-ml-frameworks.html#cb94-34"></a></span>
+<span id="cb94-35"><a href="using-external-ml-frameworks.html#cb94-35"></a></span>
+<span id="cb94-36"><a href="using-external-ml-frameworks.html#cb94-36"></a></span>
+<span id="cb94-37"><a href="using-external-ml-frameworks.html#cb94-37"></a>H2ORegressionMetrics<span class="op">:</span><span class="st"> </span>glm</span>
+<span id="cb94-38"><a href="using-external-ml-frameworks.html#cb94-38"></a><span class="op">**</span><span class="st"> </span>Reported on cross<span class="op">-</span>validation data. <span class="op">**</span></span>
+<span id="cb94-39"><a href="using-external-ml-frameworks.html#cb94-39"></a><span class="er">**</span><span class="st"> </span><span class="dv">4</span><span class="op">-</span>fold cross<span class="op">-</span>validation on training <span class="kw">data</span> (Metrics computed <span class="cf">for</span> combined holdout predictions) <span class="op">**</span></span>
+<span id="cb94-40"><a href="using-external-ml-frameworks.html#cb94-40"></a></span>
+<span id="cb94-41"><a href="using-external-ml-frameworks.html#cb94-41"></a>MSE<span class="op">:</span><span class="st">  </span><span class="fl">9.520966</span></span>
+<span id="cb94-42"><a href="using-external-ml-frameworks.html#cb94-42"></a>RMSE<span class="op">:</span><span class="st">  </span><span class="fl">3.085606</span></span>
+<span id="cb94-43"><a href="using-external-ml-frameworks.html#cb94-43"></a>MAE<span class="op">:</span><span class="st">  </span><span class="fl">2.478209</span></span>
+<span id="cb94-44"><a href="using-external-ml-frameworks.html#cb94-44"></a>RMSLE<span class="op">:</span><span class="st">  </span><span class="fl">0.1462186</span></span>
+<span id="cb94-45"><a href="using-external-ml-frameworks.html#cb94-45"></a>Mean Residual Deviance <span class="op">:</span><span class="st">  </span><span class="fl">9.520966</span></span>
+<span id="cb94-46"><a href="using-external-ml-frameworks.html#cb94-46"></a>R<span class="op">^</span><span class="dv">2</span> <span class="op">:</span><span class="st">  </span><span class="fl">0.7524955</span></span>
+<span id="cb94-47"><a href="using-external-ml-frameworks.html#cb94-47"></a>Null Deviance <span class="op">:</span><span class="fl">1194.241</span></span>
+<span id="cb94-48"><a href="using-external-ml-frameworks.html#cb94-48"></a>Null D.o.F. <span class="op">:</span><span class="dv">28</span></span>
+<span id="cb94-49"><a href="using-external-ml-frameworks.html#cb94-49"></a>Residual Deviance <span class="op">:</span><span class="fl">276.108</span></span>
+<span id="cb94-50"><a href="using-external-ml-frameworks.html#cb94-50"></a>Residual D.o.F. <span class="op">:</span><span class="dv">19</span></span>
+<span id="cb94-51"><a href="using-external-ml-frameworks.html#cb94-51"></a>AIC <span class="op">:</span><span class="fl">169.6498</span></span>
+<span id="cb94-52"><a href="using-external-ml-frameworks.html#cb94-52"></a></span>
+<span id="cb94-53"><a href="using-external-ml-frameworks.html#cb94-53"></a></span>
+<span id="cb94-54"><a href="using-external-ml-frameworks.html#cb94-54"></a>Cross<span class="op">-</span>Validation Metrics Summary<span class="op">:</span><span class="st"> </span></span>
+<span id="cb94-55"><a href="using-external-ml-frameworks.html#cb94-55"></a><span class="st">                            </span>mean          sd cv_<span class="dv">1</span>_valid cv_<span class="dv">2</span>_valid</span>
+<span id="cb94-56"><a href="using-external-ml-frameworks.html#cb94-56"></a>mae                    <span class="fl">2.4294133</span>   <span class="fl">0.4533141</span>  <span class="fl">3.3255308</span>  <span class="fl">2.6851656</span></span>
+<span id="cb94-57"><a href="using-external-ml-frameworks.html#cb94-57"></a>mean_residual_deviance  <span class="fl">9.431254</span>   <span class="fl">2.5729601</span>  <span class="fl">11.924386</span>  <span class="fl">13.098149</span></span>
+<span id="cb94-58"><a href="using-external-ml-frameworks.html#cb94-58"></a>mse                     <span class="fl">9.431254</span>   <span class="fl">2.5729601</span>  <span class="fl">11.924386</span>  <span class="fl">13.098149</span></span>
+<span id="cb94-59"><a href="using-external-ml-frameworks.html#cb94-59"></a>null_deviance          <span class="fl">298.56015</span>    <span class="fl">73.43793</span>   <span class="fl">429.7452</span>  <span class="fl">322.68143</span></span>
+<span id="cb94-60"><a href="using-external-ml-frameworks.html#cb94-60"></a>r2                     <span class="fl">0.7409388</span> <span class="fl">0.041704282</span>  <span class="fl">0.6850852</span> <span class="fl">0.70873845</span></span>
+<span id="cb94-61"><a href="using-external-ml-frameworks.html#cb94-61"></a>residual_deviance         <span class="fl">69.027</span>   <span class="fl">21.894964</span>  <span class="fl">107.31948</span>  <span class="fl">65.490746</span></span>
+<span id="cb94-62"><a href="using-external-ml-frameworks.html#cb94-62"></a>rmse                   <span class="fl">2.9984744</span>  <span class="fl">0.46925735</span>  <span class="fl">3.4531705</span>  <span class="fl">3.6191366</span></span>
+<span id="cb94-63"><a href="using-external-ml-frameworks.html#cb94-63"></a>rmsle                  <span class="fl">0.1363086</span> <span class="fl">0.026307607</span> <span class="fl">0.19733523</span> <span class="fl">0.13199924</span></span>
+<span id="cb94-64"><a href="using-external-ml-frameworks.html#cb94-64"></a>                       cv_<span class="dv">3</span>_valid cv_<span class="dv">4</span>_valid</span>
+<span id="cb94-65"><a href="using-external-ml-frameworks.html#cb94-65"></a>mae                     <span class="fl">1.6167169</span>  <span class="fl">2.0902402</span></span>
+<span id="cb94-66"><a href="using-external-ml-frameworks.html#cb94-66"></a>mean_residual_deviance  <span class="fl">3.6748443</span>   <span class="fl">9.027636</span></span>
+<span id="cb94-67"><a href="using-external-ml-frameworks.html#cb94-67"></a>mse                     <span class="fl">3.6748443</span>   <span class="fl">9.027636</span></span>
+<span id="cb94-68"><a href="using-external-ml-frameworks.html#cb94-68"></a>null_deviance           <span class="fl">139.37894</span>  <span class="fl">302.43506</span></span>
+<span id="cb94-69"><a href="using-external-ml-frameworks.html#cb94-69"></a>r2                     <span class="fl">0.83919096</span> <span class="fl">0.73074067</span></span>
+<span id="cb94-70"><a href="using-external-ml-frameworks.html#cb94-70"></a>residual_deviance       <span class="fl">22.049067</span>   <span class="fl">81.24872</span></span>
+<span id="cb94-71"><a href="using-external-ml-frameworks.html#cb94-71"></a>rmse                    <span class="fl">1.9169884</span>  <span class="fl">3.0046024</span></span>
+<span id="cb94-72"><a href="using-external-ml-frameworks.html#cb94-72"></a>rmsle                   <span class="fl">0.0983199</span> <span class="fl">0.11758001</span></span>
+<span id="cb94-73"><a href="using-external-ml-frameworks.html#cb94-73"></a></span>
+<span id="cb94-74"><a href="using-external-ml-frameworks.html#cb94-74"></a>Scoring History<span class="op">:</span><span class="st"> </span></span>
+<span id="cb94-75"><a href="using-external-ml-frameworks.html#cb94-75"></a><span class="st">            </span>timestamp   duration iterations negative_log_likelihood</span>
+<span id="cb94-76"><a href="using-external-ml-frameworks.html#cb94-76"></a><span class="dv">1</span> <span class="dv">2020-01-01</span> <span class="dv">20</span><span class="op">:</span><span class="dv">21</span><span class="op">:</span><span class="dv">13</span>  <span class="fl">0.000</span> sec          <span class="dv">0</span>              <span class="fl">1115.56759</span></span>
+<span id="cb94-77"><a href="using-external-ml-frameworks.html#cb94-77"></a>  objective</span>
+<span id="cb94-78"><a href="using-external-ml-frameworks.html#cb94-78"></a><span class="dv">1</span>  <span class="fl">38.46785</span></span>
+<span id="cb94-79"><a href="using-external-ml-frameworks.html#cb94-79"></a></span>
+<span id="cb94-80"><a href="using-external-ml-frameworks.html#cb94-80"></a>Variable Importances<span class="op">:</span><span class="st"> </span>(Extract with <span class="st">`</span><span class="dt">h2o.varimp</span><span class="st">`</span>) </span>
+<span id="cb94-81"><a href="using-external-ml-frameworks.html#cb94-81"></a><span class="op">==</span><span class="er">===============================================</span></span>
+<span id="cb94-82"><a href="using-external-ml-frameworks.html#cb94-82"></a></span>
+<span id="cb94-83"><a href="using-external-ml-frameworks.html#cb94-83"></a><span class="st">   </span>variable relative_importance scaled_importance  percentage</span>
+<span id="cb94-84"><a href="using-external-ml-frameworks.html#cb94-84"></a><span class="dv">1</span>        wt          <span class="fl">1.19294625</span>        <span class="fl">1.00000000</span> <span class="fl">0.208632891</span></span>
+<span id="cb94-85"><a href="using-external-ml-frameworks.html#cb94-85"></a><span class="dv">2</span>       cyl          <span class="fl">0.92951526</span>        <span class="fl">0.77917615</span> <span class="fl">0.162561772</span></span>
+<span id="cb94-86"><a href="using-external-ml-frameworks.html#cb94-86"></a><span class="dv">3</span>      disp          <span class="fl">0.78424629</span>        <span class="fl">0.65740287</span> <span class="fl">0.137155861</span></span>
+<span id="cb94-87"><a href="using-external-ml-frameworks.html#cb94-87"></a><span class="dv">4</span>        hp          <span class="fl">0.69294345</span>        <span class="fl">0.58086729</span> <span class="fl">0.121188021</span></span>
+<span id="cb94-88"><a href="using-external-ml-frameworks.html#cb94-88"></a><span class="dv">5</span>      carb          <span class="fl">0.62287613</span>        <span class="fl">0.52213261</span> <span class="fl">0.108934035</span></span>
+<span id="cb94-89"><a href="using-external-ml-frameworks.html#cb94-89"></a><span class="dv">6</span>        am          <span class="fl">0.55736672</span>        <span class="fl">0.46721864</span> <span class="fl">0.097477175</span></span>
+<span id="cb94-90"><a href="using-external-ml-frameworks.html#cb94-90"></a><span class="dv">7</span>        vs          <span class="fl">0.46246830</span>        <span class="fl">0.38766902</span> <span class="fl">0.080880507</span></span>
+<span id="cb94-91"><a href="using-external-ml-frameworks.html#cb94-91"></a><span class="dv">8</span>      drat          <span class="fl">0.45447201</span>        <span class="fl">0.38096604</span> <span class="fl">0.079482047</span></span>
+<span id="cb94-92"><a href="using-external-ml-frameworks.html#cb94-92"></a><span class="dv">9</span>      gear          <span class="fl">0.02108593</span>        <span class="fl">0.01767551</span> <span class="fl">0.003687692</span></span>
+<span id="cb94-93"><a href="using-external-ml-frameworks.html#cb94-93"></a><span class="dv">10</span>     qsec          <span class="fl">0.00000000</span>        <span class="fl">0.00000000</span> <span class="fl">0.000000000</span></span></code></pre></div>
+<p>Now we can do a prediction on the object against the test set.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="using-external-ml-frameworks.html#cb95-1"></a>(h2o_glm_preds &lt;-<span class="st"> </span><span class="kw">h2o.predict</span>(h2o_glm_model,test_h2o))</span>
+<span id="cb95-2"><a href="using-external-ml-frameworks.html#cb95-2"></a></span>
+<span id="cb95-3"><a href="using-external-ml-frameworks.html#cb95-3"></a><span class="co">#</span></span>
+<span id="cb95-4"><a href="using-external-ml-frameworks.html#cb95-4"></a><span class="kw">h2o.performance</span>(h2o_glm_model,test_h2o)</span>
+<span id="cb95-5"><a href="using-external-ml-frameworks.html#cb95-5"></a></span>
+<span id="cb95-6"><a href="using-external-ml-frameworks.html#cb95-6"></a> <span class="op">|</span><span class="er">===========================================================|</span><span class="st"> </span><span class="dv">100</span>%</span>
+<span id="cb95-7"><a href="using-external-ml-frameworks.html#cb95-7"></a>   predict</span>
+<span id="cb95-8"><a href="using-external-ml-frameworks.html#cb95-8"></a><span class="dv">1</span> <span class="fl">25.93186</span></span>
+<span id="cb95-9"><a href="using-external-ml-frameworks.html#cb95-9"></a><span class="dv">2</span> <span class="fl">20.67344</span></span>
+<span id="cb95-10"><a href="using-external-ml-frameworks.html#cb95-10"></a><span class="dv">3</span> <span class="fl">24.38237</span></span>
+<span id="cb95-11"><a href="using-external-ml-frameworks.html#cb95-11"></a></span>
+<span id="cb95-12"><a href="using-external-ml-frameworks.html#cb95-12"></a>[<span class="dv">3</span> rows x <span class="dv">1</span> column] </span>
+<span id="cb95-13"><a href="using-external-ml-frameworks.html#cb95-13"></a>H2ORegressionMetrics<span class="op">:</span><span class="st"> </span>glm</span>
+<span id="cb95-14"><a href="using-external-ml-frameworks.html#cb95-14"></a></span>
+<span id="cb95-15"><a href="using-external-ml-frameworks.html#cb95-15"></a>MSE<span class="op">:</span><span class="st">  </span><span class="fl">6.762548</span></span>
+<span id="cb95-16"><a href="using-external-ml-frameworks.html#cb95-16"></a>RMSE<span class="op">:</span><span class="st">  </span><span class="fl">2.60049</span></span>
+<span id="cb95-17"><a href="using-external-ml-frameworks.html#cb95-17"></a>MAE<span class="op">:</span><span class="st">  </span><span class="fl">2.495891</span></span>
+<span id="cb95-18"><a href="using-external-ml-frameworks.html#cb95-18"></a>RMSLE<span class="op">:</span><span class="st">  </span><span class="fl">0.1076563</span></span>
+<span id="cb95-19"><a href="using-external-ml-frameworks.html#cb95-19"></a>Mean Residual Deviance <span class="op">:</span><span class="st">  </span><span class="fl">6.762548</span></span>
+<span id="cb95-20"><a href="using-external-ml-frameworks.html#cb95-20"></a>R<span class="op">^</span><span class="dv">2</span> <span class="op">:</span><span class="st">  </span><span class="fl">-2.052306</span></span>
+<span id="cb95-21"><a href="using-external-ml-frameworks.html#cb95-21"></a>Null Deviance <span class="op">:</span><span class="fl">10.87611</span></span>
+<span id="cb95-22"><a href="using-external-ml-frameworks.html#cb95-22"></a>Null D.o.F. <span class="op">:</span><span class="dv">2</span></span>
+<span id="cb95-23"><a href="using-external-ml-frameworks.html#cb95-23"></a>Residual Deviance <span class="op">:</span><span class="fl">20.28765</span></span>
+<span id="cb95-24"><a href="using-external-ml-frameworks.html#cb95-24"></a>Residual D.o.F. <span class="op">:-</span><span class="dv">7</span></span>
+<span id="cb95-25"><a href="using-external-ml-frameworks.html#cb95-25"></a>AIC <span class="op">:</span><span class="fl">36.24783</span></span></code></pre></div>
+<p>Now look at the performance diagnostics:</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="using-external-ml-frameworks.html#cb96-1"></a><span class="kw">h2o.performance</span>(h2o_glm_model,test_h2o)</span>
+<span id="cb96-2"><a href="using-external-ml-frameworks.html#cb96-2"></a></span>
+<span id="cb96-3"><a href="using-external-ml-frameworks.html#cb96-3"></a>H2ORegressionMetrics<span class="op">:</span><span class="st"> </span>glm</span>
+<span id="cb96-4"><a href="using-external-ml-frameworks.html#cb96-4"></a></span>
+<span id="cb96-5"><a href="using-external-ml-frameworks.html#cb96-5"></a>MSE<span class="op">:</span><span class="st">  </span><span class="fl">6.762548</span></span>
+<span id="cb96-6"><a href="using-external-ml-frameworks.html#cb96-6"></a>RMSE<span class="op">:</span><span class="st">  </span><span class="fl">2.60049</span></span>
+<span id="cb96-7"><a href="using-external-ml-frameworks.html#cb96-7"></a>MAE<span class="op">:</span><span class="st">  </span><span class="fl">2.495891</span></span>
+<span id="cb96-8"><a href="using-external-ml-frameworks.html#cb96-8"></a>RMSLE<span class="op">:</span><span class="st">  </span><span class="fl">0.1076563</span></span>
+<span id="cb96-9"><a href="using-external-ml-frameworks.html#cb96-9"></a>Mean Residual Deviance <span class="op">:</span><span class="st">  </span><span class="fl">6.762548</span></span>
+<span id="cb96-10"><a href="using-external-ml-frameworks.html#cb96-10"></a>R<span class="op">^</span><span class="dv">2</span> <span class="op">:</span><span class="st">  </span><span class="fl">-2.052306</span></span>
+<span id="cb96-11"><a href="using-external-ml-frameworks.html#cb96-11"></a>Null Deviance <span class="op">:</span><span class="fl">10.87611</span></span>
+<span id="cb96-12"><a href="using-external-ml-frameworks.html#cb96-12"></a>Null D.o.F. <span class="op">:</span><span class="dv">2</span></span>
+<span id="cb96-13"><a href="using-external-ml-frameworks.html#cb96-13"></a>Residual Deviance <span class="op">:</span><span class="fl">20.28765</span></span>
+<span id="cb96-14"><a href="using-external-ml-frameworks.html#cb96-14"></a>Residual D.o.F. <span class="op">:-</span><span class="dv">7</span></span>
+<span id="cb96-15"><a href="using-external-ml-frameworks.html#cb96-15"></a>AIC <span class="op">:</span><span class="fl">36.24783</span></span></code></pre></div>
+</div>
+<div id="saving-a-model" class="section level2">
+<h2><span class="header-section-number">8.3</span> Saving A Model</h2>
+<p>You can save the contents of any h2o generated model by using the h2o.saveModel() function. You could extract pieces of information from the S4 object but saving the model is easy to do - as is reading it back in.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="using-external-ml-frameworks.html#cb97-1"></a>model_path &lt;-<span class="st"> </span><span class="kw">h2o.saveModel</span>(h2o_glm_model,<span class="dt">path=</span><span class="kw">getwd</span>(),<span class="dt">force=</span><span class="ot">TRUE</span>)</span>
+<span id="cb97-2"><a href="using-external-ml-frameworks.html#cb97-2"></a></span>
+<span id="cb97-3"><a href="using-external-ml-frameworks.html#cb97-3"></a><span class="co"># If you need to load a previously saved model</span></span>
+<span id="cb97-4"><a href="using-external-ml-frameworks.html#cb97-4"></a></span>
+<span id="cb97-5"><a href="using-external-ml-frameworks.html#cb97-5"></a>saved_model &lt;-<span class="st"> </span><span class="kw">h2o.loadModel</span>(model_path)</span></code></pre></div>
+</div>
+<div id="using-the-auto-ml-feature" class="section level2">
+<h2><span class="header-section-number">8.4</span> Using the Auto ML Feature</h2>
+<p>Are you curious as to what model might be the “best” for your data ? This is a very fertile field of research that keeps growing and some feel will one be the dominant technology in ML - where a model picks a model. Sounds odd but that is where it is heading. Check the current h2o Auto ML documentation for more details. For now, most of the Auto ML services use a set of heuristics to examine data and then find the most appropriate method to build a model. The currently supported method implementations in the opensource version include:</p>
+<pre><code>- three pre-specified XGBoost GBM (Gradient Boosting Machine) models
+- a fixed grid of GLMs, a default Random Forest (DRF)
+- five pre-specified H2O GBMs
+- a near-default Deep Neural Net
+- an Extremely Randomized Forest (XRT)
+- a random grid of XGBoost GBMs
+- a random grid of H2O GBMs
+- a random grid of Deep Neural Nets.</code></pre>
+</div>
+<div id="launching-a-job" class="section level2">
+<h2><span class="header-section-number">8.5</span> Launching A Job</h2>
+<p>Of course, it all begins with the idea of specifying a performance metric such as RMSE or the area under a ROC curve. The idea here is that we specify some input, apply transformations, create a test/train pair, and then call the h2o auto function.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="using-external-ml-frameworks.html#cb99-1"></a>x =<span class="st"> </span><span class="kw">names</span>(mtcars)[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb99-2"><a href="using-external-ml-frameworks.html#cb99-2"></a><span class="kw">h2o.automl</span>(<span class="dt">y =</span> <span class="st">&#39;mpg&#39;</span>, <span class="dt">x =</span> x,</span>
+<span id="cb99-3"><a href="using-external-ml-frameworks.html#cb99-3"></a>                      <span class="dt">training_frame =</span> train_h2o,</span>
+<span id="cb99-4"><a href="using-external-ml-frameworks.html#cb99-4"></a>                      <span class="dt">leaderboard_frame =</span> test_h2o,</span>
+<span id="cb99-5"><a href="using-external-ml-frameworks.html#cb99-5"></a>                      <span class="dt">max_runtime_secs =</span> <span class="dv">60</span>,</span>
+<span id="cb99-6"><a href="using-external-ml-frameworks.html#cb99-6"></a>                      <span class="dt">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb99-7"><a href="using-external-ml-frameworks.html#cb99-7"></a>                      <span class="dt">sort_metric =</span> <span class="st">&quot;RMSE&quot;</span>,</span>
+<span id="cb99-8"><a href="using-external-ml-frameworks.html#cb99-8"></a>                      <span class="dt">project_name =</span> <span class="st">&quot;mtcars&quot;</span>)</span></code></pre></div>
+<p>Let’s check out the object that is returned. It is an S4 object in R which means that it has “slots” which can be accessed via the “@” operator.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="using-external-ml-frameworks.html#cb100-1"></a><span class="kw">slotNames</span>(h2o_auto_mtcars)</span>
+<span id="cb100-2"><a href="using-external-ml-frameworks.html#cb100-2"></a>h2o_auto_mtcars<span class="op">@</span>leaderboard</span>
+<span id="cb100-3"><a href="using-external-ml-frameworks.html#cb100-3"></a></span>
+<span id="cb100-4"><a href="using-external-ml-frameworks.html#cb100-4"></a>[<span class="dv">1</span>] <span class="st">&quot;project_name&quot;</span>  <span class="st">&quot;leader&quot;</span>        <span class="st">&quot;leaderboard&quot;</span>   <span class="st">&quot;event_log&quot;</span>    </span>
+<span id="cb100-5"><a href="using-external-ml-frameworks.html#cb100-5"></a>[<span class="dv">5</span>] <span class="st">&quot;training_info&quot;</span></span>
+<span id="cb100-6"><a href="using-external-ml-frameworks.html#cb100-6"></a>                                        model_id</span>
+<span id="cb100-7"><a href="using-external-ml-frameworks.html#cb100-7"></a><span class="dv">1</span>     GBM_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">53</span></span>
+<span id="cb100-8"><a href="using-external-ml-frameworks.html#cb100-8"></a><span class="dv">2</span>          DeepLearning_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span></span>
+<span id="cb100-9"><a href="using-external-ml-frameworks.html#cb100-9"></a><span class="dv">3</span> XGBoost_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">14</span></span>
+<span id="cb100-10"><a href="using-external-ml-frameworks.html#cb100-10"></a><span class="dv">4</span>  XGBoost_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">5</span></span>
+<span id="cb100-11"><a href="using-external-ml-frameworks.html#cb100-11"></a><span class="dv">5</span>     GBM_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">52</span></span>
+<span id="cb100-12"><a href="using-external-ml-frameworks.html#cb100-12"></a><span class="dv">6</span>     GBM_grid_<span class="dv">1</span>_AutoML_<span class="dv">20200101</span>_<span class="dv">202413</span>_model_<span class="dv">16</span></span>
+<span id="cb100-13"><a href="using-external-ml-frameworks.html#cb100-13"></a>  mean_residual_deviance      rmse       mse       mae      rmsle</span>
+<span id="cb100-14"><a href="using-external-ml-frameworks.html#cb100-14"></a><span class="dv">1</span>              <span class="fl">0.2147231</span> <span class="fl">0.4633822</span> <span class="fl">0.2147231</span> <span class="fl">0.4138704</span> <span class="fl">0.02128094</span></span>
+<span id="cb100-15"><a href="using-external-ml-frameworks.html#cb100-15"></a><span class="dv">2</span>              <span class="fl">0.3734735</span> <span class="fl">0.6111248</span> <span class="fl">0.3734735</span> <span class="fl">0.5076945</span> <span class="fl">0.02559229</span></span>
+<span id="cb100-16"><a href="using-external-ml-frameworks.html#cb100-16"></a><span class="dv">3</span>              <span class="fl">0.4586288</span> <span class="fl">0.6772213</span> <span class="fl">0.4586288</span> <span class="fl">0.6318582</span> <span class="fl">0.03060372</span></span>
+<span id="cb100-17"><a href="using-external-ml-frameworks.html#cb100-17"></a><span class="dv">4</span>              <span class="fl">0.4787276</span> <span class="fl">0.6919014</span> <span class="fl">0.4787276</span> <span class="fl">0.5760670</span> <span class="fl">0.03091116</span></span>
+<span id="cb100-18"><a href="using-external-ml-frameworks.html#cb100-18"></a><span class="dv">5</span>              <span class="fl">0.7571985</span> <span class="fl">0.8701716</span> <span class="fl">0.7571985</span> <span class="fl">0.7831136</span> <span class="fl">0.03729489</span></span>
+<span id="cb100-19"><a href="using-external-ml-frameworks.html#cb100-19"></a><span class="dv">6</span>              <span class="fl">0.7772694</span> <span class="fl">0.8816289</span> <span class="fl">0.7772694</span> <span class="fl">0.8020415</span> <span class="fl">0.03896093</span></span>
+<span id="cb100-20"><a href="using-external-ml-frameworks.html#cb100-20"></a></span>
+<span id="cb100-21"><a href="using-external-ml-frameworks.html#cb100-21"></a>[<span class="dv">89</span> rows x <span class="dv">6</span> columns] </span></code></pre></div>
+<p>Stop the H2O instance</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="using-external-ml-frameworks.html#cb101-1"></a><span class="kw">h2o.shutdown</span>(<span class="dt">prompt=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="comparing-models.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["SEMINAR_SERIES.pdf", "SEMINAR_SERIES.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
