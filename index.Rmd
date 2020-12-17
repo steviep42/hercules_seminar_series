@@ -929,7 +929,7 @@ mpg cyl disp  hp drat    wt  qsec vs am gear carb
 Now let’s create a model. We’ll use the Generalized Linear Model function from h2o. It is important to note that this function is implemented from within h2o. That is, we are not in anyway using any existing R packages to do this nor are we using anything from the care package. Here we’ll request a 4-Fold, Cross Validation step as part of the model assembly.
 
 ```{r h2oglmod, eval=FALSE}
-h2o_glm_model <- h2o.glm(y=y,x=x,train_h2o,nfolds=4)
+h2o_glm_model <- h2o.glm(y='mpg',x=names(mtcars)[-1],train_h2o,nfolds=4)
 summary(h2o_glm_model)
 
 #
@@ -1109,13 +1109,14 @@ Are you curious as to what model might be the “best” for your data ? This is
 Of course, it all begins with the idea of specifying a performance metric such as RMSE or the area under a ROC curve. The idea here is that we specify some input, apply transformations, create a test/train pair, and then call the h2o auto function.
 
 ```{r genautomt, eval=FALSE}
-h2o_auto_mtcars <- h2o.automl(y = y, x = x,
-                              training_frame = train_h2o,
-                              leaderboard_frame = test_h2o,
-                              max_runtime_secs = 60,
-                              seed = 1,
-                              sort_metric = "RMSE",
-                              project_name = "mtcars")
+x = names(mtcars)[-1]
+h2o.automl(y = 'mpg', x = x,
+                      training_frame = train_h2o,
+                      leaderboard_frame = test_h2o,
+                      max_runtime_secs = 60,
+                      seed = 1,
+                      sort_metric = "RMSE",
+                      project_name = "mtcars")
 ```
 
 Let’s check out the object that is returned. It is an S4 object in R which means that it has “slots” which can be accessed via the “@” operator.

@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-12-15" />
+<meta name="date" content="2020-12-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -302,7 +302,7 @@ algorithm (AutoML).</p>
 <span id="cb92-15"><a href="using-exeternal-ml-frameworks.html#cb92-15"></a></span>
 <span id="cb92-16"><a href="using-exeternal-ml-frameworks.html#cb92-16"></a>[<span class="dv">29</span> rows x <span class="dv">11</span> columns] </span></code></pre></div>
 <p>Now let’s create a model. We’ll use the Generalized Linear Model function from h2o. It is important to note that this function is implemented from within h2o. That is, we are not in anyway using any existing R packages to do this nor are we using anything from the care package. Here we’ll request a 4-Fold, Cross Validation step as part of the model assembly.</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="using-exeternal-ml-frameworks.html#cb93-1"></a>h2o_glm_model &lt;-<span class="st"> </span><span class="kw">h2o.glm</span>(<span class="dt">y=</span>y,<span class="dt">x=</span>x,train_h2o,<span class="dt">nfolds=</span><span class="dv">4</span>)</span>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="using-exeternal-ml-frameworks.html#cb93-1"></a>h2o_glm_model &lt;-<span class="st"> </span><span class="kw">h2o.glm</span>(<span class="dt">y=</span><span class="st">&#39;mpg&#39;</span>,<span class="dt">x=</span><span class="kw">names</span>(mtcars)[<span class="op">-</span><span class="dv">1</span>],train_h2o,<span class="dt">nfolds=</span><span class="dv">4</span>)</span>
 <span id="cb93-2"><a href="using-exeternal-ml-frameworks.html#cb93-2"></a><span class="kw">summary</span>(h2o_glm_model)</span>
 <span id="cb93-3"><a href="using-exeternal-ml-frameworks.html#cb93-3"></a></span>
 <span id="cb93-4"><a href="using-exeternal-ml-frameworks.html#cb93-4"></a><span class="co">#</span></span>
@@ -462,13 +462,14 @@ algorithm (AutoML).</p>
 <div id="launching-a-job" class="section level2">
 <h2><span class="header-section-number">8.5</span> Launching A Job</h2>
 <p>Of course, it all begins with the idea of specifying a performance metric such as RMSE or the area under a ROC curve. The idea here is that we specify some input, apply transformations, create a test/train pair, and then call the h2o auto function.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="using-exeternal-ml-frameworks.html#cb98-1"></a>h2o_auto_mtcars &lt;-<span class="st"> </span><span class="kw">h2o.automl</span>(<span class="dt">y =</span> y, <span class="dt">x =</span> x,</span>
-<span id="cb98-2"><a href="using-exeternal-ml-frameworks.html#cb98-2"></a>                              <span class="dt">training_frame =</span> train_h2o,</span>
-<span id="cb98-3"><a href="using-exeternal-ml-frameworks.html#cb98-3"></a>                              <span class="dt">leaderboard_frame =</span> test_h2o,</span>
-<span id="cb98-4"><a href="using-exeternal-ml-frameworks.html#cb98-4"></a>                              <span class="dt">max_runtime_secs =</span> <span class="dv">60</span>,</span>
-<span id="cb98-5"><a href="using-exeternal-ml-frameworks.html#cb98-5"></a>                              <span class="dt">seed =</span> <span class="dv">1</span>,</span>
-<span id="cb98-6"><a href="using-exeternal-ml-frameworks.html#cb98-6"></a>                              <span class="dt">sort_metric =</span> <span class="st">&quot;RMSE&quot;</span>,</span>
-<span id="cb98-7"><a href="using-exeternal-ml-frameworks.html#cb98-7"></a>                              <span class="dt">project_name =</span> <span class="st">&quot;mtcars&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="using-exeternal-ml-frameworks.html#cb98-1"></a>x =<span class="st"> </span><span class="kw">names</span>(mtcars)[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb98-2"><a href="using-exeternal-ml-frameworks.html#cb98-2"></a><span class="kw">h2o.automl</span>(<span class="dt">y =</span> <span class="st">&#39;mpg&#39;</span>, <span class="dt">x =</span> x,</span>
+<span id="cb98-3"><a href="using-exeternal-ml-frameworks.html#cb98-3"></a>                      <span class="dt">training_frame =</span> train_h2o,</span>
+<span id="cb98-4"><a href="using-exeternal-ml-frameworks.html#cb98-4"></a>                      <span class="dt">leaderboard_frame =</span> test_h2o,</span>
+<span id="cb98-5"><a href="using-exeternal-ml-frameworks.html#cb98-5"></a>                      <span class="dt">max_runtime_secs =</span> <span class="dv">60</span>,</span>
+<span id="cb98-6"><a href="using-exeternal-ml-frameworks.html#cb98-6"></a>                      <span class="dt">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb98-7"><a href="using-exeternal-ml-frameworks.html#cb98-7"></a>                      <span class="dt">sort_metric =</span> <span class="st">&quot;RMSE&quot;</span>,</span>
+<span id="cb98-8"><a href="using-exeternal-ml-frameworks.html#cb98-8"></a>                      <span class="dt">project_name =</span> <span class="st">&quot;mtcars&quot;</span>)</span></code></pre></div>
 <p>Let’s check out the object that is returned. It is an S4 object in R which means that it has “slots” which can be accessed via the “@” operator.</p>
 <div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="using-exeternal-ml-frameworks.html#cb99-1"></a><span class="kw">slotNames</span>(h2o_auto_mtcars)</span>
 <span id="cb99-2"><a href="using-exeternal-ml-frameworks.html#cb99-2"></a>h2o_auto_mtcars<span class="op">@</span>leaderboard</span>

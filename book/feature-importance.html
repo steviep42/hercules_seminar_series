@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-12-15" />
+<meta name="date" content="2020-12-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -274,8 +274,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    glucose, mass, age, pregnant, pedigree</code></pre>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="feature-importance.html#cb81-1"></a><span class="co"># list the chosen features</span></span>
 <span id="cb81-2"><a href="feature-importance.html#cb81-2"></a><span class="kw">predictors</span>(results)</span></code></pre></div>
-<pre><code>## [1] &quot;glucose&quot;  &quot;mass&quot;     &quot;age&quot;      &quot;pregnant&quot; &quot;pedigree&quot; &quot;insulin&quot;  &quot;triceps&quot; 
-## [8] &quot;pressure&quot;</code></pre>
+<pre><code>## [1] &quot;glucose&quot;  &quot;mass&quot;     &quot;age&quot;      &quot;pregnant&quot; &quot;pedigree&quot; &quot;insulin&quot;  &quot;triceps&quot;  &quot;pressure&quot;</code></pre>
 <div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="feature-importance.html#cb83-1"></a><span class="co"># plot the results</span></span>
 <span id="cb83-2"><a href="feature-importance.html#cb83-2"></a><span class="kw">plot</span>(results, <span class="dt">type=</span><span class="kw">c</span>(<span class="st">&quot;g&quot;</span>, <span class="st">&quot;o&quot;</span>))</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/rfe1-1.png" width="672" /></p>

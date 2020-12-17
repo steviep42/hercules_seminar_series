@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-12-15" />
+<meta name="date" content="2020-12-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -307,8 +307,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="other-methods.html#cb34-1"></a><span class="co"># Use more folds</span></span>
 <span id="cb34-2"><a href="other-methods.html#cb34-2"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb34-3"><a href="other-methods.html#cb34-3"></a><span class="kw">cross_fold</span>(<span class="dv">8</span>)</span></code></pre></div>
-<pre><code>## [1] 0.8674473 0.8032407 0.7715248 0.8680715 0.7972689 0.8523886 0.8361111
-## [8] 0.8111111</code></pre>
+<pre><code>## [1] 0.8674473 0.8032407 0.7715248 0.8680715 0.7972689 0.8523886 0.8361111 0.8111111</code></pre>
 <p>We could take the average of the AUCs to get a sense of how well this method would apply to unseen data.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="other-methods.html#cb36-1"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb36-2"><a href="other-methods.html#cb36-2"></a><span class="kw">mean</span>(<span class="kw">cross_fold</span>(<span class="dv">8</span>))</span></code></pre></div>
