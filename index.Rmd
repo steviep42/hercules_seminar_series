@@ -397,7 +397,7 @@ This is a method that gives us multiple estimates of out-of-sample error, rather
   
 Each fold is simply a portion of the data. We'll generate a list called "folds" that contains 3 elements each of which are 256 index elements corresponding to rows in pm. The way we did the sample insures that each row shows up only in one fold. 
 
-![](./PICS/kf33.png){width=500}
+![](./PICS/kf33.png){width=550}
 
 Here is our function to implement the K-Fold validation. It's pretty straightforward to define in terms of coding though it winds up being  somewhat specific to the particular method we are using. Still, we could give it an argument to accept different methods. 
 
