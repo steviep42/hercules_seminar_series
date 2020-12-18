@@ -398,10 +398,9 @@ This is a method that gives us multiple estimates of out-of-sample error, rather
 Each fold is simply a portion of the data. We'll generate a list called "folds" that contains 3 elements each of which are 256 index elements corresponding to rows in pm. The way we did the sample insures that each row shows up only in one fold. 
 
 ![](./PICS/kf33.png){width=550}
-For 1 to K:
-	  Build A Model on Combined Training Folds
-	  Make Predictions on Test Fold
-	  Record Performance Metric (e.g AUC, Accuracy)
+
+For 1 to K: 1) Build A Model on Combined Training Folds, 2) Make Predictions on Test Fold
+and 3) Record Performance Metric (e.g AUC, Accuracy)
 
 Present an average of the performance metric across all K iterations
 

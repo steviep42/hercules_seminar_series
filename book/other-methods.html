@@ -246,11 +246,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Computes the AUC value and stores it</li>
 </ul>
 <p>Each fold is simply a portion of the data. We’ll generate a list called “folds” that contains 3 elements each of which are 256 index elements corresponding to rows in pm. The way we did the sample insures that each row shows up only in one fold.</p>
-<p><img src="PICS/kf33.png" width="550" />
-For 1 to K:
-Build A Model on Combined Training Folds
-Make Predictions on Test Fold
-Record Performance Metric (e.g AUC, Accuracy)</p>
+<p><img src="PICS/kf33.png" width="550" /></p>
+<p>For 1 to K: 1) Build A Model on Combined Training Folds, 2) Make Predictions on Test Fold
+and 3) Record Performance Metric (e.g AUC, Accuracy)</p>
 <p>Present an average of the performance metric across all K iterations</p>
 <p>Here is our function to implement the K-Fold validation. It’s pretty straightforward to define in terms of coding though it winds up being somewhat specific to the particular method we are using. Still, we could give it an argument to accept different methods.</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="other-methods.html#cb32-1"></a>cross_fold &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">numofolds =</span> <span class="dv">3</span>) {</span>
