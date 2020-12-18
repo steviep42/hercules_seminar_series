@@ -24,7 +24,7 @@
 <meta name="author" content="Steve Pittard" />
 
 
-<meta name="date" content="2020-12-17" />
+<meta name="date" content="2020-12-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -202,33 +202,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="other-methods" class="section level1">
 <h1><span class="header-section-number">Chapter 4</span> Other Methods ?</h1>
 <p>Well, we could use another method to see if it yields better performance as determined by the AUC. Let’s use the <strong>ranger</strong> function which is a fast implementation of random forests. One thing you will notice is that we need to include the “probability” argument in the call to ranger to get the necessary probabilities for computing the AUC. This is one of the aggravations with using different functions. They all have their own peculiar way of doing things.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="other-methods.html#cb26-1"></a><span class="kw">library</span>(ranger)</span>
-<span id="cb26-2"><a href="other-methods.html#cb26-2"></a>ranger_mod &lt;-<span class="st"> </span><span class="kw">ranger</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
-<span id="cb26-3"><a href="other-methods.html#cb26-3"></a>                   <span class="dt">data =</span> train,</span>
-<span id="cb26-4"><a href="other-methods.html#cb26-4"></a>                   <span class="dt">probability =</span> <span class="ot">TRUE</span>,<span class="dt">mtry=</span><span class="dv">4</span>)</span>
-<span id="cb26-5"><a href="other-methods.html#cb26-5"></a></span>
-<span id="cb26-6"><a href="other-methods.html#cb26-6"></a><span class="co"># Returns probabilities</span></span>
-<span id="cb26-7"><a href="other-methods.html#cb26-7"></a>ranger_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(ranger_mod,<span class="dt">data=</span>test)</span>
-<span id="cb26-8"><a href="other-methods.html#cb26-8"></a></span>
-<span id="cb26-9"><a href="other-methods.html#cb26-9"></a>myroc &lt;-<span class="st"> </span><span class="kw">roc</span>(test<span class="op">$</span>diabetes,</span>
-<span id="cb26-10"><a href="other-methods.html#cb26-10"></a>             ranger_pred<span class="op">$</span>predictions[,<span class="dv">2</span>])</span>
-<span id="cb26-11"><a href="other-methods.html#cb26-11"></a></span>
-<span id="cb26-12"><a href="other-methods.html#cb26-12"></a>myroc<span class="op">$</span>auc</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="other-methods.html#cb27-1"></a><span class="kw">library</span>(ranger)</span>
+<span id="cb27-2"><a href="other-methods.html#cb27-2"></a>ranger_mod &lt;-<span class="st"> </span><span class="kw">ranger</span>(diabetes <span class="op">~</span><span class="st"> </span>.,</span>
+<span id="cb27-3"><a href="other-methods.html#cb27-3"></a>                   <span class="dt">data =</span> train,</span>
+<span id="cb27-4"><a href="other-methods.html#cb27-4"></a>                   <span class="dt">probability =</span> <span class="ot">TRUE</span>,<span class="dt">mtry=</span><span class="dv">4</span>)</span>
+<span id="cb27-5"><a href="other-methods.html#cb27-5"></a></span>
+<span id="cb27-6"><a href="other-methods.html#cb27-6"></a><span class="co"># Returns probabilities</span></span>
+<span id="cb27-7"><a href="other-methods.html#cb27-7"></a>ranger_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(ranger_mod,<span class="dt">data=</span>test)</span>
+<span id="cb27-8"><a href="other-methods.html#cb27-8"></a></span>
+<span id="cb27-9"><a href="other-methods.html#cb27-9"></a>myroc &lt;-<span class="st"> </span><span class="kw">roc</span>(test<span class="op">$</span>diabetes,</span>
+<span id="cb27-10"><a href="other-methods.html#cb27-10"></a>             ranger_pred<span class="op">$</span>predictions[,<span class="dv">2</span>])</span>
+<span id="cb27-11"><a href="other-methods.html#cb27-11"></a></span>
+<span id="cb27-12"><a href="other-methods.html#cb27-12"></a>myroc<span class="op">$</span>auc</span></code></pre></div>
 <pre><code>## Area under the curve: 0.8407</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="other-methods.html#cb28-1"></a>pred &lt;-<span class="st"> </span>ROCR<span class="op">::</span><span class="kw">prediction</span>(ranger_pred<span class="op">$</span>predictions[,<span class="dv">2</span>],</span>
-<span id="cb28-2"><a href="other-methods.html#cb28-2"></a>                         test<span class="op">$</span>diabetes)</span>
-<span id="cb28-3"><a href="other-methods.html#cb28-3"></a>perf &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,</span>
-<span id="cb28-4"><a href="other-methods.html#cb28-4"></a>                    <span class="st">&quot;tpr&quot;</span>,</span>
-<span id="cb28-5"><a href="other-methods.html#cb28-5"></a>                    <span class="st">&quot;fpr&quot;</span>)</span>
-<span id="cb28-6"><a href="other-methods.html#cb28-6"></a><span class="kw">plot</span>(perf,<span class="dt">colorize=</span>T,</span>
-<span id="cb28-7"><a href="other-methods.html#cb28-7"></a>        <span class="dt">print.cutoffs.at=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.1</span>),</span>
-<span id="cb28-8"><a href="other-methods.html#cb28-8"></a>     <span class="dt">lwd=</span><span class="dv">3</span>,<span class="dt">las=</span><span class="dv">1</span>,<span class="dt">main=</span><span class="st">&quot;Cool ROC Curve&quot;</span>)</span>
-<span id="cb28-9"><a href="other-methods.html#cb28-9"></a><span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</span>
-<span id="cb28-10"><a href="other-methods.html#cb28-10"></a></span>
-<span id="cb28-11"><a href="other-methods.html#cb28-11"></a><span class="kw">grid</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="other-methods.html#cb29-1"></a>pred &lt;-<span class="st"> </span>ROCR<span class="op">::</span><span class="kw">prediction</span>(ranger_pred<span class="op">$</span>predictions[,<span class="dv">2</span>],</span>
+<span id="cb29-2"><a href="other-methods.html#cb29-2"></a>                         test<span class="op">$</span>diabetes)</span>
+<span id="cb29-3"><a href="other-methods.html#cb29-3"></a>perf &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,</span>
+<span id="cb29-4"><a href="other-methods.html#cb29-4"></a>                    <span class="st">&quot;tpr&quot;</span>,</span>
+<span id="cb29-5"><a href="other-methods.html#cb29-5"></a>                    <span class="st">&quot;fpr&quot;</span>)</span>
+<span id="cb29-6"><a href="other-methods.html#cb29-6"></a><span class="kw">plot</span>(perf,<span class="dt">colorize=</span>T,</span>
+<span id="cb29-7"><a href="other-methods.html#cb29-7"></a>        <span class="dt">print.cutoffs.at=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.1</span>),</span>
+<span id="cb29-8"><a href="other-methods.html#cb29-8"></a>     <span class="dt">lwd=</span><span class="dv">3</span>,<span class="dt">las=</span><span class="dv">1</span>,<span class="dt">main=</span><span class="st">&quot;Cool ROC Curve&quot;</span>)</span>
+<span id="cb29-9"><a href="other-methods.html#cb29-9"></a><span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</span>
+<span id="cb29-10"><a href="other-methods.html#cb29-10"></a></span>
+<span id="cb29-11"><a href="other-methods.html#cb29-11"></a><span class="kw">grid</span>()</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/range1-1.png" width="672" /></p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="other-methods.html#cb29-1"></a>rroc &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,<span class="dt">measure=</span><span class="st">&quot;auc&quot;</span>)</span>
-<span id="cb29-2"><a href="other-methods.html#cb29-2"></a>rroc<span class="op">@</span>y.values[[<span class="dv">1</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="other-methods.html#cb30-1"></a>rroc &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,<span class="dt">measure=</span><span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb30-2"><a href="other-methods.html#cb30-2"></a>rroc<span class="op">@</span>y.values[[<span class="dv">1</span>]]</span></code></pre></div>
 <pre><code>## [1] 0.8406863</code></pre>
 <p>It turns out that this didn’t appear to improve things - at least with one invocation of the method.</p>
 <div id="improving-the-models" class="section level2">
@@ -246,53 +246,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Computes the AUC value and stores it</li>
 </ul>
 <p>Each fold is simply a portion of the data. We’ll generate a list called “folds” that contains 3 elements each of which are 256 index elements corresponding to rows in pm. The way we did the sample insures that each row shows up only in one fold.</p>
-<p><img src="PICS/kf33.png" width="550" /></p>
+<p><img src="PICS/kf33.png" width="550" />
+For 1 to K:
+Build A Model on Combined Training Folds
+Make Predictions on Test Fold
+Record Performance Metric (e.g AUC, Accuracy)</p>
+<p>Present an average of the performance metric across all K iterations</p>
 <p>Here is our function to implement the K-Fold validation. It’s pretty straightforward to define in terms of coding though it winds up being somewhat specific to the particular method we are using. Still, we could give it an argument to accept different methods.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="other-methods.html#cb31-1"></a>cross_fold &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">numofolds =</span> <span class="dv">3</span>) {</span>
-<span id="cb31-2"><a href="other-methods.html#cb31-2"></a>  </span>
-<span id="cb31-3"><a href="other-methods.html#cb31-3"></a>  <span class="co"># Function to Do Cross fold validation</span></span>
-<span id="cb31-4"><a href="other-methods.html#cb31-4"></a>  </span>
-<span id="cb31-5"><a href="other-methods.html#cb31-5"></a>  <span class="co"># Split the data into K folds (numofolds)</span></span>
-<span id="cb31-6"><a href="other-methods.html#cb31-6"></a>  </span>
-<span id="cb31-7"><a href="other-methods.html#cb31-7"></a>  folds &lt;-<span class="st"> </span><span class="kw">split</span>(<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pm)),<span class="dv">1</span><span class="op">:</span>numofolds) </span>
-<span id="cb31-8"><a href="other-methods.html#cb31-8"></a>  </span>
-<span id="cb31-9"><a href="other-methods.html#cb31-9"></a>  <span class="co"># We setup some blank lists to stash results</span></span>
-<span id="cb31-10"><a href="other-methods.html#cb31-10"></a>  folddf    &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Contains folds</span></span>
-<span id="cb31-11"><a href="other-methods.html#cb31-11"></a>  modl      &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Hold each of the K models</span></span>
-<span id="cb31-12"><a href="other-methods.html#cb31-12"></a>  predl     &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Hold rach of the K predictions</span></span>
-<span id="cb31-13"><a href="other-methods.html#cb31-13"></a>  auc       &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Hold the auc for a given model</span></span>
-<span id="cb31-14"><a href="other-methods.html#cb31-14"></a>  </span>
-<span id="cb31-15"><a href="other-methods.html#cb31-15"></a>  <span class="co"># Create a formula that can be used across multiple</span></span>
-<span id="cb31-16"><a href="other-methods.html#cb31-16"></a>  <span class="co"># iterations through the loop. </span></span>
-<span id="cb31-17"><a href="other-methods.html#cb31-17"></a>  </span>
-<span id="cb31-18"><a href="other-methods.html#cb31-18"></a>  myform &lt;-<span class="st"> &quot;diabetes ~ .&quot;</span></span>
-<span id="cb31-19"><a href="other-methods.html#cb31-19"></a>  </span>
-<span id="cb31-20"><a href="other-methods.html#cb31-20"></a>  <span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(folds)) {</span>
-<span id="cb31-21"><a href="other-methods.html#cb31-21"></a>    </span>
-<span id="cb31-22"><a href="other-methods.html#cb31-22"></a>    <span class="co"># This list holds the actual model we create for each of the </span></span>
-<span id="cb31-23"><a href="other-methods.html#cb31-23"></a>    <span class="co"># 10 folds</span></span>
-<span id="cb31-24"><a href="other-methods.html#cb31-24"></a>    </span>
-<span id="cb31-25"><a href="other-methods.html#cb31-25"></a>    modl[[ii]] &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> myform, </span>
-<span id="cb31-26"><a href="other-methods.html#cb31-26"></a>                      <span class="dt">data =</span> pm[<span class="op">-</span>folds[[ii]],],</span>
-<span id="cb31-27"><a href="other-methods.html#cb31-27"></a>                      <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span></span>
-<span id="cb31-28"><a href="other-methods.html#cb31-28"></a>    )</span>
-<span id="cb31-29"><a href="other-methods.html#cb31-29"></a>    </span>
-<span id="cb31-30"><a href="other-methods.html#cb31-30"></a>    <span class="co"># This list will contain / hold the models build on the fold</span></span>
-<span id="cb31-31"><a href="other-methods.html#cb31-31"></a>    </span>
-<span id="cb31-32"><a href="other-methods.html#cb31-32"></a>    predl[[ii]]  &lt;-<span class="st"> </span><span class="kw">predict</span>(modl[[ii]],</span>
-<span id="cb31-33"><a href="other-methods.html#cb31-33"></a>                            <span class="dt">newdata=</span>pm[folds[[ii]],],</span>
-<span id="cb31-34"><a href="other-methods.html#cb31-34"></a>                            <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)</span>
-<span id="cb31-35"><a href="other-methods.html#cb31-35"></a>    </span>
-<span id="cb31-36"><a href="other-methods.html#cb31-36"></a>    <span class="co"># This list will hold the results of the AUC per iteration</span></span>
-<span id="cb31-37"><a href="other-methods.html#cb31-37"></a>    </span>
-<span id="cb31-38"><a href="other-methods.html#cb31-38"></a>    pred &lt;-<span class="st"> </span>ROCR<span class="op">::</span><span class="kw">prediction</span>(predl[[ii]],</span>
-<span id="cb31-39"><a href="other-methods.html#cb31-39"></a>                             pm[folds[[ii]],]<span class="op">$</span>diabetes)</span>
-<span id="cb31-40"><a href="other-methods.html#cb31-40"></a>    </span>
-<span id="cb31-41"><a href="other-methods.html#cb31-41"></a>    roc  &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,<span class="dt">measure=</span><span class="st">&quot;auc&quot;</span>)</span>
-<span id="cb31-42"><a href="other-methods.html#cb31-42"></a>    auc[[ii]] &lt;-<span class="st"> </span>roc<span class="op">@</span>y.values[[<span class="dv">1</span>]]</span>
-<span id="cb31-43"><a href="other-methods.html#cb31-43"></a>  }</span>
-<span id="cb31-44"><a href="other-methods.html#cb31-44"></a>  <span class="kw">return</span>(<span class="kw">unlist</span>(auc))</span>
-<span id="cb31-45"><a href="other-methods.html#cb31-45"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="other-methods.html#cb32-1"></a>cross_fold &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">numofolds =</span> <span class="dv">3</span>) {</span>
+<span id="cb32-2"><a href="other-methods.html#cb32-2"></a>  </span>
+<span id="cb32-3"><a href="other-methods.html#cb32-3"></a>  <span class="co"># Function to Do Cross fold validation</span></span>
+<span id="cb32-4"><a href="other-methods.html#cb32-4"></a>  </span>
+<span id="cb32-5"><a href="other-methods.html#cb32-5"></a>  <span class="co"># Split the data into K folds (numofolds)</span></span>
+<span id="cb32-6"><a href="other-methods.html#cb32-6"></a>  </span>
+<span id="cb32-7"><a href="other-methods.html#cb32-7"></a>  folds &lt;-<span class="st"> </span><span class="kw">split</span>(<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pm)),<span class="dv">1</span><span class="op">:</span>numofolds) </span>
+<span id="cb32-8"><a href="other-methods.html#cb32-8"></a>  </span>
+<span id="cb32-9"><a href="other-methods.html#cb32-9"></a>  <span class="co"># We setup some blank lists to stash results</span></span>
+<span id="cb32-10"><a href="other-methods.html#cb32-10"></a>  folddf    &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Contains folds</span></span>
+<span id="cb32-11"><a href="other-methods.html#cb32-11"></a>  modl      &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Hold each of the K models</span></span>
+<span id="cb32-12"><a href="other-methods.html#cb32-12"></a>  predl     &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Hold rach of the K predictions</span></span>
+<span id="cb32-13"><a href="other-methods.html#cb32-13"></a>  auc       &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Hold the auc for a given model</span></span>
+<span id="cb32-14"><a href="other-methods.html#cb32-14"></a>  </span>
+<span id="cb32-15"><a href="other-methods.html#cb32-15"></a>  <span class="co"># Create a formula that can be used across multiple</span></span>
+<span id="cb32-16"><a href="other-methods.html#cb32-16"></a>  <span class="co"># iterations through the loop. </span></span>
+<span id="cb32-17"><a href="other-methods.html#cb32-17"></a>  </span>
+<span id="cb32-18"><a href="other-methods.html#cb32-18"></a>  myform &lt;-<span class="st"> &quot;diabetes ~ .&quot;</span></span>
+<span id="cb32-19"><a href="other-methods.html#cb32-19"></a>  </span>
+<span id="cb32-20"><a href="other-methods.html#cb32-20"></a>  <span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(folds)) {</span>
+<span id="cb32-21"><a href="other-methods.html#cb32-21"></a>    </span>
+<span id="cb32-22"><a href="other-methods.html#cb32-22"></a>    <span class="co"># This list holds the actual model we create for each of the </span></span>
+<span id="cb32-23"><a href="other-methods.html#cb32-23"></a>    <span class="co"># 10 folds</span></span>
+<span id="cb32-24"><a href="other-methods.html#cb32-24"></a>    </span>
+<span id="cb32-25"><a href="other-methods.html#cb32-25"></a>    modl[[ii]] &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> myform, </span>
+<span id="cb32-26"><a href="other-methods.html#cb32-26"></a>                      <span class="dt">data =</span> pm[<span class="op">-</span>folds[[ii]],],</span>
+<span id="cb32-27"><a href="other-methods.html#cb32-27"></a>                      <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span></span>
+<span id="cb32-28"><a href="other-methods.html#cb32-28"></a>    )</span>
+<span id="cb32-29"><a href="other-methods.html#cb32-29"></a>    </span>
+<span id="cb32-30"><a href="other-methods.html#cb32-30"></a>    <span class="co"># This list will contain / hold the models build on the fold</span></span>
+<span id="cb32-31"><a href="other-methods.html#cb32-31"></a>    </span>
+<span id="cb32-32"><a href="other-methods.html#cb32-32"></a>    predl[[ii]]  &lt;-<span class="st"> </span><span class="kw">predict</span>(modl[[ii]],</span>
+<span id="cb32-33"><a href="other-methods.html#cb32-33"></a>                            <span class="dt">newdata=</span>pm[folds[[ii]],],</span>
+<span id="cb32-34"><a href="other-methods.html#cb32-34"></a>                            <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb32-35"><a href="other-methods.html#cb32-35"></a>    </span>
+<span id="cb32-36"><a href="other-methods.html#cb32-36"></a>    <span class="co"># This list will hold the results of the AUC per iteration</span></span>
+<span id="cb32-37"><a href="other-methods.html#cb32-37"></a>    </span>
+<span id="cb32-38"><a href="other-methods.html#cb32-38"></a>    pred &lt;-<span class="st"> </span>ROCR<span class="op">::</span><span class="kw">prediction</span>(predl[[ii]],</span>
+<span id="cb32-39"><a href="other-methods.html#cb32-39"></a>                             pm[folds[[ii]],]<span class="op">$</span>diabetes)</span>
+<span id="cb32-40"><a href="other-methods.html#cb32-40"></a>    </span>
+<span id="cb32-41"><a href="other-methods.html#cb32-41"></a>    roc  &lt;-<span class="st"> </span><span class="kw">performance</span>(pred,<span class="dt">measure=</span><span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb32-42"><a href="other-methods.html#cb32-42"></a>    auc[[ii]] &lt;-<span class="st"> </span>roc<span class="op">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb32-43"><a href="other-methods.html#cb32-43"></a>  }</span>
+<span id="cb32-44"><a href="other-methods.html#cb32-44"></a>  <span class="kw">return</span>(<span class="kw">unlist</span>(auc))</span>
+<span id="cb32-45"><a href="other-methods.html#cb32-45"></a>}</span></code></pre></div>
 <p>Running this is now quite simple. By default, this function will loop three times corresponding to the number of folds. During each iteration it will:</p>
 <ul>
 <li>use glm to build a model on the training folds</li>
@@ -301,21 +306,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>store the AUC in a vector</li>
 </ul>
 <p>At the end of the function, the vector containing the computed AUCs will be returned.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="other-methods.html#cb32-1"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb32-2"><a href="other-methods.html#cb32-2"></a><span class="kw">cross_fold</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="other-methods.html#cb33-1"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb33-2"><a href="other-methods.html#cb33-2"></a><span class="kw">cross_fold</span>()</span></code></pre></div>
 <pre><code>## [1] 0.8537200 0.8290205 0.7944576</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="other-methods.html#cb34-1"></a><span class="co"># Use more folds</span></span>
-<span id="cb34-2"><a href="other-methods.html#cb34-2"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb34-3"><a href="other-methods.html#cb34-3"></a><span class="kw">cross_fold</span>(<span class="dv">8</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="other-methods.html#cb35-1"></a><span class="co"># Use more folds</span></span>
+<span id="cb35-2"><a href="other-methods.html#cb35-2"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb35-3"><a href="other-methods.html#cb35-3"></a><span class="kw">cross_fold</span>(<span class="dv">8</span>)</span></code></pre></div>
 <pre><code>## [1] 0.8674473 0.8032407 0.7715248 0.8680715 0.7972689 0.8523886 0.8361111 0.8111111</code></pre>
 <p>We could take the average of the AUCs to get a sense of how well this method would apply to unseen data.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="other-methods.html#cb36-1"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb36-2"><a href="other-methods.html#cb36-2"></a><span class="kw">mean</span>(<span class="kw">cross_fold</span>(<span class="dv">8</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="other-methods.html#cb37-1"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb37-2"><a href="other-methods.html#cb37-2"></a><span class="kw">mean</span>(<span class="kw">cross_fold</span>(<span class="dv">8</span>))</span></code></pre></div>
 <pre><code>## [1] 0.8258955</code></pre>
 <p>Let’s plot the individual values:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="other-methods.html#cb38-1"></a><span class="kw">stripplot</span>(<span class="kw">cross_fold</span>(<span class="dv">8</span>),</span>
-<span id="cb38-2"><a href="other-methods.html#cb38-2"></a>          <span class="dt">main=</span><span class="st">&quot;AUC values for K-Fold Validation&quot;</span>,</span>
-<span id="cb38-3"><a href="other-methods.html#cb38-3"></a>          <span class="dt">type=</span><span class="kw">c</span>(<span class="st">&quot;g&quot;</span>,<span class="st">&quot;p&quot;</span>),<span class="dt">pch=</span><span class="dv">19</span>,<span class="dt">cex=</span><span class="fl">1.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="other-methods.html#cb39-1"></a><span class="kw">stripplot</span>(<span class="kw">cross_fold</span>(<span class="dv">8</span>),</span>
+<span id="cb39-2"><a href="other-methods.html#cb39-2"></a>          <span class="dt">main=</span><span class="st">&quot;AUC values for K-Fold Validation&quot;</span>,</span>
+<span id="cb39-3"><a href="other-methods.html#cb39-3"></a>          <span class="dt">type=</span><span class="kw">c</span>(<span class="st">&quot;g&quot;</span>,<span class="st">&quot;p&quot;</span>),<span class="dt">pch=</span><span class="dv">19</span>,<span class="dt">cex=</span><span class="fl">1.5</span>)</span></code></pre></div>
 <p><img src="SEMINAR_SERIES_files/figure-html/strip1-1.png" width="672" /></p>
 <p>So, there are functions in R that will implement K-fold cross-validation for you but they involve their own specific interface. There is the “cv.glm” function which does cross validation on GLM models. There is also the “bagging.cv” function tht does the same with Bagging.</p>
 </div>
